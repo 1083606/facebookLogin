@@ -3,6 +3,7 @@ package com.example.facebooklogin;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -15,8 +16,10 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.LoggingBehavior;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -54,10 +57,18 @@ public class MainActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                /*
                 txtInfo.setText("使用者id： "+loginResult.getAccessToken().getUserId());
-                txtName.setText("使用者id： "+loginResult.getAccessToken().getToken());
                 String image_url = "https://graph.facebook.com/"+loginResult.getAccessToken().getUserId()+"/picture?return_ssl_resource=1";
                 Glide.with(MainActivity.this).load(image_url).into(circleImageView);
+                */
+
+
+                Toast.makeText(MainActivity.this,"登入成功",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this ,GetUserName.class );
+                startActivity(intent);
 
             }
 
@@ -94,7 +105,41 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void loadUserProfile(AccessToken newAccessToken){
+    //--試試試試看
+    private void loadUserProfile(AccessToken accessToken){
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @SuppressLint("CheckResult")
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            //String first_name = object.getString("first_name");
+                            String name = object.getString("name");
+                            String email = object.getString("email");
+                            String id = object.getString("id");
+                            String image_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
+
+                            txtEmail.setText(email);
+                            txtName.setText(name);
+                            RequestOptions requestOptions = new RequestOptions();
+                            requestOptions.dontAnimate();
+
+                            Glide.with(MainActivity.this).load(image_url).into(circleImageView);
+
+                            FacebookSdk.addLoggingBehavior(LoggingBehavior.REQUESTS);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name");
+        request.setParameters(parameters);
+        request.executeAsync();
+        /*
         GraphRequest request =GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
@@ -119,11 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("field","name,email,id");
-        request.setParameters(parameters);
-        request.executeAsync();
+        */
     }
 
     private void checkLoginStatus(){
