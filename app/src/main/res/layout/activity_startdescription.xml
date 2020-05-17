@@ -9,34 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".GetUserName">
+    tools:context=".startdescription">
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="108dp"
-        android:text="Hello! 我們該如何稱稱呼你呢?"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/com_facebook_device_auth_text"
-        android:textSize="25sp"
+        android:textSize="23sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.523" />
 
-    <EditText
-        android:id="@+id/edit_userName"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="40dp"
-        android:layout_weight="1"
-        android:hint="輸入你的名字"
-        android:singleLine="true"
-        android:textColorHighlight="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/welcome"
-        app:layout_constraintStart_toStartOf="@+id/welcome"
+    <TextView
+        android:id="@+id/goodpeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="讓我們一起養成習慣，成為更好的自己。"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/com_facebook_device_auth_text"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
     <Button
@@ -44,15 +45,15 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_gravity="start"
-        android:layout_marginTop="56dp"
         android:background="@drawable/button_rounde"
         android:enabled="true"
-        android:text="下一步"
+        android:text="開始!"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/edit_userName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edit_userName"
-        app:layout_constraintTop_toBottomOf="@+id/edit_userName" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.712" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
