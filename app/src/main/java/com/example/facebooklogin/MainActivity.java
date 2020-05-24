@@ -1,252 +1,164 @@
 package com.example.facebooklogin;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.LoggingBehavior;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.example.facebooklogin.ui.chat.ChatFragment;
+import com.example.facebooklogin.ui.history.HistoryFragment;
+import com.example.facebooklogin.ui.post.PostFragment;
+import com.example.facebooklogin.ui.setting.SettingFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    private LoginButton loginButton;
-    private CircleImageView circleImageView;
-    private TextView txtName,txtEmail,txtInfo;
 
-    private CallbackManager callbackManager;
-    private java.lang.Object Object;
+    private AppBarConfiguration mAppBarConfiguration;
+
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private NavigationView nvDrawer;
+
+    // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginButton = findViewById(R.id.login_button);
-        txtName = findViewById(R.id.profile_name);
-        txtEmail = findViewById(R.id.profile_email);
-        txtInfo = findViewById(R.id.profile_info);
+        // Find our drawer view
+        nvDrawer = (NavigationView) findViewById(R.id.nav_view);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
 
-        circleImageView = findViewById(R.id.profile_pic);
+        //----------------------------
+        // Set a Toolbar to replace the ActionBar.
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.setPermissions(Arrays.asList("public_profile","email"));
-        //--new----------------------------
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        // This will display an Up icon (<-), we will replace it with hamburger later
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Find our drawer view
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                String accessToken = loginResult.getAccessToken().getToken();
-                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d("response",response.toString());
-                        getData(object);
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
-                        Toast.makeText(MainActivity.this,"登入成功",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this ,GetUserName.class );
-                        startActivity(intent);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_chat, R.id.nav_post, R.id.nav_history,R.id.nav_setting)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+
+    }
+
+    private void setupDrawerContent(NavigationView nvDrawer) {
+        nvDrawer.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
                     }
                 });
-
-                //request Graph API
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email,name");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-            @Override
-            public void onCancel() {}
-            @Override
-            public void onError(FacebookException error) {}
-        });
-        //---endofNew---------------------------
-        //checkLoginStatus();
-        //---------------------------
-        printKeyHash();
-        /*
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                txtInfo.setText("使用者id： "+loginResult.getAccessToken().getUserId());
-                String image_url = "https://graph.facebook.com/"+loginResult.getAccessToken().getUserId()+"/picture?return_ssl_resource=1";
-                Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-
-                Toast.makeText(MainActivity.this,"登入成功",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this ,GetUserName.class );
-                startActivity(intent);
-            }
-            @Override
-            public void onCancel() {}
-            @Override
-            public void onError(FacebookException error) {}
-        });
-        */
-
-        //---new-----------------------------
-        //If 已經登入
-        if (AccessToken.getCurrentAccessToken() != null){
-            txtInfo.setText(AccessToken.getCurrentAccessToken().getUserId());
-
-        }
-        //---newdofnew-----------------------------
-
     }
 
-    private void getData(JSONObject object) {
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_chat:
+                fragmentClass = ChatFragment.class;
+                break;
+            case R.id.nav_post:
+                fragmentClass = PostFragment.class;
+                break;
+            case R.id.nav_history:
+                fragmentClass = HistoryFragment.class;
+                break;
+            case  R.id.nav_setting:
+                fragmentClass = SettingFragment.class;
+            default:
+                fragmentClass = ChatFragment.class;
+        }
+
         try {
-            URL profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
-            Glide.with(MainActivity.this).load(profile_picture.toString()).into(circleImageView);
-
-            txtEmail.setText(object.getString("email"));
-            txtName.setText(object.getString("name"));
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
     }
+
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode,resultCode,data);
-        super.onActivityResult(requestCode, resultCode, data);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
-    /*
-    AccessTokenTracker tokenTracker =new AccessTokenTracker() {
-        @Override
-        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-            if(currentAccessToken==null){
-                txtName.setText("");
-                txtEmail.setText("");
-                txtInfo.setText("");
-                circleImageView.setImageResource(0);
-                Toast.makeText(MainActivity.this,"已登出",Toast.LENGTH_LONG).show();
-            }
-            else
-                loadUserProfile(currentAccessToken);
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
         }
-    };
-    */
-    /*
-    //--試試試試看
-    private void loadUserProfile(AccessToken accessToken){
-        GraphRequest request = GraphRequest.newMeRequest(
-                accessToken,
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @SuppressLint("CheckResult")
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
-                            //String first_name = object.getString("first_name");
-                            String name = object.getString("name");
-                            String email = object.getString("email");
-                            String id = object.getString("id");
-                            String image_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
 
-                            txtEmail.setText(email);
-                            txtName.setText(name);
-                            RequestOptions requestOptions = new RequestOptions();
-                            requestOptions.dontAnimate();
-
-                            Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-
-                            FacebookSdk.addLoggingBehavior(LoggingBehavior.REQUESTS);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name");
-        request.setParameters(parameters);
-        request.executeAsync();
-        /*
-        GraphRequest request =GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                try {
-                    //String first_name = object.getString("first_name");
-                    String name = object.getString("name");
-                    String email = object.getString("email");
-                    String id = object.getString("id");
-                    String image_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
-
-                    txtEmail.setText(email);
-                    txtName.setText(name);
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.dontAnimate();
-
-                    Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
+        return super.onOptionsItemSelected(item);
     }
-    */
-    /*
-    private void checkLoginStatus(){
-        if (AccessToken.getCurrentAccessToken() != null){
-            loadUserProfile(AccessToken.getCurrentAccessToken());
-        }
-    }
-    */
 
-
-
-    //----------------------------------------
-    private void printKeyHash(){
-        try {
-            @SuppressLint("PackageManagerGetSignatures") PackageInfo info = getPackageManager().getPackageInfo("com.example.facebooklogin", PackageManager.GET_SIGNATURES);
-            for (Signature  signature:info.signatures){
-                MessageDigest md =MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash", Base64.encodeToString(md.digest(),Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e){
-            e.printStackTrace();
-        }
-    }
 }

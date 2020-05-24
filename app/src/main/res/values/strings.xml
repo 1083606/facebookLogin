@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">facebookLogin</string>
+    <string name="app_name">HabbitBot</string>
     <string name="facebook_app_id">246364156569709</string>
     <string name="fb_login_protocol_scheme">fb246364156569709</string>
     <string name="title_activity_set_userprofile">set_userprofile</string>
@@ -12,8 +12,27 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_home_page">homePage</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_post">Post</string>
+    <string name="title_history">History</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Lulu</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_chat">聊天</string>
+    <string name="menu_post">貼文串</string>
+    <string name="menu_history">歷史</string>
+    <string name="menu_setting">設定</string>
+
+    <string name="chat_second">Chat Second</string>
+    <string name="todo">TODO</string>
 
 </resources>

@@ -25,11 +25,12 @@ public class startdescription extends AppCompatActivity {
         String UserName = bundle.getString("UserName");
         welcome.setText(UserName+"  歡迎加入慣chat始終!\n");
 
+
         // 按下按鈕 觸發事件
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClass(startdescription.this ,homePage.class );
+                intent.setClass(startdescription.this ,MainActivity.class);
                 startActivity(intent);
             }
         });
