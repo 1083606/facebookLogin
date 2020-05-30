@@ -1,4 +1,4 @@
-package com.example.facebooklogin.ui.setting;
+package com.example.facebooklogin.setting;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class SettingViewModel extends ViewModel {
 
     public SettingViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is setting fragment");
     }
 
     public LiveData<String> getText() {

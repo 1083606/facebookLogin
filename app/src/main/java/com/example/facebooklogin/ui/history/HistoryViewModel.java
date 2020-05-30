@@ -1,4 +1,4 @@
-package com.example.facebooklogin.ui.history;
+package com.example.facebooklogin.history;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class HistoryViewModel extends ViewModel {
 
     public HistoryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is History fragment");
+        mText.setValue("This is history fragment");
     }
 
     public LiveData<String> getText() {

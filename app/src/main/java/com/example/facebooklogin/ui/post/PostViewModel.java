@@ -1,4 +1,4 @@
-package com.example.facebooklogin.ui.post;
+package com.example.facebooklogin.post;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class PostViewModel extends ViewModel {
 
     public PostViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is post fragment");
+        mText.setValue("This is Post fragment");
     }
 
     public LiveData<String> getText() {

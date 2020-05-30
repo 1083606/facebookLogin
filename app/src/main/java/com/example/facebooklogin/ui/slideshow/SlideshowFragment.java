@@ -1,4 +1,4 @@
-package com.example.facebooklogin.post;
+package com.example.facebooklogin.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.facebooklogin.R;
 
-public class PostFragment extends Fragment {
+public class SlideshowFragment extends Fragment {
 
-    private PostViewModel postViewModel;
+    private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        postViewModel =
-                ViewModelProviders.of(this).get(PostViewModel.class);
+        slideshowViewModel =
+                ViewModelProviders.of(this).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        postViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -1,4 +1,4 @@
-package com.example.facebooklogin.ui.chat;
+package com.example.facebooklogin.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
