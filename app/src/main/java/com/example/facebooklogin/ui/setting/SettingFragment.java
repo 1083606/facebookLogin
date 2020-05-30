@@ -1,4 +1,4 @@
-package com.example.facebooklogin.setting;
+package com.example.facebooklogin.ui.setting;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

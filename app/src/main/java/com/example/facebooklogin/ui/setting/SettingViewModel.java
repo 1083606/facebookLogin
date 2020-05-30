@@ -1,4 +1,4 @@
-package com.example.facebooklogin.setting;
+package com.example.facebooklogin.ui.setting;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.example.facebooklogin.chat;
+package com.example.facebooklogin.ui.chat;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

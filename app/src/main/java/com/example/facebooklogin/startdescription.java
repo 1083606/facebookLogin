@@ -27,6 +27,7 @@ public class startdescription extends AppCompatActivity {
 
 
         // 按下按鈕 觸發事件
+
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();

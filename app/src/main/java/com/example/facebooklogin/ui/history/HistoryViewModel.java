@@ -1,4 +1,4 @@
-package com.example.facebooklogin.history;
+package com.example.facebooklogin.ui.history;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

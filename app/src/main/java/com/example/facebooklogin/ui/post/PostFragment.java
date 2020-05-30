@@ -1,4 +1,4 @@
-package com.example.facebooklogin.post;
+package com.example.facebooklogin.ui.post;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,8 +22,8 @@ public class PostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         postViewModel =
                 ViewModelProviders.of(this).get(PostViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
+        View root = inflater.inflate(R.layout.fragment_post, container, false);
+        final TextView textView = root.findViewById(R.id.text_post);
         postViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
