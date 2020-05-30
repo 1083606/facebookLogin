@@ -1,16 +1,16 @@
-package com.example.facebooklogin.ui.chat;
+package com.example.facebooklogin.ui.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ChatViewModel extends ViewModel {
+public class GalleryViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ChatViewModel() {
+    public GalleryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is chat fragment");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

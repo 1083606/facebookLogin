@@ -1,16 +1,16 @@
-package com.example.facebooklogin.ui.chat;
+package com.example.facebooklogin.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ChatViewModel extends ViewModel {
+public class SlideshowViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ChatViewModel() {
+    public SlideshowViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is chat fragment");
+        mText.setValue("This is slideshow fragment");
     }
 
     public LiveData<String> getText() {

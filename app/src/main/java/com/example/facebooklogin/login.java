@@ -91,16 +91,22 @@ public class login extends AppCompatActivity {
 
         printKeyHash();
         //---new-----------------------------
+
         //If 已經登入
+
         if (AccessToken.getCurrentAccessToken() != null){
             String userId=AccessToken.getCurrentAccessToken().getUserId();
             Toast.makeText(login.this,userId+"登入成功",Toast.LENGTH_LONG).show();
+
             Intent intent = new Intent();
             intent.setClass(login.this ,MainActivity.class );
             startActivity(intent);
             //txtInfo.setText(AccessToken.getCurrentAccessToken().getUserId());
+
+
         }
         //---newdofnew-----------------------------
+
     }
 
     //---------------------------------------------------------------------------
