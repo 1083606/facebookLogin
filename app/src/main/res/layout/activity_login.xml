@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     android:layout_gravity="center"
-    android:background="@drawable/background"
+    android:background="#8ec6c5"
     tools:context=".login">
 
     <!--
@@ -50,26 +50,39 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="323dp"
-        android:layout_height="265dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="383dp"
+        android:layout_height="226dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.366"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/chatlogo" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="260dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="160dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.172" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="168dp"
+        android:layout_height="141dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.555"
+        app:srcCompat="@drawable/chicken" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
