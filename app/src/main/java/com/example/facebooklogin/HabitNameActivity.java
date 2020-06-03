@@ -1,0 +1,32 @@
+package com.example.facebooklogin;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ActionBar;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class HabitNameActivity extends AppCompatActivity {
+    private Button btn_next;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_habit_name);
+
+        btn_next = findViewById(R.id.btn_next);
+
+        // 按下按鈕 觸發事件
+
+        btn_next.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent();
+                intent.setClass(HabitNameActivity.this ,HabitMotivationActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+}
