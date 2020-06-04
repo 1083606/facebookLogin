@@ -19,6 +19,13 @@
             >
 
         </activity>
+        <activity android:name=".HabitSetTimeActivity"
+            android:parentActivityName=".HabitMotivationActivity"
+            android:label="@string/title_activity_HabitNameActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            >
+        </activity>
+
         <activity
             android:name=".HabitNameActivity"
             android:label="@string/title_activity_HabitNameActivity"

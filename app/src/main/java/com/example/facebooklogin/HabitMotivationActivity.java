@@ -22,7 +22,7 @@ public class HabitMotivationActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClass(HabitMotivationActivity.this ,HabitMotivationActivity.class);
+                intent.setClass(HabitMotivationActivity.this ,HabitSetTimeActivity.class);
                 startActivity(intent);
             }
         });

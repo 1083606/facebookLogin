@@ -21,6 +21,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -51,5 +56,4 @@ dependencies {
     //recyclerview
     //fragment 跳轉
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha09'
-    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha09'
 }
