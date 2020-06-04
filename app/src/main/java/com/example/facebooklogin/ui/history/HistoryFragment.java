@@ -4,32 +4,48 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebooklogin.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HistoryFragment extends Fragment {
 
-    private HistoryViewModel historyViewModel;
+    View v;
+    private RecyclerView myrecyclerview;
+    private List<history> lstHistory;
+
+    public HistoryFragment(){
+
+    }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        historyViewModel =
-                ViewModelProviders.of(this).get(HistoryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_history, container, false);
-        final TextView textView = root.findViewById(R.id.text_history);
-        historyViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        v = inflater.inflate(R.layout.fragment_history,container,false);
+        myrecyclerview = (RecyclerView) v.findViewById(R.id.history_recyclerview);
+        RecyclerViewAdapter_history recyclerViewAdapter_history = new RecyclerViewAdapter_history(getContext(), lstHistory);
+        myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myrecyclerview.setAdapter(recyclerViewAdapter_history);
+        return v;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        lstHistory = new ArrayList<>();
+
+        lstHistory.add(new history("早起，養成規律作息","5","50","30"));
+        lstHistory.add(new history("不吃宵夜","5","50","30"));
+        lstHistory.add(new history("每週運動3次","5","50","30"));
+        //lstHistory.add(new history("LULU",5,50,30));
+
     }
 }
