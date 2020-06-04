@@ -2,4 +2,7 @@
 <resources>
     <item name="text_home" type="id" />
     <item name="text_setting" type="id" />
+    <item name="item_goods_img" type="id" />
+    <item name="item_goods_name" type="id" />
+    <item name="item_goods_price" type="id" />
 </resources>

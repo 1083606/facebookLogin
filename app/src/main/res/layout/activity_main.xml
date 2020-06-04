@@ -21,8 +21,10 @@
         android:background="#000000"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
+        app:itemHorizontalPadding="30dp"
         app:itemIconTint="@color/design_default_color_on_primary"
         app:itemShapeFillColor="#FFFFFF"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Body2"
         app:itemTextColor="#FFFFFF"
         app:menu="@menu/activity_main_drawer" />
 

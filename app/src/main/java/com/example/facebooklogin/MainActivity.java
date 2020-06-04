@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (menuId){
                     case R.id.nav_home:
-                        Toast.makeText(MainActivity.this,"點選主頁",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this,"點選主頁",Toast.LENGTH_LONG).show();
                         fab.hide();
                         break;
                     default:
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //-------------------------------------------------
+
     }
 
     @Override
