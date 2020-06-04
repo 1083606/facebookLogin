@@ -2,15 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HabitMotivationActivity">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="439dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="100dp">
+            android:padding="30dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -37,7 +36,7 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
+                android:maxLines="1"
                 android:scrollbars="vertical"
                 android:singleLine="false"
                 android:textLocale="center" />
@@ -58,7 +57,7 @@
                 android:id="@+id/editText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
+                android:maxLines="1"
                 android:scrollbars="vertical"
                 android:singleLine="false"
                 android:textLocale="center" />
@@ -79,27 +78,20 @@
                 android:id="@+id/editText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
+                android:maxLines="1"
                 android:scrollbars="vertical"
                 android:singleLine="false"
                 android:textLocale="center" />
-
-            <Button
-                android:id="@+id/btn_next"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="68dp"
-                android:background="@drawable/button_rounde_black"
-                android:enabled="true"
-                android:gravity="center"
-                android:text="下一步"
-                android:textColor="#515050"
-                android:textSize="18sp" />
         </LinearLayout>
-
     </ScrollView>
 
-
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
