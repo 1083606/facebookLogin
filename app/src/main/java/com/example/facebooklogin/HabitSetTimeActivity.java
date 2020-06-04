@@ -1,13 +1,11 @@
-package com.example.facebooklogin;
+/**package com.example.facebooklogin;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.Button;
-
-public class HabitMotivationActivity extends AppCompatActivity {
+public class HabitSetTimeActivity extends AppCompatActivit {
     private Button btn_next;
 
     @Override
@@ -22,9 +20,9 @@ public class HabitMotivationActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClass(HabitMotivationActivity.this ,HabitMotivationActivity.class);
+                intent.setClass(HabitMotivationActivity.this ,HabitSetTimeActivity.class);
                 startActivity(intent);
             }
         });
     }
-}
+}**/

@@ -6,13 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".HabitMotivationActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="動機頁"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="養成習慣的初衷:" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textLocale="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="養成習慣，會讓我:" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textLocale="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不養成習慣，會讓我:" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textLocale="center" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_rounde_black"
+        android:enabled="true"
+        android:text="下一步"
+        android:textColor="#515050"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
