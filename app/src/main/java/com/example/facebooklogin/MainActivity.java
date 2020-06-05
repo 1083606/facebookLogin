@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(MainActivity.this,"點選主頁",Toast.LENGTH_LONG).show();
                         fab.hide();
                         break;
+                    case R.id.nav_history:
+                        fab.hide();
+                        break;
                     default:
                         fab.show();
                         break;
