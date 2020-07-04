@@ -73,4 +73,7 @@ dependencies {
 
 
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha09'
+
+    //dialog
+    implementation 'com.bestsoft32.tayyab:tt-fancy-gif-dialog:1.0.2'
 }

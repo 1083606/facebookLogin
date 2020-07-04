@@ -1,10 +1,13 @@
 package com.example.facebooklogin;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
+import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -80,6 +83,39 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    //----------------
+    //點擊action bar menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id= item.getItemId();
+        // menu item click handling
+        if (id==R.id.logout){
+            new TTFancyGifDialog.Builder(MainActivity.this)
+                    .setTitle("確定要登出？")
+                    //.setMessage("You don't have time for shopping, Visit our website for online shopping with discount price.")
+                    .setPositiveBtnText("確定")
+                    .setPositiveBtnBackground("#22b573")
+                    .setNegativeBtnText("Cancel")
+                    .setNegativeBtnBackground("#c1272d")
+                    .setGifResource(R.drawable.chicken_gif)      //pass your gif, png or jpg
+                    .isCancellable(true)
+                    .OnPositiveClicked(new TTFancyGifDialogListener() {
+                        @Override
+                        public void OnClick() {
+                            Toast.makeText(MainActivity.this,"Ok",Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .OnNegativeClicked(new TTFancyGifDialogListener() {
+                        @Override
+                        public void OnClick() {
+                            Toast.makeText(MainActivity.this,"Cancel",Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .build();
+        }
         return true;
     }
 
