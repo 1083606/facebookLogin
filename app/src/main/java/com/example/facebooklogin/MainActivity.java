@@ -1,5 +1,8 @@
 package com.example.facebooklogin;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +11,8 @@ import android.widget.Toast;
 
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -23,9 +28,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
+//------------------
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    //---------fb logout
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //----------
+        callbackManager = CallbackManager.Factory.create();
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -105,7 +128,26 @@ public class MainActivity extends AppCompatActivity {
                     .OnPositiveClicked(new TTFancyGifDialogListener() {
                         @Override
                         public void OnClick() {
-                            Toast.makeText(MainActivity.this,"Ok",Toast.LENGTH_SHORT).show();
+                            //點選"確認登出"
+                            new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                                    .Callback() {
+                                @Override
+                                public void onCompleted(GraphResponse graphResponse) {
+
+                                    SharedPreferences pref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    editor.clear();
+                                    editor.commit();
+                                    LoginManager.getInstance().logOut();
+
+                                    Intent logoutint = new Intent(MainActivity.this ,login.class);
+                                    logoutint.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(logoutint);
+
+                                    Toast.makeText(MainActivity.this,"登出成功",Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).executeAsync();
                         }
                     })
                     .OnNegativeClicked(new TTFancyGifDialogListener() {
