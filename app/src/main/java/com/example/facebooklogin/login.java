@@ -11,6 +11,9 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,10 @@ import java.util.Arrays;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class login extends AppCompatActivity {
+    //動畫animation
     private LoginButton loginButton;
+    ImageView applogo,chicken;
+    Animation frombottom;
     /*
     private CircleImageView circleImageView;
     private TextView txtName,txtEmail,txtInfo;
@@ -47,8 +53,15 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        //動畫animation
+        applogo=(ImageView) findViewById(R.id.applogo);
+        chicken=(ImageView) findViewById(R.id.chicken);
         loginButton = findViewById(R.id.login_button);
+
+        frombottom= AnimationUtils.loadAnimation(this,R.anim.frombottom);
+        applogo.setAnimation(frombottom);
+        chicken.setAnimation(frombottom);
+        loginButton.setAnimation(frombottom);
         /*
         txtName = findViewById(R.id.profile_name);
         txtEmail = findViewById(R.id.profile_email);
