@@ -37,17 +37,7 @@ public class PostFragment extends Fragment {
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
         return v;
 
-//        postViewModel =
-//                ViewModelProviders.of(this).get(HistoryViewModel.class);
-//        View root = inflater.inflate(R.layout.fragment_post, container, false);
-//        final TextView textView = root.findViewById(R.id.text_post);
-//        postViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-//        return root;
+
     }
 
     @Override

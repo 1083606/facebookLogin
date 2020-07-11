@@ -76,4 +76,7 @@ dependencies {
 
     //dialog
     implementation 'com.bestsoft32.tayyab:tt-fancy-gif-dialog:1.0.2'
+
+    //按讚動畫
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 }
