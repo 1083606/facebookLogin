@@ -37,14 +37,13 @@
             android:padding="12dp"
             android:text="TextView" />
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:background="#00FFFFFF"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/clapcute" />
+        <com.like.LikeButton
+            app:icon_type="thumb"
+            app:icon_size="15dp"
+            android:id="@+id/star_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 
