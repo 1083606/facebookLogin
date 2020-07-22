@@ -1,6 +1,7 @@
 package com.example.facebooklogin.ui.post;
 
 public class post {
+    private int UserImage;
     private String Name;
     private String Content;
     private int Image;
@@ -8,13 +9,16 @@ public class post {
     public post() {
     }
 
-    public post(String name,String content, int image) {
+    public post(int userImage, String name,String content, int image) {
+        UserImage = userImage;
         Name = name;
         Content=content;
         Image = image;
     }
 
     //getter
+    public int getUserImage() {return UserImage;}
+
     public String getName() { return Name; }
 
     public String getContent() { return Content; }
@@ -24,6 +28,9 @@ public class post {
     }
 
     //setter
+    public void setUserImage(int userImage) {
+        Image = userImage;
+    }
 
     public void setName(String name) {
         Name = name;

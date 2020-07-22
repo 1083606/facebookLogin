@@ -50,14 +50,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //點選fab
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+               fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this ,PostDetailActivity.class );
+                startActivity(intent);
             }
         });
 
@@ -91,8 +94,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_history:
                         fab.hide();
                         break;
-                    default:
+                    case R.id.nav_post:
                         fab.show();
+                        break;
+                    default:
+                        fab.hide();
                         break;
 
                 }

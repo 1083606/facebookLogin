@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebooklogin.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +37,20 @@ public class PostFragment extends Fragment {
         RecyclerViewAdapter_post recyclerViewAdapter_post = new RecyclerViewAdapter_post(getContext(),lstPost);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
+
         return v;
-
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstPost = new ArrayList<>();
-        lstPost.add(new post("LULU","堅持50天!!!",R.drawable.first));
-        lstPost.add(new post("止靈","讀書達成",R.drawable.book));
-        lstPost.add(new post("小洋","多喝水!!!",R.drawable.water));
-        lstPost.add(new post("阿明","吃健康的一餐~滿足!!!",R.drawable.food));
-        lstPost.add(new post("亦僅","多運動!!!",R.drawable.running));
-        lstPost.add(new post("攔鴿","讀書!!!",R.drawable.study));
+        lstPost.add(new post(R.drawable.singer,"LULU","堅持50天!!!堅持50天!!!堅持50天!!!fighting",R.drawable.first));
+        lstPost.add(new post(R.drawable.singer2,"止靈","讀書達成",R.drawable.book));
+        lstPost.add(new post(R.drawable.sing,"小洋","多喝水!!!",R.drawable.water));
+        lstPost.add(new post(R.drawable.girl,"阿明","吃健康的一餐~滿足!!!",R.drawable.food));
+        lstPost.add(new post(R.drawable.chicken,"亦僅","多運動!!!",R.drawable.running));
+        lstPost.add(new post(R.drawable.chatlogo,"攔鴿","讀書!!!",R.drawable.study));
     }
+
 }
