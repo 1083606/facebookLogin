@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.facebooklogin.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +29,7 @@ public class PostFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private List<post> lstPost;
 
+    SwipeRefreshLayout swipeRefreshLayout;
     public PostFragment(){
 
     }
@@ -37,6 +43,13 @@ public class PostFragment extends Fragment {
         RecyclerViewAdapter_post recyclerViewAdapter_post = new RecyclerViewAdapter_post(getContext(),lstPost);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
+
+        String [] values =
+                {"全部","自己","按讚的","讀書","喝水","運動","早睡"};
+        Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, values);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
 
         return v;
     }
