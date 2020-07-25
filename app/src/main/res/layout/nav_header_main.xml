@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/post_detail_img"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:contentDescription="@string/nav_header_desc"

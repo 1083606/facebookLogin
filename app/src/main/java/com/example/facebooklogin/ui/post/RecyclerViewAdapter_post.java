@@ -36,6 +36,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.img_user.setImageResource(mData.get(position).getUserImage());
         holder.img_post.setImageResource(mData.get(position).getImage());
         holder.txt_userName.setText(mData.get(position).getName());
         holder.txt_content.setText(mData.get(position).getContent());
@@ -49,6 +50,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
+        private ImageView img_user;
         private ImageView img_post;
         private TextView txt_userName;
         private TextView txt_content;
@@ -56,6 +58,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            img_user = (ImageView) itemView.findViewById(R.id.userImg);
             img_post = (ImageView) itemView.findViewById(R.id.img_post);
             txt_userName = (TextView) itemView.findViewById(R.id.txt_userName);
             txt_content = (TextView) itemView.findViewById(R.id.txt_content);

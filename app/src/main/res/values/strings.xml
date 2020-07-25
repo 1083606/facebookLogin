@@ -35,6 +35,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_HabitNameActivity">建立聊天室</string>
+    <string name="title_activity_PostDetailActivity">建立貼文</string>
 
+
+    <string-array name="tags">
+        <item>我</item>
+        <item>按愛心的</item>
+        <item>讀書</item>
+        <item>早起</item>
+    </string-array>
 
 </resources>
