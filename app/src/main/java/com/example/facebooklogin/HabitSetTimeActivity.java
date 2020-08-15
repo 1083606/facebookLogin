@@ -3,8 +3,10 @@ package com.example.facebooklogin;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ public class HabitSetTimeActivity extends AppCompatActivity {
     Context mContext = this;
     Context mContext1 = this;
     Context mDateContext = this;
+    private Button btn_next;
     @Override
     protected void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -27,6 +30,7 @@ public class HabitSetTimeActivity extends AppCompatActivity {
 
         mTimeTextView = (TextView) findViewById(R.id.time_text_view);
         Calendar calendar = Calendar.getInstance();
+        btn_next = findViewById(R.id.btn_next);
 
         final  int hour = calendar.get(calendar.HOUR_OF_DAY);
         final  int minute = calendar.get(calendar.MINUTE);
@@ -86,6 +90,14 @@ public class HabitSetTimeActivity extends AppCompatActivity {
                     }
                 },year,month,day);
                 datePickerDialog.show();
+            }
+        });
+
+        btn_next.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent();
+                intent.setClass(HabitSetTimeActivity.this ,ChatRoom.class);
+                startActivity(intent);
             }
         });
     }

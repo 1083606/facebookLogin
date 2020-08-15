@@ -14,10 +14,10 @@
         android:background="@drawable/time"
         app:layout_constraintBottom_toBottomOf="@+id/time_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toEndOf="@+id/time_text_view"
         app:layout_constraintTop_toTopOf="@+id/time_text_view"
-        app:layout_constraintVertical_bias="0.38"/>
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/time_text_view"
@@ -40,10 +40,10 @@
         android:background="@drawable/time"
         app:layout_constraintBottom_toBottomOf="@+id/date_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toEndOf="@+id/date_text_view"
         app:layout_constraintTop_toTopOf="@+id/date_text_view"
-        app:layout_constraintVertical_bias="0.476" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/date_text_view"
@@ -56,7 +56,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/time_text_view"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintVertical_bias="0.049" />
 
     <ImageButton
         android:id="@+id/pick_time_button1"
@@ -128,5 +128,24 @@
         android:layout_height="326dp"
         tools:layout_editor_absoluteX="60dp"
         tools:layout_editor_absoluteY="403dp" />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/button_rounde_black"
+        android:enabled="true"
+        android:text="下一步"
+        android:textColor="#515050"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.823"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_userName"
+        app:layout_constraintVertical_bias="0.06999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
