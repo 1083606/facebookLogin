@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 public class HabitNameActivity extends AppCompatActivity {
     private Button btn_next;
@@ -27,6 +30,10 @@ public class HabitNameActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //播放小雞Gif
+        ImageView chicken_gif = (ImageView) findViewById(R.id.imgChicken);
+        Glide.with(this).load(R.drawable.gifchicken).into(chicken_gif);
     }
 
 }

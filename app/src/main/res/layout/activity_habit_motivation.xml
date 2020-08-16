@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HabitMotivationActivity">
+    tools:context=".HabitMotivationActivity"
+    android:background="#8ec6c5">
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="439dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="100dp">
+            android:padding="50dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -27,7 +28,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="5dp"
                 android:text="養成習慣的初衷:"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,10 +42,15 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_round_button"
                 android:maxLines="3"
+                android:padding="10dp"
                 android:scrollbars="vertical"
                 android:singleLine="false"
-                android:textLocale="center" />
+                android:textColor="#757575"
+                android:textLocale="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -48,7 +58,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="5dp"
                 android:text="養成習慣，會讓我:"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,10 +72,15 @@
                 android:id="@+id/editText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_round_button"
                 android:maxLines="3"
+                android:padding="10dp"
                 android:scrollbars="vertical"
                 android:singleLine="false"
-                android:textLocale="center" />
+                android:textColor="#757575"
+                android:textLocale="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -69,7 +88,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="5dp"
                 android:text="不養成習慣，會讓我:"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,10 +102,14 @@
                 android:id="@+id/editText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_button"
                 android:maxLines="3"
+                android:padding="10dp"
                 android:scrollbars="vertical"
                 android:singleLine="false"
-                android:textLocale="center" />
+                android:textColor="#757575"
+                android:textLocale="center"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn_next"
@@ -90,7 +117,8 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="68dp"
-                android:background="@drawable/button_rounde_black"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/round_yellow"
                 android:enabled="true"
                 android:gravity="center"
                 android:text="下一步"

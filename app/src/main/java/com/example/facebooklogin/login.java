@@ -43,10 +43,10 @@ public class login extends AppCompatActivity {
     private LoginButton loginButton;
     ImageView applogo,chicken;
     Animation frombottom;
-    /*
-    private CircleImageView circleImageView;
+    //----------------------
+    //private CircleImageView circleImageView;
     private TextView txtName,txtEmail,txtInfo;
-    */
+    //------------------------
     private CallbackManager callbackManager;
     private java.lang.Object Object;
     @Override
@@ -62,13 +62,13 @@ public class login extends AppCompatActivity {
         applogo.setAnimation(frombottom);
         chicken.setAnimation(frombottom);
         loginButton.setAnimation(frombottom);
-        /*
+        //----------------------
         txtName = findViewById(R.id.profile_name);
         txtEmail = findViewById(R.id.profile_email);
         txtInfo = findViewById(R.id.profile_info);
 
-        circleImageView = findViewById(R.id.profile_pic);
-        */
+        //circleImageView = findViewById(R.id.profile_pic);
+        //----------------------
         callbackManager = CallbackManager.Factory.create();
         loginButton.setPermissions(Arrays.asList("public_profile","email"));
         //--new----------------------------
@@ -123,12 +123,16 @@ public class login extends AppCompatActivity {
     private void getData(JSONObject object) {
         try {
             URL profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
-            /*
-            Glide.with(login.this).load(profile_picture.toString()).into(circleImageView);
+            //----------------------
+            //Glide.with(login.this).load(profile_picture.toString()).into(circleImageView);
 
             txtEmail.setText(object.getString("email"));
             txtName.setText(object.getString("name"));
-            */
+            txtInfo.setText(object.getString("id"));
+
+
+
+            //----------------------
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JSONException e) {

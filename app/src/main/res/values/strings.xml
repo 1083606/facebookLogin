@@ -45,4 +45,19 @@
         <item>早起</item>
     </string-array>
 
+    <string-array name="days">
+        <item>永遠</item>
+        <item>7天</item>
+        <item>10天</item>
+        <item>14天</item>
+        <item>21天</item>
+        <item>30天</item>
+        <item>100天</item>
+        <item>365天</item>
+    </string-array>
+
+    <string-array name="times">
+        <item>點擊設定</item>
+    </string-array>
+
 </resources>

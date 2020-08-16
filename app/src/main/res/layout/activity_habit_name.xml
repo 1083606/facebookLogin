@@ -8,40 +8,41 @@
     tools:context=".HabitNameActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="176dp"
-        android:layout_height="128dp"
+        android:id="@+id/imgChicken"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.122"
-        app:srcCompat="@drawable/chicken" />
+        app:layout_constraintVertical_bias="0.122" />
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="說說你想建立甚麼~"
+        android:text="說說你想建立什麼習慣~"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imgChicken"
         app:layout_constraintVertical_bias="0.1" />
 
     <EditText
         android:id="@+id/edit_userName"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:hint="習慣名稱"
+        android:gravity="center"
 
+        android:hint="習慣名稱"
         android:singleLine="true"
         android:textColor="#FDFDFD"
         android:textColorHighlight="#00FFFFFF"
@@ -50,7 +51,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome"
         app:layout_constraintVertical_bias="0.163" />
@@ -61,7 +61,7 @@
         android:layout_height="40dp"
         android:layout_gravity="start"
         android:layout_marginTop="52dp"
-        android:background="@drawable/button_rounde_black"
+        android:background="@drawable/round_yellow"
         android:enabled="true"
         android:text="下一步"
         android:textColor="#515050"
