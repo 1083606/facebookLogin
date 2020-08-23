@@ -39,13 +39,13 @@ public class HabitSetTimeActivity extends AppCompatActivity {
         mPickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                   @Override
-                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       mTimeTextView.setText(hourOfDay+":"+minute);
-                   }
-               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-               timePickerDialog.show();
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        mTimeTextView.setText(hourOfDay+":"+minute);
+                    }
+                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
+                timePickerDialog.show();
             }
         });
 
@@ -96,7 +96,7 @@ public class HabitSetTimeActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClass(HabitSetTimeActivity.this ,ChatRoom.class);
+                intent.setClass(HabitSetTimeActivity.this ,ChatActivity.class);
                 startActivity(intent);
             }
         });
