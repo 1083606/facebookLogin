@@ -96,10 +96,11 @@ public class HabitSetCharacterActivity extends AppCompatActivity {
 
     public void Update()
     {
+        /*
         name=edtname.getText().toString();
         mobile=edtmobile.getText().toString();
         about=edtabout.getText().toString();
-
+        */
     }
 
 }

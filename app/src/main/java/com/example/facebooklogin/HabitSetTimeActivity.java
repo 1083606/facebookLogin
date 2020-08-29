@@ -1,5 +1,6 @@
 package com.example.facebooklogin;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
 
         mTimeTextView = (TextView) findViewById(R.id.time_text_view);
         Calendar calendar = Calendar.getInstance();
+        btn_next = findViewById(R.id.btn_next);
 
         //-----------------------
         layoutList = findViewById(R.id.layout_list);
