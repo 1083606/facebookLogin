@@ -2,26 +2,20 @@ package com.example.facebooklogin;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 //-------------------------------
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -32,8 +26,10 @@ import java.util.ArrayList;
 public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener {
     TextView mTimeTextView;
     TextView mPickPunchTime;
+    ImageView imgmPickPunchTime;
     Context mContext = this;
 
+    private Button btn_next;
 
     //------------------------------
     LinearLayout layoutList;
@@ -54,7 +50,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         //-----------------------
         layoutList = findViewById(R.id.layout_list);
         buttonAdd = findViewById(R.id.button_add);
-        buttonSubmitList = findViewById(R.id.button_submit_list);
+        buttonSubmitList = findViewById(R.id.btn_next);
 
         buttonAdd.setOnClickListener(this);
         buttonSubmitList.setOnClickListener(this);
@@ -64,6 +60,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         final  int minute = calendar.get(calendar.MINUTE);
 
         mPickPunchTime = (TextView) findViewById(R.id.mPickPunchTime);
+        imgmPickPunchTime = (ImageView) findViewById(R.id.imgmPickPunchTime);
         mPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +71,34 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                    }
                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
                timePickerDialog.show();
+            }
+        });
+        imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    /*
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        mPickPunchTime.setText(hourOfDay+":"+minute);
+                    }
+                     */
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        DecimalFormat decimalFormat = new DecimalFormat("00");
+                        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
+                    }
+                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
+                timePickerDialog.show();
+            }
+        });
+
+        btn_next = findViewById(R.id.btn_next);
+        // 按下下一步按鈕 觸發事件
+        btn_next.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent();
+                intent.setClass(HabitSetTimeActivity.this ,HabitSetCharacterActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -139,9 +164,15 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 int hour = 0;
                 int minute = 0;
                 TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    /*
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         text_remindertime.setText(hourOfDay+":"+minute);
+                    }
+                     */
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        DecimalFormat decimalFormat = new DecimalFormat("00");
+                        text_remindertime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
                     }
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
                 timePickerDialog.show();
