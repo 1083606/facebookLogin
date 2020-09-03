@@ -25,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HabitSetCharacterActivity extends AppCompatActivity {
     EditText edtname,edtmobile,edtabout;
     String mobile,name,about ;
-    Button bupdate;
+    Button btnnext;
     TextView text_update_proimg;
     Uri uri;
     CircleImageView profile_image;
@@ -38,7 +38,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity {
         setContentView(R.layout.habit_set_character);
 
 
-        bupdate=findViewById(R.id.bttnnext);
+        btnnext=findViewById(R.id.bttnnext);
         edtmobile=findViewById(R.id.editText_mobile);
         text_update_proimg=findViewById(R.id.text_update_proimg);
         edtname=findViewById(R.id.editText_name);
@@ -58,10 +58,10 @@ public class HabitSetCharacterActivity extends AppCompatActivity {
             }
         });
 
-        bupdate.setOnClickListener(new View.OnClickListener() {
+        btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Update();
+                Next();
             }
         });
     }
@@ -94,13 +94,16 @@ public class HabitSetCharacterActivity extends AppCompatActivity {
 
     //update data into firebase database
 
-    public void Update()
+    public void Next()
     {
         /*
         name=edtname.getText().toString();
         mobile=edtmobile.getText().toString();
         about=edtabout.getText().toString();
         */
+        Intent intent = new Intent();
+        intent.setClass(HabitSetCharacterActivity.this ,ChatroomActivity.class);
+        startActivity(intent);
     }
 
 }

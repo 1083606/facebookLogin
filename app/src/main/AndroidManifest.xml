@@ -16,15 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HabitSetCharacterActivity"
+        <activity android:name=".chatroom"></activity>
+        <activity
+            android:name=".HabitSetCharacterActivity"
             android:label="@string/title_activity_PostDetailActivity"
             android:parentActivityName=".PostDetailActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".PostDetailActivity"
             android:label="@string/title_activity_PostDetailActivity"
             android:parentActivityName=".PostDetailActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".HabitMotivationActivity"
             android:label="@string/title_activity_HabitNameActivity"
@@ -38,6 +40,11 @@
         <activity
             android:name=".HabitNameActivity"
             android:label="@string/title_activity_HabitNameActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".ChatroomActivity"
+            android:label="@string/title_activity_ChatroomActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
