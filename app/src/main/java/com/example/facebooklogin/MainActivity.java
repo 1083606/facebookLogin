@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
@@ -41,7 +42,8 @@ import com.facebook.login.widget.LoginButton;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    String UserID,UserName;
+    private TextView txtUserName;
     private AppBarConfiguration mAppBarConfiguration;
     //---------fb logout
     private CallbackManager callbackManager;
@@ -104,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //接收從getUserName的bundle
+        Bundle bundle = getIntent().getExtras();
+        UserName = bundle.getString("UserName");
+        UserID = bundle.getString("UserID");
+
+        //View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+       // headerView.findViewById(R.id.txtUserName);
+
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.txtUserName);
+        navUsername.setText(UserName);
+        //txtUserName.setText(UserName);
         //-------------------------------------------------
 
     }

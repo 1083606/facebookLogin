@@ -20,7 +20,7 @@
     -->
 
     <TextView
-        android:id="@+id/profile_name"
+        android:id="@+id/txtresult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -33,31 +33,17 @@
 
 
     <TextView
-        android:id="@+id/profile_email"
+        android:id="@+id/txtdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profile_name"
-        app:layout_constraintVertical_bias="0.35" />
-
-    <TextView
-        android:id="@+id/profile_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/txtresult" />
 
     <ImageView
         android:id="@+id/applogo"
@@ -82,7 +68,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chicken"
-        app:layout_constraintVertical_bias="0.172" />
+        app:layout_constraintVertical_bias="0.265" />
 
     <ImageView
         android:id="@+id/chicken"
@@ -93,7 +79,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464"
         app:srcCompat="@drawable/chicken" />
 
 
