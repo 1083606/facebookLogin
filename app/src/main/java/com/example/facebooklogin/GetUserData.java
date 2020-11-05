@@ -52,13 +52,14 @@ public class GetUserData extends AppCompatActivity {
     //生日
     Calendar c = Calendar.getInstance();
     int cday, cmonth, cyear;
+    String UserBirthday,UserGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_user_data);
         txtUserName=findViewById(R.id.userName);
-        txtUserBirthday=(TextView) findViewById(R.id.userBirthday);
+        txtUserBirthday=findViewById(R.id.userBirthday);
         btn_next = findViewById(R.id.btn_next);
         //spinner設定
         spinnerUserGender = findViewById(R.id.spinnerUserGender);
@@ -71,9 +72,6 @@ public class GetUserData extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         UserID = bundle.getString("UserID");
         UserName = bundle.getString("UserName");
-
-        String UserBirthday =txtUserBirthday.getText().toString();
-        String UserGender = spinnerUserGender.getSelectedItem().toString();
         txtUserName.setText("Hello!"+UserName);
 
         //設定生日
@@ -85,18 +83,16 @@ public class GetUserData extends AppCompatActivity {
             public void onClick(View arg0) {
                 new DatePickerDialog(GetUserData.this, d,
                         c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
-
             }
         });
-
-
-
 
         // 按下下一步按鈕 觸發事件
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
                 if ( !("".equals(txtUserBirthday.getText().toString())))
                 {
+                    UserGender = spinnerUserGender.getSelectedItem().toString();
+                    //Toast.makeText(GetUserData.this,UserID+UserBirthday+UserGender , Toast.LENGTH_SHORT).show();
                     new AsyncPost().execute(UserID,UserBirthday,UserGender);
                 }
                 else {
@@ -114,8 +110,8 @@ public class GetUserData extends AppCompatActivity {
             cday = dayOfMonth;
             cmonth = monthOfYear + 1;
             cyear = year;
-
             txtUserBirthday.setText(cyear + "/" + cmonth + "/" + cday);
+            UserBirthday =txtUserBirthday.getText().toString();
         }
     };
 
@@ -209,44 +205,36 @@ public class GetUserData extends AppCompatActivity {
             } finally {
                 conn.disconnect();
             }
-
-
         }
-
         @Override
         protected void onPostExecute(String strUTF8) {
             //mTxtResult.setText(strUTF8);
-
             try{
                 JSONObject jsonObject = new JSONObject(strUTF8);
                 String result = jsonObject.getString("result");
-                String data = jsonObject.getString("data");
-                Toast.makeText(GetUserData.this, result+data, Toast.LENGTH_SHORT).show();
-                checkResultData(Integer.parseInt(result));
+                int resultValue=Integer.parseInt(result);
+                if (resultValue==0){
+                    //post 成功，取出 data
+                    String data = jsonObject.getString("data");
+                    //傳入成功，跳至"歡迎頁面"
+                    Toast.makeText(GetUserData.this, result+data, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(GetUserData.this,startdescription.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserID",UserID);
+                    bundle.putString("UserName",UserName);
+                    intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                    startActivity(intent);
+                }else{
+                    String data = jsonObject.getString("data");
+                    String message1 = jsonObject.getString("message 1");
+                    String message2 = jsonObject.getString("message 2");
+                    Toast.makeText(GetUserData.this, result+data+message1+message2, Toast.LENGTH_SHORT).show();
+                }
             }
             catch(JSONException e) {
                 e.printStackTrace();
             }
         }
-
-        private void checkResultData(int result){
-            if (result==0){
-                //傳入成功，跳至"歡迎頁面"
-                Intent intent = new Intent();
-                intent.setClass(GetUserData.this,startdescription.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("UserID",UserID);
-                bundle.putString("UserName",UserName);
-                intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-
-                startActivity(intent);
-
-            }else{
-                Toast.makeText(GetUserData.this, "失敗", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
     }
-
 }

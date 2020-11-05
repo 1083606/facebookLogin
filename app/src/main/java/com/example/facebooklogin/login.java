@@ -107,11 +107,6 @@ public class login extends AppCompatActivity {
                         getData(object);
 
                         Toast.makeText(login.this,"登入成功",Toast.LENGTH_LONG).show();
-                        /*
-                        Intent intent = new Intent();
-                        intent.setClass(login.this ,GetUserName.class );
-                        startActivity(intent);
-                         */
                     }
                 });
 
@@ -132,14 +127,132 @@ public class login extends AppCompatActivity {
         //---new-----------------------------
 
 
-        /*
+
         //If 已經登入
         if (AccessToken.getCurrentAccessToken() != null){
-                String userId=AccessToken.getCurrentAccessToken().getUserId();
+            String userId=AccessToken.getCurrentAccessToken().getUserId();
+
+            //獲取資料庫 userName
+            new AsyncPostGetName().execute(userId);
+            /*
+            //傳入成功，跳至主頁面"
+            Intent intent = new Intent();
+            intent.setClass(login.this,MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("UserID",userId);
+            bundle.putString("UserName",userName);
+            intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+            startActivity(intent);
+             */
+            //txtInfo.setText(AccessToken.getCurrentAccessToken().getUserId());
+         }
+        //---newdofnew-----------------------------
+
+    }
+
+    //--------------------------------------------------------------------------
+    //-------------------------------------
+    //獲取已登入userName
+    //-------------------------------------
+    private class AsyncPostGetName   extends AsyncTask<String,Void,String>
+    {
+        HttpURLConnection conn;
+        URL url = null;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                // Enter URL address where your php file resides
+                url = new URL("http://140.131.114.140/chatbot109204/data/getUserName.php");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user_id", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, StandardCharsets.UTF_8));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+            try {
+                int response_code = conn.getResponseCode();
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return(String.valueOf(result));
+                }else{
+                    return("unsuccessful");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+        @Override
+        protected void onPostExecute(String strUTF8) {
+            //mTxtResult.setText(strUTF8);
+            try{
+                JSONObject jsonObject = new JSONObject(strUTF8);
+                String user_id = jsonObject.getString("user_id");
+                String user_name = jsonObject.getString("user_name");
+                Toast.makeText(login.this, user_id+user_name, Toast.LENGTH_SHORT).show();
+//                checkResultData(Integer.parseInt(result));
+
+                //傳入成功，跳至主頁面
+                Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(login.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserID",user_id);
+                bundle.putString("UserName",user_name);
+                intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                startActivity(intent);
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        /*
+        private void checkResultData(int result){
+            if (result==0){
+                //傳入成功，跳至主頁面
                 Toast.makeText(login.this,userId+"登入成功",Toast.LENGTH_SHORT).show();
-
-
-                //傳入成功，跳至主頁面"
                 Intent intent = new Intent();
                 intent.setClass(login.this,MainActivity.class);
                 Bundle bundle = new Bundle();
@@ -147,10 +260,12 @@ public class login extends AppCompatActivity {
                 bundle.putString("UserName",userName);
                 intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                 startActivity(intent);
-                //txtInfo.setText(AccessToken.getCurrentAccessToken().getUserId());
-         }
-        //---newdofnew-----------------------------
-        */
+
+            }else{
+                Toast.makeText(login.this, "失敗", Toast.LENGTH_SHORT).show();
+            }
+        }
+         */
 
 
     }
@@ -164,7 +279,7 @@ public class login extends AppCompatActivity {
             //Glide.with(login.this).load(profile_picture.toString()).into(circleImageView);
 
             new AsyncLogin ().execute(object.getString("id"),object.getString("name"),object.getString("email"));
-            userId=object.getString("email");
+            userId=object.getString("id");
             userName=object.getString("name");
             /*
             txtEmail.setText(object.getString("email"));
@@ -220,11 +335,10 @@ public class login extends AppCompatActivity {
     }
 
     //-------------------------------------
-    //post
+    //post register
     //-------------------------------------
     private class AsyncLogin   extends AsyncTask<String,String,String>
     {
-
         HttpURLConnection conn;
         URL url = null;
 
