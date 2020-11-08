@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,10 +48,12 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         holder.txt_content.setText(mData.get(position).getContent());
         //holder.txt_post.setText(mData.get(position).getName());
          */
-        holder.post_id.setText(mData.get(position).getPost_id());
-        holder.user_id.setText(mData.get(position).getUser_id());
+        holder.habbit_cat_name.setText(mData.get(position).getHabbit_cat_name());
+        holder.user_name.setText(mData.get(position).getUser_name());
         //holder.title.setText(mData.get(position).getTitle());
         holder.content.setText(mData.get(position).getContent());
+        holder.updated_at.setText(mData.get(position).getUpdated_at());
+
 
     }
 
@@ -78,18 +79,20 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         }
 
          */
-        TextView post_id;
-        TextView user_id;
+        TextView habbit_cat_name;
+        TextView user_name;
         //TextView title;
         TextView content;
+        TextView updated_at;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            post_id=itemView.findViewById(R.id.txtPostid);
-            user_id=itemView.findViewById(R.id.txtUserid);
+            user_name=itemView.findViewById(R.id.txtUserName);
+            habbit_cat_name=itemView.findViewById(R.id.txtHabbit_cat_name);
             //title=itemView.findViewById(R.id.txtTitle);
             content=itemView.findViewById(R.id.txtContent);
+            updated_at=itemView.findViewById(R.id.txtUpdated_at);
         }
 
     }

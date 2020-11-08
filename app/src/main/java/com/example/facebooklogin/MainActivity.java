@@ -15,7 +15,6 @@ import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -33,12 +32,8 @@ import androidx.appcompat.widget.Toolbar;
 //------------------
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -116,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.txtUserName);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         navUsername.setText(UserName);
         //txtUserName.setText(UserName);
         //-------------------------------------------------

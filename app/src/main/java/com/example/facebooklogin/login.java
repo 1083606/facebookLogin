@@ -61,6 +61,8 @@ public class login extends AppCompatActivity {
 
     //userId,userName
     String userId,userName;
+    //image
+    URL profile_picture;
 
 
     //動畫animation
@@ -154,7 +156,7 @@ public class login extends AppCompatActivity {
     //-------------------------------------
     //獲取已登入userName
     //-------------------------------------
-    private class AsyncPostGetName   extends AsyncTask<String,Void,String>
+    public class AsyncPostGetName   extends AsyncTask<String,Void,String>
     {
         HttpURLConnection conn;
         URL url = null;
@@ -248,33 +250,13 @@ public class login extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        /*
-        private void checkResultData(int result){
-            if (result==0){
-                //傳入成功，跳至主頁面
-                Toast.makeText(login.this,userId+"登入成功",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent();
-                intent.setClass(login.this,MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("UserID",userId);
-                bundle.putString("UserName",userName);
-                intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                startActivity(intent);
-
-            }else{
-                Toast.makeText(login.this, "失敗", Toast.LENGTH_SHORT).show();
-            }
-        }
-         */
-
-
     }
 
 
     //---------------------------------------------------------------------------
     private void getData(JSONObject object) {
         try {
-            URL profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
+            profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
             //----------------------
             //Glide.with(login.this).load(profile_picture.toString()).into(circleImageView);
 
@@ -465,6 +447,7 @@ public class login extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("UserID",userId);
                 bundle.putString("UserName",userName);
+                //bundle.putString("profile_picture", String.valueOf(profile_picture));
                 intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                 startActivity(intent);
             }

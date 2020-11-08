@@ -5,72 +5,123 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#8ec6c5"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".HabitNameActivity">
 
     <ImageView
         android:id="@+id/imgChicken"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="150dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.122" />
+        app:layout_constraintVertical_bias="0.62" />
 
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="說說你想建立什麼習慣~"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgChicken"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <EditText
-        android:id="@+id/edit_userName"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:gravity="center"
-
-        android:hint="習慣名稱"
-        android:singleLine="true"
-        android:textColor="#FDFDFD"
-        android:textColorHighlight="#00FFFFFF"
-        android:textColorHint="#E6E6E6"
-        android:textColorLink="#FFFFFF"
-        android:textStyle="bold"
+        android:background="@drawable/bg_round_button"
+        android:divider="@drawable/divider"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:showDividers="middle"
+        android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:weightSum="8">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="7"
+                app:srcCompat="@drawable/ic_flag_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <EditText
+                android:id="@+id/txtHabbit_name"
+                android:layout_width="314dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:background="#00F9F9F9"
+                android:gravity="left|center_vertical"
+                android:hint="輸入你想要養成的習慣"
+                android:paddingLeft="10dp"
+                android:shadowColor="#736E6E"
+                android:text=""
+                android:textColor="#1B1B1B"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:weightSum="9">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="left"
+                android:layout_weight="4"
+                app:srcCompat="@drawable/ic_toc_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="習慣類別"
+                android:textColor="#1B1B1B"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerHabbitCat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:gravity="right|center_vertical"
+                android:outlineAmbientShadowColor="#F5F5F5"
+                android:outlineSpotShadowColor="#FFFFFF"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_gravity="start"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="76dp"
         android:background="@drawable/round_yellow"
         android:enabled="true"
         android:text="下一步"
         android:textColor="#515050"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.762"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_userName"
-        app:layout_constraintVertical_bias="0.247" />
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+        app:layout_constraintHorizontal_bias="0.742"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

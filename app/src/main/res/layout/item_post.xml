@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:background="#F8F8F8"
-    android:orientation="vertical">
+    android:background="@drawable/button_rounde_blue"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:weightSum="3">
         <!--
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/userImg"
@@ -21,20 +23,29 @@
             app:civ_shadow="false" />
         -->
         <TextView
-            android:id="@+id/txtPostid"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtUserName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
             android:padding="12dp"
             android:text="TextView"
             android:textSize="20sp"
             android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/txtUserid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
+            android:id="@+id/txtHabbit_cat_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2"
+            android:background="@drawable/button_rounde_black"
+            android:gravity="center"
             android:text="TextView"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>
     <!--
@@ -45,6 +56,20 @@
         android:scaleType="centerCrop"
         app:srcCompat="@color/com_facebook_likeboxcountview_text_color" />
     -->
+    <TextView
+        android:id="@+id/txtUpdated_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:paddingLeft="12dp"
+        android:text="TextView"
+        android:textColor="#A09E9E" />
+
+    <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:background = "@drawable/shape_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

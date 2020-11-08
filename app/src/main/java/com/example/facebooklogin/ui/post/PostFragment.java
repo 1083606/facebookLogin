@@ -1,5 +1,6 @@
 package com.example.facebooklogin.ui.post;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,9 +22,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.facebooklogin.HabitMotivationActivity;
+import com.example.facebooklogin.HabitNameActivity;
 import com.example.facebooklogin.R;
+import com.example.facebooklogin.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -53,8 +60,13 @@ public class PostFragment extends Fragment {
     public PostFragment(){
 
     }
+    //-spinner---------
+    Spinner spinnerHabbitCat;
+    ArrayList<String> habbitCatList = new ArrayList<>();
+    ArrayAdapter habbitCatAdapter;
+    RequestQueue requestQueue;
+    //---------------------
 
-//    private HistoryViewModel postViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,24 +83,24 @@ public class PostFragment extends Fragment {
             @Override
             public void onRefresh() {
                 mSwipeRefreshLayout.setRefreshing(false);
+                recyclerViewAdapter_post.notifyDataSetChanged();
+                lstPost.clear();
                 GetData getData = new GetData();
                 getData.execute();
             }
         });
-        //---------------------
+        //--------------------------------------
+
         String [] values =
                 {"全部","自己","按讚的","讀書","喝水","運動","早睡"};
-        Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
+        Spinner spinner = (Spinner) v.findViewById(R.id.spinnerHabbitCat);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, values);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
 
         return v;
 
-        /*
-        lstPost= new ArrayList<>();
-        myrecyclerview=findViewById(R.id.post_recyclerview);
-        */
+
     }
 
 
@@ -156,22 +168,20 @@ public class PostFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray jsonArray = jsonObject.getJSONArray("records");
 
-                for (int i=0;i<jsonArray.length();i++){
-
+                //for (int i=0;i<jsonArray.length();i++){
+                for (int i=jsonArray.length()-1;i>0;i--){
                     JSONObject jsonObject1=jsonArray.getJSONObject(i);
                     post model= new post();
                     model.setPost_id(jsonObject1.getString("post_id"));
+                    model.setHabbit_cat_name(jsonObject1.getString("habbit_cat_name"));
                     model.setUser_id(jsonObject1.getString("user_id"));
-                    model.setTitle(jsonObject1.getString("title"));
+                    model.setUser_name(jsonObject1.getString("user_name"));
                     model.setContent(jsonObject1.getString("content"));
                     model.setCreated_at(jsonObject1.getString("created_at"));
                     model.setUpdated_at(jsonObject1.getString("updated_at"));
 
-
                     lstPost.add(model);
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

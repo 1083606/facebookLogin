@@ -1,16 +1,10 @@
 package com.example.facebooklogin.ui.post;
 
 public class post {
-    /*
-    private int UserImage;
-    private String Name;
-    private String Content;
-    private int Image;
-    */
-
     String post_id;
+    String habbit_cat_name;
     String user_id;
-    String title;
+    String user_name;
     String content;
     String created_at;
     String updated_at;
@@ -18,10 +12,11 @@ public class post {
     public post() {
     }
 
-    public post(String post_id, String user_id, String title, String content, String created_at, String updated_at) {
+    public post(String post_id, String habbit_cat_name, String user_id, String user_name, String content, String created_at, String updated_at) {
         this.post_id = post_id;
+        this.habbit_cat_name = habbit_cat_name;
         this.user_id = user_id;
-        this.title = title;
+        this.user_name = user_name;
         this.content = content;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -36,8 +31,8 @@ public class post {
         return user_id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getUser_name() {
+        return user_name;
     }
 
     public String getContent() {
@@ -52,18 +47,25 @@ public class post {
         return updated_at;
     }
 
-    //setter------------------------
+    public String getHabbit_cat_name() {
+        return habbit_cat_name;
+    }
+//setter------------------------
 
     public void setPost_id(String post_id) {
         this.post_id = post_id;
+    }
+
+    public void setHabbit_cat_name(String habbit_cat_name) {
+        this.habbit_cat_name = habbit_cat_name;
     }
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public void setContent(String content) {
