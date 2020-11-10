@@ -12,7 +12,7 @@
     tools:context=".startdescription">
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="false"
@@ -38,12 +38,12 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_gravity="start"
         android:background="@drawable/button_rounde_black"
         android:enabled="true"
@@ -60,7 +60,7 @@
         android:id="@+id/imageView5"
         android:layout_width="117dp"
         android:layout_height="86dp"
-        app:layout_constraintBottom_toTopOf="@+id/welcome"
+        app:layout_constraintBottom_toTopOf="@+id/userName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

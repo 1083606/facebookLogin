@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerHabbitCat"
             android:layout_width="109dp"
             android:layout_height="24dp"
             android:outlineAmbientShadowColor="#FFFFFF"
@@ -41,7 +41,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp">
