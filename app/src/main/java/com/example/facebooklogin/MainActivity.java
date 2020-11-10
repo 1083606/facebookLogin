@@ -105,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         UserName = bundle.getString("UserName");
         UserID = bundle.getString("UserID");
+        //存 userID and userName 至手機本地端
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata" , MODE_PRIVATE);
+        sharedPreferences.edit().putString("UserID", UserID).apply();
+        sharedPreferences.edit().putString("UserName" , UserName).apply();
+
 
         //View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
        // headerView.findViewById(R.id.txtUserName);
