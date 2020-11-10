@@ -237,7 +237,7 @@ public class login extends AppCompatActivity {
 //                checkResultData(Integer.parseInt(result));
 
                 //傳入成功，跳至主頁面
-                Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setClass(login.this,MainActivity.class);
                 Bundle bundle = new Bundle();

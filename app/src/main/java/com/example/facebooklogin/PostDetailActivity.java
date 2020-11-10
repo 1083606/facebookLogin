@@ -3,6 +3,7 @@ package com.example.facebooklogin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -12,11 +13,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,26 +30,55 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
 import com.example.facebooklogin.ui.post.PostFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class PostDetailActivity extends AppCompatActivity {
+    String userId,userName;
 
     ImageView img;
     private Button btn_addImage;
     private Button button_ok;
+    private TextView txtuserName;
+    private EditText textInputEditText;
+    //post
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
 
     //----from camera
     private static final int  PERMISSION_CODE=1000;
@@ -55,12 +87,54 @@ public class PostDetailActivity extends AppCompatActivity {
     private static final int  IMAGE_PICK_CODE=1002;
     Uri image_uri;
 
+    //-spinner---------
+    Spinner spinnerHabbitCat;
+    ArrayList<String> habbitCatList = new ArrayList<>();
+    ArrayAdapter<String> habbitCatAdapter;
+    RequestQueue requestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
+        txtuserName=(TextView) findViewById(R.id.userName);
+        txtuserName.setText(readUserName());
+
+        textInputEditText=(EditText) findViewById(R.id.textInputEditText);
+
+        //spinner設定start--------------------------
+        requestQueue= Volley.newRequestQueue(this);
+        spinnerHabbitCat=findViewById(R.id.spinnerHabbitCat);
+        String url="http://140.131.114.140/chatbot109204/data/readHabbitCat.php";
+        JsonObjectRequest jsonObjectRequst= new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("records");
+                    for (int i=0; i<jsonArray.length() ;i++){
+                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                        String habbit_cat_name =jsonObject.optString("habbit_cat_name");
+                        habbitCatList.add(habbit_cat_name);
+                        habbitCatAdapter = new ArrayAdapter<>(PostDetailActivity.this,R.layout.myspinner,habbitCatList);
+                        habbitCatAdapter.setDropDownViewResource(R.layout.myspinner);
+                        spinnerHabbitCat.setAdapter(habbitCatAdapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(jsonObjectRequst);
+        //spinner設定end--------------------------
+        //---------------------------------------
+        /*
         img=(ImageView)findViewById(R.id.img);
 
         //點選添加照片start--------------------------------------------------
@@ -72,21 +146,48 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
         //點選添加照片end-----------------------------------------------------
+        */
 
         //點選貼文start--------------------------------------------------
         button_ok = (Button) findViewById(R.id.button_ok);
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 設定從這個活動跳至 PageB 的活動
-                Intent intent = new Intent(PostDetailActivity.this, PostFragment.class);
-                // 開始跳頁
-                startActivity(intent);
+
+                if ( !("".equals(textInputEditText.getText().toString())))
+                {
+                    String habbit_id=String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1);
+                    String content=textInputEditText.getText().toString();
+                    userId=readUserId();
+                    //Toast.makeText(PostDetailActivity.this,userId+habbit_id+content, Toast.LENGTH_SHORT).show();
+                    new AsyncPost().execute(userId,habbit_id,content);
+                }
+                else {
+                    Toast.makeText(PostDetailActivity.this, "請輸入貼文內容", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //點選貼文end-----------------------------------------------------
 
     }
+
+    //讀取使用者名字
+    private String readUserName(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserName","未存任何資料");
+    }
+
+    //讀取使用者Id
+    private String readUserId(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料");
+    }
+
+    /*
     //添加照片-----------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,6 +274,7 @@ public class PostDetailActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -191,11 +293,10 @@ public class PostDetailActivity extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_CODE);
     }
-
     ///-------------------------------------
     //選擇照片--結束
     ///-------------------------------------
-
+     */
 
     ///-------------------------------------
     //按空白處，鍵盤就自動收回--開始
@@ -249,5 +350,124 @@ public class PostDetailActivity extends AppCompatActivity {
     ///-------------------------------------
     //按空白處，鍵盤就自動收回--結束
     ///-------------------------------------
+
+
+    //-------------------------------------
+    //post
+    //-------------------------------------
+    private class AsyncPost   extends AsyncTask<String,Void,String>
+    {
+
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your php file resides
+                url = new URL("http://140.131.114.140/chatbot109204/data/createPost.php");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user_id", params[0])
+                        .appendQueryParameter("habbit_id", params[1])
+                        .appendQueryParameter("content", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, StandardCharsets.UTF_8));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return(String.valueOf(result));
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+        @Override
+        protected void onPostExecute(String strUTF8) {
+            //mTxtResult.setText(strUTF8);
+            try{
+                JSONObject jsonObject = new JSONObject(strUTF8);
+                String result = jsonObject.getString("result");
+                int resultValue=Integer.parseInt(result);
+                if (resultValue==0){
+                    //post 成功，取出 data
+                    String data = jsonObject.getString("data");
+                    //傳入成功，跳至"歡迎頁面"
+                    Toast.makeText(PostDetailActivity.this, result+data, Toast.LENGTH_SHORT).show();
+
+                    // 設定從這個活動跳至 PageB 的活動
+                    Intent intent = new Intent(PostDetailActivity.this, PostFragment.class);
+                    // 開始跳頁
+                    startActivity(intent);
+                }else{
+                    String data = jsonObject.getString("data");
+                    String error = jsonObject.getString("error");
+                    Toast.makeText(PostDetailActivity.this, result+data+error, Toast.LENGTH_SHORT).show();
+                }
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

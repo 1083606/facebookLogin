@@ -88,7 +88,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            user_name=itemView.findViewById(R.id.txtUserName);
+            user_name=itemView.findViewById(R.id.txtUserData);
             habbit_cat_name=itemView.findViewById(R.id.txtHabbit_cat_name);
             //title=itemView.findViewById(R.id.txtTitle);
             content=itemView.findViewById(R.id.txtContent);

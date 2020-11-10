@@ -14,11 +14,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -41,11 +41,53 @@
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/_12sdp"
-            android:text="UserName"
+            android:text=""
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:weightSum="9"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.060000002">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_weight="4"
+            app:srcCompat="@drawable/ic_toc_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="習慣類別"
+            android:textColor="#1B1B1B"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerHabbitCat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:gravity="right|center_vertical"
+            android:outlineAmbientShadowColor="#F5F5F5"
+            android:outlineSpotShadowColor="#FFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -58,9 +100,10 @@
         android:background="#F9F5F5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.01999998">
+        app:layout_constraintVertical_bias="0.23000002">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditText"
@@ -68,18 +111,18 @@
             android:layout_height="200dp"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
             android:background="@null"
             android:gravity="start|left"
             android:hint=" 說說你的心情吧~"
             android:textColorHint="#B5B5B5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+        <!--
         <ImageView
             android:id="@+id/img"
             android:layout_width="100dp"
@@ -107,7 +150,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textInputEditText"
             app:layout_constraintTop_toBottomOf="@+id/img" />
-
+        -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -125,8 +168,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintVertical_bias="0.135" />
-
-
+        app:layout_constraintVertical_bias="0.231" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

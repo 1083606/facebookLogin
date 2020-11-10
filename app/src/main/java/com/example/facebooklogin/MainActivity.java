@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         //接收從getUserName的bundle
         Bundle bundle = getIntent().getExtras();
         UserName = bundle.getString("UserName");
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Userdata" , MODE_PRIVATE);
         sharedPreferences.edit().putString("UserID", UserID).apply();
         sharedPreferences.edit().putString("UserName" , UserName).apply();
-
+        Toast.makeText(MainActivity.this,UserID+UserName,Toast.LENGTH_SHORT).show();
 
         //View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
        // headerView.findViewById(R.id.txtUserName);
