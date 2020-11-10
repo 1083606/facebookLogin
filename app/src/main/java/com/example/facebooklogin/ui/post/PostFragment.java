@@ -54,7 +54,7 @@ public class PostFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private List<post> lstPost;
     //-------------------------------
-    private static String Json_URL = "http://140.131.114.140/chatbot109204/data/readPost.php";
+    private static String Json_URL = "http://140.131.114.140/chatbot109204/data/countLikes.php";
 
     SwipeRefreshLayout swipeRefreshLayout;
     public PostFragment(){

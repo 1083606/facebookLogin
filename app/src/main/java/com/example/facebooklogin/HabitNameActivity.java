@@ -1,19 +1,18 @@
 package com.example.facebooklogin;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,27 +22,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.example.facebooklogin.ui.post.post;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class HabitNameActivity extends AppCompatActivity {
     private Button btn_next;
+    private EditText txtHabbit_name;
+
     //-spinner---------
     Spinner spinnerHabbitCat;
     ArrayList<String> habbitCatList = new ArrayList<>();
@@ -56,7 +45,9 @@ public class HabitNameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_name);
 
-        //spinner設定
+        txtHabbit_name=findViewById(R.id.txtHabbit_name);
+
+        //spinner設定start--------------------------
         requestQueue= Volley.newRequestQueue(this);
         spinnerHabbitCat=findViewById(R.id.spinnerHabbitCat);
         String url="http://140.131.114.140/chatbot109204/data/readHabbitCat.php";
@@ -84,22 +75,49 @@ public class HabitNameActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObjectRequst);
+        //spinner設定end--------------------------
+        //---------------------------------------
 
         btn_next = findViewById(R.id.btn_next);
         // 按下按鈕 觸發事件
+
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
-                Intent intent = new Intent();
-                intent.setClass(HabitNameActivity.this ,HabitMotivationActivity.class);
-                startActivity(intent);
+                if ( !("".equals(txtHabbit_name.getText().toString()))||!("".equals(String.valueOf(spinnerHabbitCat.getSelectedItemPosition()))))
+                {
+                    Intent intent = new Intent();
+                    intent.setClass(HabitNameActivity.this,HabitMotivationActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("habbit_name",txtHabbit_name.getText().toString());
+                    bundle.putString("habbit_id", String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1));
+                    intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(HabitNameActivity.this, "請輸入習慣名稱或習慣類別", Toast.LENGTH_SHORT).show();
+                }
+                //Toast.makeText(HabitNameActivity.this,(txtHabbit_name.getText().toString())+(String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1)) , Toast.LENGTH_SHORT).show();
             }
         });
 
         //播放小雞Gif
         ImageView chicken_gif = (ImageView) findViewById(R.id.imgChicken);
         Glide.with(this).load(R.drawable.gifchicken).into(chicken_gif);
+
+        /*
+        //txt顯示SharedPreferences-UserName
+        TextView txtUserData = findViewById(R.id.txtUserData);
+        txtUserData.setText(read());
+         */
     }
 
-
+    /*
+    private String read(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料")+sharedPreferences.getString("UserName","未存任何資料");
+    }
+    */
 
 }
