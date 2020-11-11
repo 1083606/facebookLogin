@@ -53,6 +53,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         //holder.title.setText(mData.get(position).getTitle());
         holder.content.setText(mData.get(position).getContent());
         holder.updated_at.setText(mData.get(position).getUpdated_at());
+        holder.likesNum.setText(mData.get(position).getLikesNum());
 
 
     }
@@ -84,6 +85,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         //TextView title;
         TextView content;
         TextView updated_at;
+        TextView likesNum;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +95,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
             //title=itemView.findViewById(R.id.txtTitle);
             content=itemView.findViewById(R.id.txtContent);
             updated_at=itemView.findViewById(R.id.txtUpdated_at);
+            likesNum=itemView.findViewById(R.id.txtLikesNum);
         }
 
     }

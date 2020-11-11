@@ -8,11 +8,12 @@ public class post {
     String content;
     String created_at;
     String updated_at;
+    String likesNum;
 
     public post() {
     }
 
-    public post(String post_id, String habbit_cat_name, String user_id, String user_name, String content, String created_at, String updated_at) {
+    public post(String post_id, String habbit_cat_name, String user_id, String user_name, String content, String created_at, String updated_at, String likesNum) {
         this.post_id = post_id;
         this.habbit_cat_name = habbit_cat_name;
         this.user_id = user_id;
@@ -20,6 +21,7 @@ public class post {
         this.content = content;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.likesNum=likesNum;
     }
 
     //getter------------------------
@@ -50,7 +52,12 @@ public class post {
     public String getHabbit_cat_name() {
         return habbit_cat_name;
     }
-//setter------------------------
+
+    public String getLikesNum() {
+        return likesNum;
+    }
+
+    //setter------------------------
 
     public void setPost_id(String post_id) {
         this.post_id = post_id;
@@ -78,5 +85,9 @@ public class post {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public void setLikesNum(String likesNum) {
+        this.likesNum = likesNum;
     }
 }
