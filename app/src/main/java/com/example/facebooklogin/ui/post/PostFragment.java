@@ -32,6 +32,8 @@ import com.example.facebooklogin.R;
 import com.example.facebooklogin.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +56,8 @@ public class PostFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private List<post> lstPost;
     //-------------------------------
+    private com.like.LikeButton likeButton;
+    //---------------
     private static String Json_URL = "http://140.131.114.140/chatbot109204/data/countLikes.php";
 
     SwipeRefreshLayout swipeRefreshLayout;
@@ -77,6 +81,22 @@ public class PostFragment extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
 
+        //--------------------------------------
+        likeButton=(com.like.LikeButton) v.findViewById(R.id.likeButton);
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
+
+        //--------------------------------------
+
         //下拉更新--------------
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -90,9 +110,7 @@ public class PostFragment extends Fragment {
             }
         });
         //--------------------------------------
-
-        String [] values =
-                {"全部","自己","按讚的","讀書","喝水","運動","早睡"};
+        String [] values ={"全部","自己","按讚的","讀書","喝水","運動","早睡"};
         Spinner spinner = (Spinner) v.findViewById(R.id.spinnerHabbitCat);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, values);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -168,8 +186,8 @@ public class PostFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray jsonArray = jsonObject.getJSONArray("records");
 
-                //for (int i=0;i<jsonArray.length();i++){
-                for (int i=jsonArray.length()-1;i>0;i--){
+                for (int i=0;i<jsonArray.length();i++){
+                //for (int i=jsonArray.length()-1;i>0;i--){
                     JSONObject jsonObject1=jsonArray.getJSONObject(i);
                     post model= new post();
                     model.setPost_id(jsonObject1.getString("post_id"));
@@ -179,6 +197,7 @@ public class PostFragment extends Fragment {
                     model.setContent(jsonObject1.getString("content"));
                     model.setCreated_at(jsonObject1.getString("created_at"));
                     model.setUpdated_at(jsonObject1.getString("updated_at"));
+                    model.setLikesNum(jsonObject1.getString("likesNum"));
 
                     lstPost.add(model);
                 }
