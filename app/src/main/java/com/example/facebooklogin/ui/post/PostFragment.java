@@ -83,6 +83,7 @@ public class PostFragment extends Fragment {
 
         //--------------------------------------
         likeButton=(com.like.LikeButton) v.findViewById(R.id.likeButton);
+        /*
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -94,7 +95,7 @@ public class PostFragment extends Fragment {
 
             }
         });
-
+        */
         //--------------------------------------
 
         //下拉更新--------------
