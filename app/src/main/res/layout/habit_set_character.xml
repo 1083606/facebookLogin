@@ -44,13 +44,24 @@
             android:textColor="@android:color/holo_blue_dark"
             android:textStyle="bold" />
 
+
+        <Spinner
+            android:id="@+id/spinnerRoleCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:outlineAmbientShadowColor="#FFFFFF"
+            android:padding="16dp" />
+
         <EditText
-            android:id="@+id/editText_name"
+            android:id="@+id/editRole_name"
             style="@style/RegularMono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="30dp"
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="16dp"
@@ -63,7 +74,7 @@
 
 
         <EditText
-            android:id="@+id/editText_mobile"
+            android:id="@+id/editNick_name"
             style="@style/RegularMono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

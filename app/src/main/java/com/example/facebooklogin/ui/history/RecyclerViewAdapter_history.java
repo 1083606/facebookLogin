@@ -59,9 +59,9 @@ public class RecyclerViewAdapter_history extends RecyclerView.Adapter<RecyclerVi
             super(itemView);
 
             txt_habitName = (TextView) itemView.findViewById(R.id.txt_habitName);
-            txt_contiDay = (TextView) itemView.findViewById(R.id.txt_contiDay);
-            txt_accumDay = (TextView) itemView.findViewById(R.id.txt_accumDay);
-            txt_maxContiDay = (TextView) itemView.findViewById(R.id.txt_maxContiDay);
+            txt_contiDay = (TextView) itemView.findViewById(R.id.txt_habbit_status);
+            txt_accumDay = (TextView) itemView.findViewById(R.id.txt_completion);
+            txt_maxContiDay = (TextView) itemView.findViewById(R.id.txt_max_completic);
         }
     }
 }
