@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     //.setMessage("You don't have time for shopping, Visit our website for online shopping with discount price.")
                     .setPositiveBtnText("確定")
                     .setPositiveBtnBackground("#22b573")
-                    .setNegativeBtnText("Cancel")
+                    .setNegativeBtnText("取消")
                     .setNegativeBtnBackground("#c1272d")
                     .setGifResource(R.drawable.chicken_gif)      //pass your gif, png or jpg
                     .isCancellable(true)

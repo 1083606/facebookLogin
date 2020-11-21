@@ -36,10 +36,9 @@ public class RecyclerViewAdapter_history extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.txt_habitName.setText(mData.get(position).getHabitName());
-        holder.txt_contiDay.setText(mData.get(position).getContiDay());
-        holder.txt_accumDay.setText(mData.get(position).getAccumDay());
-        holder.txt_maxContiDay.setText(mData.get(position).getMaxContiDay());
+        holder.txt_habitName.setText(mData.get(position).getHabbit_name());
+        holder.txt_habbit_status.setText(mData.get(position).getHabbit_status());
+        holder.txt_completion.setText(mData.get(position).getCompletion());
         //holder.txt_post.setText(mData.get(position).getName());
 
     }
@@ -51,17 +50,15 @@ public class RecyclerViewAdapter_history extends RecyclerView.Adapter<RecyclerVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView txt_habitName;
-        private TextView txt_contiDay;
-        private TextView txt_accumDay;
-        private TextView txt_maxContiDay;
+        private TextView txt_habbit_status;
+        private TextView txt_completion;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txt_habitName = (TextView) itemView.findViewById(R.id.txt_habitName);
-            txt_contiDay = (TextView) itemView.findViewById(R.id.txt_habbit_status);
-            txt_accumDay = (TextView) itemView.findViewById(R.id.txt_completion);
-            txt_maxContiDay = (TextView) itemView.findViewById(R.id.txt_max_completic);
+            txt_habbit_status = (TextView) itemView.findViewById(R.id.txt_habbit_status);
+            txt_completion = (TextView) itemView.findViewById(R.id.txt_completion);
         }
     }
 }
