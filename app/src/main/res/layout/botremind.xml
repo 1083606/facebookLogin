@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+
+        android:id="@+id/botask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bot_bubble"
+        android:checkable="true"
+        android:clickable="true"
+        android:elevation="3dp"
+        android:focusable="true"
+        android:padding="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/asktext"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:text="今天喝水了嗎?">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <!--        <Button-->
+        <!--            android:id="@+id/ansyes"-->
+        <!--            android:layout_width="35dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="是"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.TextButton"-->
+        <!--            android:textSize="13dp"-->
+        <!--            android:layout_marginTop="18dp"-->
+        <!--            android:layout_marginLeft="15dp"/>-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/ansno"-->
+        <!--            android:layout_width="35dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="否"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.TextButton"-->
+        <!--            android:textSize="13dp"-->
+        <!--            android:layout_marginTop="18dp"-->
+        <!--            android:layout_marginLeft="50dp"/>-->
+
+        <Button
+            android:id="@+id/btnans"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/btncolorswitch"
+            android:onClick="example"
+            android:text="完成 !"
+            android:textColor="#515050" />
+
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

@@ -43,7 +43,7 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
-            android:name=".ChatroomActivity"
+            android:name=".ChatActivity"
             android:label="@string/title_activity_ChatroomActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
@@ -80,6 +80,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <!-- 當鬧鈴時間到達時要執行的程式 -->
+        <receiver android:name=".AlarmRemind">
+            <intent-filter>
+                <action android:name="activity_app" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

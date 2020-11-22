@@ -102,7 +102,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity {
         about=edtabout.getText().toString();
         */
         Intent intent = new Intent();
-        intent.setClass(HabitSetCharacterActivity.this ,ChatroomActivity.class);
+        intent.setClass(HabitSetCharacterActivity.this ,ChatActivity.class);
         startActivity(intent);
     }
 
