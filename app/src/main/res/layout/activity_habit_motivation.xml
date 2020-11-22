@@ -39,21 +39,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/eTxtOriginal_intention"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bg_round_button"
-                android:maxLines="3"
                 android:padding="10dp"
                 android:scrollbars="vertical"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:textColor="#757575"
                 android:textLocale="center"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/txt_habbit_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
@@ -69,15 +68,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/eTxtGoodness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bg_round_button"
-                android:maxLines="3"
                 android:padding="10dp"
                 android:scrollbars="vertical"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:textColor="#757575"
                 android:textLocale="center"
                 android:textSize="18sp" />
@@ -99,14 +97,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/eTxtBadness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_round_button"
-                android:maxLines="3"
                 android:padding="10dp"
                 android:scrollbars="vertical"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:textColor="#757575"
                 android:textLocale="center"
                 android:textSize="18sp" />

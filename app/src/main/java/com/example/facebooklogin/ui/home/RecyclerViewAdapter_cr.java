@@ -1,10 +1,9 @@
-package com.example.facebooklogin.ui.post;
+package com.example.facebooklogin.ui.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,12 +13,12 @@ import com.example.facebooklogin.R;
 
 import java.util.List;
 
-public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewAdapter_post.MyViewHolder> {
+public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAdapter_cr.MyViewHolder> {
 
     private Context mContext;
-    private List<post> mData;
+    private List<cr> mData;
 
-    public RecyclerViewAdapter_post(Context mContext, List<post> mData) {
+    public RecyclerViewAdapter_cr(Context mContext, List<cr> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -40,7 +39,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v;
-        v = LayoutInflater.from(mContext).inflate(R.layout.item_post,parent,false);
+        v = LayoutInflater.from(mContext).inflate(R.layout.item_cr,parent,false);
         MyViewHolder vHolder = new MyViewHolder(v,mListener);
         return vHolder;
          /*
@@ -53,12 +52,10 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.habbit_cat_name.setText(mData.get(position).getHabbit_cat_name());
-        holder.user_name.setText(mData.get(position).getUser_name());
-        //holder.title.setText(mData.get(position).getTitle());
-        holder.content.setText(mData.get(position).getContent());
+        holder.role_name.setText(mData.get(position).getRole_name());
+        holder.habbit_name.setText(mData.get(position).getHabbit_name());
         holder.updated_at.setText(mData.get(position).getUpdated_at());
-        holder.likesNum.setText(mData.get(position).getLikesNum());
+        //holder.title.setText(mData.get(position).getTitle());
     }
 
     @Override
@@ -67,27 +64,23 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView habbit_cat_name;
-        TextView user_name;
-        //TextView title;
-        TextView content;
+        TextView role_name;
+        TextView habbit_name;
         TextView updated_at;
-        TextView likesNum;
-        ImageView likeButton;
+        //ImageView likeButton;
 
         public MyViewHolder(@NonNull View itemView , OnItemClickListener listener) {
             super(itemView);
 
-            user_name=itemView.findViewById(R.id.txtUserData);
-            habbit_cat_name=itemView.findViewById(R.id.txtHabbit_cat_name);
+            role_name=itemView.findViewById(R.id.txt_role_name);
+            habbit_name=itemView.findViewById(R.id.txt_habbit_name);
+            updated_at=itemView.findViewById(R.id.txt_updated_at);
             //title=itemView.findViewById(R.id.txtTitle);
-            content=itemView.findViewById(R.id.txtContent);
-            updated_at=itemView.findViewById(R.id.txtUpdated_at);
-            likesNum=itemView.findViewById(R.id.txtLikesNum);
 
-            likeButton=itemView.findViewById(R.id.likeButton);
 
-            likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            //likeButton=itemView.findViewById(R.id.likeButton);
+
+            //likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,7 +92,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
                     }
                 }
             });
-
+            /*
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -112,6 +105,8 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
                     }
                 }
             });
+
+             */
 
         }
 

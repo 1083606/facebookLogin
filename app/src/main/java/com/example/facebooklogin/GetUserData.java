@@ -43,7 +43,7 @@ public class GetUserData extends AppCompatActivity {
     private Button btn_next,btn_datePicker;
     private Spinner spinnerUserGender;
 
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
     //userId,userName
@@ -118,7 +118,7 @@ public class GetUserData extends AppCompatActivity {
 
 
     //-------------------------------------
-    //post
+    //cr
     //-------------------------------------
     private class AsyncPost   extends AsyncTask<String,Void,String>
     {
@@ -214,7 +214,7 @@ public class GetUserData extends AppCompatActivity {
                 String result = jsonObject.getString("result");
                 int resultValue=Integer.parseInt(result);
                 if (resultValue==0){
-                    //post 成功，取出 data
+                    //cr 成功，取出 data
                     String data = jsonObject.getString("data");
                     //傳入成功，跳至"歡迎頁面"
                     Toast.makeText(GetUserData.this, result+data, Toast.LENGTH_SHORT).show();

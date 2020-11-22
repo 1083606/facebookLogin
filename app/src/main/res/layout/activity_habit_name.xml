@@ -37,37 +37,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/txtHabbit_name"
+            style="@style/RegularMono"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:weightSum="8">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="7"
-                app:srcCompat="@drawable/ic_flag_black_24dp"
-                tools:ignore="VectorDrawableCompat" />
-
-            <EditText
-                android:id="@+id/txtHabbit_name"
-                android:layout_width="314dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:background="#00F9F9F9"
-                android:gravity="left|center_vertical"
-                android:hint="輸入你想要養成的習慣"
-                android:paddingLeft="10dp"
-                android:shadowColor="#736E6E"
-                android:text=""
-                android:textColor="#1B1B1B"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+            android:drawableLeft="@drawable/ic_flag_black_24dp"
+            android:drawablePadding="16dp"
+            android:gravity="center"
+            android:hint="習慣名稱"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:textColorHint="#767676"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,33 +62,28 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:paddingTop="5dp"
-            android:weightSum="9">
+            android:weightSum="10"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp">
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:layout_weight="4"
+                android:layout_gravity="center|center_horizontal"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 app:srcCompat="@drawable/ic_toc_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="習慣類別"
-                android:textColor="#1B1B1B"
-                android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/spinnerHabbitCat"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="2"
-                android:gravity="right|center_vertical"
+                android:layout_gravity="center|center_horizontal"
+                android:layout_weight="9"
+                android:gravity="left|center_vertical"
                 android:outlineAmbientShadowColor="#F5F5F5"
                 android:outlineSpotShadowColor="#FFFFFF"
                 android:textSize="20sp" />

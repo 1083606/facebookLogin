@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ public class HabitNameActivity extends AppCompatActivity {
     ArrayList<String> habbitCatList = new ArrayList<>();
     ArrayAdapter<String> habbitCatAdapter;
     RequestQueue requestQueue;
+    String habbit_id="0";
 
 
     @Override
@@ -55,6 +57,7 @@ public class HabitNameActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    habbitCatList.add(0,"選擇習慣類別");
                     JSONArray  jsonArray = response.getJSONArray("records");
                     for (int i=0; i<jsonArray.length() ;i++){
                         JSONObject jsonObject=jsonArray.getJSONObject(i);
@@ -63,6 +66,17 @@ public class HabitNameActivity extends AppCompatActivity {
                         habbitCatAdapter = new ArrayAdapter<>(HabitNameActivity.this,R.layout.myspinner,habbitCatList);
                         habbitCatAdapter.setDropDownViewResource(R.layout.myspinner);
                         spinnerHabbitCat.setAdapter(habbitCatAdapter);
+                        spinnerHabbitCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                habbit_id=String.valueOf(spinnerHabbitCat.getSelectedItemPosition());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -83,13 +97,13 @@ public class HabitNameActivity extends AppCompatActivity {
 
         btn_next.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
-                if ( !("".equals(txtHabbit_name.getText().toString()))||!("".equals(String.valueOf(spinnerHabbitCat.getSelectedItemPosition()))))
+                if ( !("".equals(txtHabbit_name.getText().toString()))&&!("0".equals(String.valueOf(spinnerHabbitCat.getSelectedItemPosition()))))
                 {
                     Intent intent = new Intent();
                     intent.setClass(HabitNameActivity.this,HabitMotivationActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("habbit_name",txtHabbit_name.getText().toString());
-                    bundle.putString("habbit_id", String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1));
+                    bundle.putString("habbit_id", String.valueOf(spinnerHabbitCat.getSelectedItemPosition()));
                     intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                     startActivity(intent);
                 }
@@ -118,6 +132,8 @@ public class HabitNameActivity extends AppCompatActivity {
         //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
         return sharedPreferences.getString("UserID","未存任何資料")+sharedPreferences.getString("UserName","未存任何資料");
     }
-    */
+
+     */
+
 
 }

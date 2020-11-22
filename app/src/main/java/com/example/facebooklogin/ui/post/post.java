@@ -13,6 +13,7 @@ public class post {
     public post() {
     }
 
+
     public post(String post_id, String habbit_cat_name, String user_id, String user_name, String content, String created_at, String updated_at, String likesNum) {
         this.post_id = post_id;
         this.habbit_cat_name = habbit_cat_name;

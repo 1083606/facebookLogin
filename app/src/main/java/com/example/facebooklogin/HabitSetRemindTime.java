@@ -1,22 +1,25 @@
 package com.example.facebooklogin;
 
-import android.app.DatePickerDialog;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,78 +33,108 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-
-//-------------------------------
-
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-//-------------------------------
 
-public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener {
-    String user_id,habbit_name,habbit_id,original_intention,goodness,badness;
-
-    TextView mTimeTextView;
-    TextView mPickPunchTime;
-    ImageView imgmPickPunchTime;
-    Context mContext = this;
+public class HabitSetRemindTime extends AppCompatActivity implements View.OnClickListener{
+    //------------------------------
+    LinearLayout layoutList;
+    Button buttonAdd;
     Button btn_next;
-    Spinner spinnerDays;
-    Button buttonSubmitList;
-
+    //ArrayList<Remindertime> remindertimesList = new ArrayList<>();
+    ArrayList<String> remindertimesList = new ArrayList<>();
+    Context mContext = this;
+    //------------------------------
+    String chatroom_id;
     //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    @Override
-    protected void onCreate (Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_habit_set_time);
 
-        user_id=readUserID();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_habit_set_remind_time);
+
+        //------------------------------
+        layoutList = findViewById(R.id.layout_list);
+        buttonAdd = findViewById(R.id.button_add);
+        buttonAdd.setOnClickListener(this);
+        btn_next = findViewById(R.id.btn_next);
+        btn_next.setOnClickListener(this);
+        //-----------------------
 
         //接收從HabitMotivationActivity的bundle
         Bundle bundle = getIntent().getExtras();
-        habbit_name = bundle.getString("habbit_name");
-        habbit_id = bundle.getString("habbit_id");
-        original_intention =bundle.getString("original_intention");
-        goodness=bundle.getString("goodness");
-        badness=bundle.getString("badness");
+        chatroom_id = bundle.getString("chatroom_id");
 
-        mTimeTextView = (TextView) findViewById(R.id.time_text_view);
-        Calendar calendar = Calendar.getInstance();
-        btn_next = findViewById(R.id.btn_next);
-        spinnerDays=findViewById(R.id.spinnerDays);
+    }
 
-        buttonSubmitList = findViewById(R.id.btn_next);
-        buttonSubmitList.setOnClickListener(this);
+    //------------------------------
+    public void onClick(View v) {
+        switch (v.getId()){
 
-        final  int hour = calendar.get(calendar.HOUR_OF_DAY);
-        final  int minute = calendar.get(calendar.MINUTE);
+            case R.id.button_add:
+                addView();
+                break;
 
-        mPickPunchTime = (TextView) findViewById(R.id.mPickPunchTime);
-        imgmPickPunchTime = (ImageView) findViewById(R.id.imgmPickPunchTime);
+            case R.id.btn_next:
+                if (checkIfValidAndRead()){
+                    for (int i = 0; i< remindertimesList.size(); i++) {
+                        new AsyncPostaddRemindTime().execute(chatroom_id,remindertimesList.get(i));
+                    }
+                    GoChatRoom();
+                    //Toast.makeText(this, remindertimesList.get(1), Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
 
-        mPickPunchTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                   @Override
-                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       mPickPunchTime.setText(hourOfDay+":"+minute);
-                   }
-               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-               timePickerDialog.show();
+    private boolean checkIfValidAndRead() {
+        remindertimesList.clear();
+        boolean result = true;
+
+        for(int i=0;i<layoutList.getChildCount();i++){
+            String time="0";
+
+            View remindertimeView = layoutList.getChildAt(i);
+
+            TextView text_remindertime = (TextView)remindertimeView.findViewById(R.id.text_remindertime);
+            //AppCompatSpinner spinnerTeam = (AppCompatSpinner)cricketerView.findViewById(R.id.spinner_team);
+
+            //Remindertime remindertime = new Remindertime();
+
+            if(!text_remindertime.getText().toString().equals("")){
+                time=text_remindertime.getText().toString();
+                //remindertime.setReminderTime(text_remindertime.getText().toString());
+            }else {
+                result = false;
+                break;
             }
-        });
+            remindertimesList.add(time);
+        }
 
-        imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
+        if(remindertimesList.size()==0){
+            result = false;
+            Toast.makeText(this, "請輸入完整", Toast.LENGTH_SHORT).show();
+        }else if(!result){
+            Toast.makeText(this, "請輸入完整", Toast.LENGTH_SHORT).show();
+        }
+        return result;
+    }
+
+    private void addView() {
+
+        final View remindertimeView = getLayoutInflater().inflate(R.layout.row_add_remindertime,null,false);
+
+        TextView text_remindertime = (TextView)remindertimeView.findViewById(R.id.text_remindertime);
+        //AppCompatSpinner spinnerTeam = (AppCompatSpinner)remindertimeView.findViewById(R.id.spinner_team);
+        ImageView imageClose = (ImageView)remindertimeView.findViewById(R.id.image_remove);
+
+        //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,teamList);
+        //spinnerTeam.setAdapter(arrayAdapter);
+
+
+        text_remindertime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int hour = 0;
@@ -109,47 +142,33 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         DecimalFormat decimalFormat = new DecimalFormat("00");
-                        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
+                        text_remindertime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
                     }
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
                 timePickerDialog.show();
             }
         });
 
-        btn_next = findViewById(R.id.btn_next);
-        // 按下下一步按鈕 觸發事件
-        btn_next.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View arg0) {
-                if ( !("點擊設定".equals(mPickPunchTime.getText().toString()))&& !("".equals(spinnerDays.getSelectedItem().toString())))
-                {
-                    String habbit_status="0";
-                    String signed_time=mPickPunchTime.getText().toString();
-                    String days=spinnerDays.getSelectedItem().toString();
-                    new AsyncPostcreateChatRoom().execute(user_id,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days);
-
-                }
-                else {
-                    Toast.makeText(HabitSetTimeActivity.this, "請入完整!", Toast.LENGTH_SHORT).show();
-                }
+        imageClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeView(remindertimeView);
             }
         });
+        layoutList.addView(remindertimeView);
     }
 
-    @Override
-    public void onClick(View v) {
+    private void removeView(View view){
+        layoutList.removeView(view);
     }
-
-    private String readUserID(){
-        SharedPreferences preferences = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
-        return preferences.getString("UserID","未存任何資料");
-    }
-
+    //原本設定每日提醒時間 END------
+    //------------------------------
 
     //--------------------------------------------------------------------------
     //-------------------------------------
     //Post createChatRoom
     //-------------------------------------
-    public class AsyncPostcreateChatRoom   extends AsyncTask<String,Void,String>
+    public class AsyncPostaddRemindTime   extends AsyncTask<String,Void,String>
     {
         HttpURLConnection conn;
         URL url = null;
@@ -162,7 +181,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("http://140.131.114.140/chatbot109204/data/createChatRoom.php");
+                url = new URL("http://140.131.114.140/chatbot109204/data/addRemindTime.php");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -180,15 +199,8 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 // Append parameters to URL
                 //user_id,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days,nick_name
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("user_id", params[0])
-                        .appendQueryParameter("habbit_id", params[1])
-                        .appendQueryParameter("habbit_name", params[2])
-                        .appendQueryParameter("habbit_status", params[3])
-                        .appendQueryParameter("signed_time", params[4])
-                        .appendQueryParameter("original_intention", params[5])
-                        .appendQueryParameter("goodness", params[6])
-                        .appendQueryParameter("badness", params[7])
-                        .appendQueryParameter("days", params[8]);
+                        .appendQueryParameter("chatroom_id", params[0])
+                        .appendQueryParameter("remind_time", params[1]);
                 String query = builder.build().getEncodedQuery();
 
                 // Open connection for sending data
@@ -236,23 +248,25 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 int result = Integer.valueOf(jsonObject.getString("result")).intValue();
                 if (result==0){
                     String data = jsonObject.getString("data");
-                    String chatroom_id=jsonObject.getString("chatroom_id");
-                    Toast.makeText(HabitSetTimeActivity.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
+                    String remind_id=jsonObject.getString("remind_id");
+                    //Toast.makeText(HabitSetRemindTime.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
 
-
+                    /*
                     //post成功，跳至HabitSetCharacterActivity
                     //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.setClass(HabitSetTimeActivity.this,HabitSetCharacterActivity.class);
+                    intent.setClass(HabitSetRemindTime.this,ChatroomActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("chatroom_id",chatroom_id);
                     intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                     startActivity(intent);
 
+                     */
+
                 }else {
                     String data = jsonObject.getString("data");
                     String error = jsonObject.getString("error");
-                    Toast.makeText(HabitSetTimeActivity.this, result+data + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HabitSetRemindTime.this, result+data + error, Toast.LENGTH_SHORT).show();
                 }
             }
             catch(JSONException e) {
@@ -260,4 +274,15 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
             }
         }
     }
+
+    //去chatRoom
+    private void GoChatRoom(){
+        Intent intent = new Intent();
+        intent.setClass(HabitSetRemindTime.this,ChatroomActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("chatroom_id",chatroom_id);
+        intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(intent);
+    }
+
 }

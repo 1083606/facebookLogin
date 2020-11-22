@@ -8,13 +8,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout3"
             android:layout_width="328dp"
             android:layout_height="191dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/bg_round_button"
             android:elevation="6dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,13 +42,13 @@
                 android:text="設置堅持天數"
                 android:textColor="#767676"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/spinnerUserGender"
+                app:layout_constraintEnd_toStartOf="@+id/spinnerDays"
                 app:layout_constraintHorizontal_bias="0.03"
                 app:layout_constraintStart_toStartOf="@+id/time_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/time_text_view" />
 
             <Spinner
-                android:id="@+id/spinnerUserGender"
+                android:id="@+id/spinnerDays"
                 android:layout_width="100dp"
                 android:layout_height="26dp"
                 android:layout_marginEnd="28dp"
@@ -68,7 +68,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginRight="26dp"
                 android:background="#00FFFFFF"
-                app:layout_constraintBottom_toTopOf="@+id/spinnerUserGender"
+                app:layout_constraintBottom_toTopOf="@+id/spinnerDays"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/time_text_view"
@@ -87,7 +87,7 @@
                 android:text="點擊設定"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/spinnerUserGender"
+                app:layout_constraintBottom_toTopOf="@+id/spinnerDays"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/time_text_view"
@@ -106,6 +106,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- 原本設定每日提醒時間
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="328dp"
@@ -172,22 +173,25 @@
                 android:textColor="@color/white"></Button>
 
         </LinearLayout>
+        原本設定每日提醒時間-->
 
         <Button
             android:id="@+id/btn_next"
-            android:layout_width="328dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_margin="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/round_yellow"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="下一步"
             android:textAllCaps="false"
             android:textColor="@color/dark_grey"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"></Button>
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"></Button>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
