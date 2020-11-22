@@ -1,173 +1,217 @@
 package com.example.facebooklogin;
 
-import androidx.annotation.CallSuper;
-import androidx.annotation.UiThread;
+import com.example.facebooklogin.ChatRemind;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import com.example.facebooklogin.bean.Message;
-import android.view.View;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.facebooklogin.bean.MsgSendStatus;
-import com.example.facebooklogin.bean.MsgType;
-import com.example.facebooklogin.bean.TextMsgBody;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+//import static com.example.facebooklogin.ChatRemind.strToDateLong;
 
-public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class ChatActivity extends AppCompatActivity {
 
-    @BindView(R.id.llContent)
-    LinearLayout mLlContent;
-    @BindView(R.id.rv_chat_list)
-    RecyclerView mRvChat;
-    @BindView(R.id.et_content)
-    EditText mEtContent;
-    @BindView(R.id.bottom_layout)
-    RelativeLayout mRlBottomLayout;//表情,添加底部布局
-    @BindView(R.id.ivAdd)
-    ImageView mIvAdd;
-    @BindView(R.id.btn_send)
-    StateButton mBtnSend;//发送按钮
-    LinearLayout mLlEmotion;//表情布局
-    @BindView(R.id.llAdd)
-    LinearLayout mLlAdd;//添加布局
-    @BindView(R.id.swipe_chat)
-    SwipeRefreshLayout mSwipeRefresh;//下拉刷新
-    private ChatAdapter mAdapter;
-    public static final String 	  mSenderId="right";
-    public static final String     mTargetId="left";
-    public static final int       REQUEST_CODE_IMAGE=0000;
-    public static final int       REQUEST_CODE_VEDIO=1111;
-    public static final int       REQUEST_CODE_FILE=2222;
+    EditText userInput;
+    RecyclerView recyclerView;
+    ChatAdapter messageAdapter;
+    List<Response> responseMessageList;
+    //TextView mTxtAnswer;
+    Handler handler;
+    TextView remind;
+    private static Context context;
+
+    //post
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        initContent();
-    }
+        userInput = findViewById(R.id.userInput);
+        recyclerView = findViewById(R.id.conversation);
+        responseMessageList = new ArrayList<>();
+        messageAdapter = new ChatAdapter(responseMessageList, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(messageAdapter);
+        ChatActivity.context = ChatActivity.this;
 
-
-    private    ImageView  ivAudio;
-
-    protected void initContent() {
-        ButterKnife.bind(this) ;
-        mAdapter=new ChatAdapter(this, new ArrayList<com.example.facebooklogin.bean.Message>());
-        LinearLayoutManager mLinearLayout=new LinearLayoutManager(this);
-        mRvChat.setLayoutManager(mLinearLayout);
-        mRvChat.setAdapter(mAdapter);
-        mSwipeRefresh.setOnRefreshListener(this);
-        initChatUi();
-    }
-
-    @Override
-    public void onRefresh() {
-        //下拉刷新模拟获取历史消息
-        List<Message> mReceiveMsgList=new ArrayList<Message>();
-        //构建文本消息
-        Message mMessgaeText=getBaseReceiveMessage(MsgType.TEXT);
-        TextMsgBody mTextMsgBody=new TextMsgBody();
-        mTextMsgBody.setMessage("收到的消息");
-        mReceiveMsgList.add(mMessgaeText);
-    }
-
-    private void initChatUi(){
-        //底部布局弹出,聊天列表上滑
-        mRvChat.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        userInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (bottom < oldBottom) {
-                    mRvChat.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mAdapter.getItemCount() > 0) {
-                                mRvChat.smoothScrollToPosition(mAdapter.getItemCount() - 1);
-                            }
-                        }
-                    });
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    Response responseMessage = new Response(userInput.getText().toString(), true,false);
+                    responseMessageList.add(responseMessage);
+                    //AnswerPost(userInput.getText().toString());
+                    String input = userInput.getText().toString();
+                    userInput.setText(null);
+                    new AsyncPostGetAnswer().execute(input);
+
+                    /*
+                    Response responseMessage2 = new Response(returnAnswer,false);
+                    responseMessageList.add(responseMessage2);
+                    messageAdapter.notifyDataSetChanged();
+                    userInput.setText(null);
+                    if (!isLastVisible())
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        userInput.setText(null);
+
+                     */
+//                      AnswerPost(userInput.getText().toString());
                 }
+                return false;
             }
         });
     }
 
-    @OnClick({R.id.btn_send})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_send:
-                sendTextMsg(mEtContent.getText().toString());
-                mEtContent.setText("");
-                break;
+
+
+    boolean isLastVisible() {
+        LinearLayoutManager layoutManager = ((LinearLayoutManager) recyclerView.getLayoutManager());
+        int pos = layoutManager.findLastCompletelyVisibleItemPosition();
+        int numItems = recyclerView.getAdapter().getItemCount();
+        return (pos >= numItems);
+    }
+
+
+    //--------------------------------------------------------------------------
+    //-------------------------------------
+    //POST
+    //-------------------------------------
+    public class AsyncPostGetAnswer   extends AsyncTask<String,Void,String>
+    {
+        HttpURLConnection conn;
+        URL url = null;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                // Enter URL address where your php file resides
+                url = new URL("https://0b970a9ecdbf.ngrok.io");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("question", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, StandardCharsets.UTF_8));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+            try {
+                int response_code = conn.getResponseCode();
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return(String.valueOf(result));
+                }else{
+                    return("unsuccessful");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+        @Override
+        protected void onPostExecute(String strUTF8) {
+            //mTxtResult.setText(strUTF8);
+            try{
+                JSONObject jsonObject = new JSONObject(strUTF8);
+                String answer = jsonObject.getString("answer");
+                returnAnswer(answer);
+                //Toast.makeText(ChatActivity.this, answer, Toast.LENGTH_LONG).show();
+//                checkResultData(Integer.parseInt(result));
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    //文本消息
-    private void sendTextMsg(String hello)  {
-        final Message mMessgae=getBaseSendMessage(MsgType.TEXT);
-        TextMsgBody mTextMsgBody=new TextMsgBody();
-        mTextMsgBody.setMessage(hello);
-        //开始发送
-        mAdapter.addData(hello);
-        //模拟两秒后发送成功
-        updateMsg(mMessgae);
+    private void returnAnswer(String answer) {
+        String returnAnswer=answer;
+        Response responseMessage2 = new Response(returnAnswer,false,false);
+        responseMessageList.add(responseMessage2);
+        messageAdapter.notifyDataSetChanged();
+        userInput.setText(null);
+        if (!isLastVisible())
+            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+        userInput.setText(null);
+    }
+    public static Context getChatActivityContext(){
+        return ChatActivity.context;
     }
 
-    private Message getBaseSendMessage(MsgType msgType){
-        Message mMessgae=new Message();
-        mMessgae.setUuid(UUID.randomUUID()+"");
-        mMessgae.setSenderId(mSenderId);
-        mMessgae.setTargetId(mTargetId);
-        mMessgae.setSentTime(System.currentTimeMillis());
-        mMessgae.setSentStatus(MsgSendStatus.SENDING);
-        mMessgae.setMsgType(msgType);
-        return mMessgae;
-    }
-
-
-    private Message getBaseReceiveMessage(MsgType msgType){
-        Message mMessgae=new Message();
-        mMessgae.setUuid(UUID.randomUUID()+"");
-        mMessgae.setSenderId(mTargetId);
-        mMessgae.setTargetId(mSenderId);
-        mMessgae.setSentTime(System.currentTimeMillis());
-        mMessgae.setSentStatus(MsgSendStatus.SENDING);
-        mMessgae.setMsgType(msgType);
-        return mMessgae;
-    }
-
-
-    private void updateMsg(final Message mMessgae) {
-        mRvChat.scrollToPosition(mAdapter.getItemCount() - 1);
-        //模拟2秒后发送成功
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                int position=0;
-                mMessgae.setSentStatus(MsgSendStatus.SENT);
-                //更新单个子条目
-                for (int i=0;i<mAdapter.getData().size();i++){
-                    Message mAdapterMessage=mAdapter.getData().get(i);
-                    if (mMessgae.getUuid().equals(mAdapterMessage.getUuid())){
-                        position=i;
-                    }
-                }
-                mAdapter.notifyItemChanged(position);
-            }
-        }, 2000);
-
-    }
 }

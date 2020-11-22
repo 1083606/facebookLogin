@@ -68,10 +68,6 @@ dependencies {
     //fragment 跳轉
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha09'
 
-    //butterknife(取代findViewById)
-    implementation 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
     //BaseRecyclerViewAdapterHelper
     //https://vimsky.com/zh-tw/examples/detail/java-class-com.chad.library.adapter.base.BaseQuickAdapter.html
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
@@ -79,8 +75,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
-//    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-//    implementation 'androidx.cardview:cardview:1.0.0'
+
     implementation 'com.android.support:recyclerview-v7:29.0.0'
     implementation 'com.android.support:cardview-v7:29.0.0'
     implementation 'com.android.support:appcompat-v7:29.0.0'
@@ -91,7 +86,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
-
 
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
 
@@ -121,6 +115,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.volley:volley:1.1.1'
 
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
     implementation 'com.karumi:dexter:6.2.2'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
