@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-
+    <!--
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="170dp"
@@ -46,4 +46,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_home"
         app:layout_constraintVertical_bias="0.191" />
+        -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

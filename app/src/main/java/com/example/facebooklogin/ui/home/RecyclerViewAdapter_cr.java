@@ -1,6 +1,7 @@
 package com.example.facebooklogin.ui.home;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebooklogin.R;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import com.bumptech.glide.Glide;
 
 public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAdapter_cr.MyViewHolder> {
 
@@ -55,6 +61,11 @@ public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAda
         holder.role_name.setText(mData.get(position).getRole_name());
         holder.habbit_name.setText(mData.get(position).getHabbit_name());
         holder.updated_at.setText(mData.get(position).getUpdated_at());
+        //image----------------
+
+        String uri = mData.get(position).getRole_photo();
+        Glide.with(holder.itemView.getContext()).load(uri).into(holder.circleImageView);
+
         //holder.title.setText(mData.get(position).getTitle());
     }
 
@@ -67,6 +78,7 @@ public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAda
         TextView role_name;
         TextView habbit_name;
         TextView updated_at;
+        CircleImageView circleImageView;
         //ImageView likeButton;
 
         public MyViewHolder(@NonNull View itemView , OnItemClickListener listener) {
@@ -75,6 +87,7 @@ public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAda
             role_name=itemView.findViewById(R.id.txt_role_name);
             habbit_name=itemView.findViewById(R.id.txt_habbit_name);
             updated_at=itemView.findViewById(R.id.txt_updated_at);
+            circleImageView = itemView.findViewById(R.id.role_photo);
             //title=itemView.findViewById(R.id.txtTitle);
 
 
