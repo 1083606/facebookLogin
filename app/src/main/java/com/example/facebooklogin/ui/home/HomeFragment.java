@@ -57,8 +57,8 @@ public class HomeFragment extends Fragment {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    String user_id;
-    String message,page="Yes";
+    String user_id="104560211270091";
+    String message,page="No";
     String click_crId;
     //private static String Json_URL = "http://140.131.114.140/chatbot109204/data/countLikes.php";
 
@@ -82,9 +82,9 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        user_id=readUserID();
+        //user_id=readUserID();
         Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
-        new AsyncPostReturnUserChatroomBool().execute(user_id);
+        //new AsyncPostReturnUserChatroomBool().execute(user_id);
 
         Toast.makeText(getActivity(),page,Toast.LENGTH_SHORT).show();
 
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                     recyclerViewAdapter_cr.notifyDataSetChanged();
                     lstCr.clear();
                     lstCr = new ArrayList<>();
-                    new AsyncPostselectChatroomID().execute(user_id);
+                    //new AsyncPostselectChatroomID().execute(user_id);
                 }
             });
             //--------------------------------------
@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
-
+    /*
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +158,8 @@ public class HomeFragment extends Fragment {
 //        getData.execute(user_id);
     }
 
+     */
+    /*
     public class AsyncPostselectChatroomID   extends AsyncTask<String,Void,String>
     {
         HttpURLConnection conn;
@@ -388,6 +390,8 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
+     */
 
 
 }

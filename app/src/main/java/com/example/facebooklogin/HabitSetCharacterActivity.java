@@ -229,7 +229,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
                                 public void OnClick() {
                                     //點選"確認"
                                     Intent intent = new Intent();
-                                    intent.setClass(HabitSetCharacterActivity.this ,ChatroomActivity.class);
+                                    intent.setClass(HabitSetCharacterActivity.this ,ChatActivity.class);
                                     startActivity(intent);
                                 }
                             })

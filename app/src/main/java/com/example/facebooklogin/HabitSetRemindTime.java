@@ -278,7 +278,7 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
     //去chatRoom
     private void GoChatRoom(){
         Intent intent = new Intent();
-        intent.setClass(HabitSetRemindTime.this,ChatroomActivity.class);
+        intent.setClass(HabitSetRemindTime.this,ChatActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("chatroom_id",chatroom_id);
         intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
