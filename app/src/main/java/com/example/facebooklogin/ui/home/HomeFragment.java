@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
     public static final int READ_TIMEOUT=15000;
 
     String user_id="104560211270091";
-    String message,page="No";
+    String message,page="yes";
     String click_crId;
     //private static String Json_URL = "http://140.131.114.140/chatbot109204/data/countLikes.php";
 
@@ -83,10 +83,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //user_id=readUserID();
-        Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
         //new AsyncPostReturnUserChatroomBool().execute(user_id);
 
-        Toast.makeText(getActivity(),page,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),page,Toast.LENGTH_SHORT).show();
 
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
         //-------------------------------------
         //判斷載入哪一個fragment---
         //-------------------------------------
-        if (page=="No"){
+        if (page=="yes"){
             //-----------如果此user無chatRoom
             v = inflater.inflate(R.layout.fragment_home, container, false);
             //------------------------------
@@ -119,6 +119,7 @@ public class HomeFragment extends Fragment {
         }
 
         else{
+            /*
             //------------------------------------
             ////-----------如果此user有chatRoom----
             v = inflater.inflate(R.layout.fragment_cr, container, false);
@@ -141,6 +142,8 @@ public class HomeFragment extends Fragment {
                 }
             });
             //--------------------------------------
+
+             */
         }
 
 
@@ -159,6 +162,8 @@ public class HomeFragment extends Fragment {
     }
 
      */
+
+
     /*
     public class AsyncPostselectChatroomID   extends AsyncTask<String,Void,String>
     {
@@ -392,7 +397,5 @@ public class HomeFragment extends Fragment {
     }
 
      */
-
-
 }
 

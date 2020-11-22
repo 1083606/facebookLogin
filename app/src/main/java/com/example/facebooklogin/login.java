@@ -417,6 +417,11 @@ public class login extends AppCompatActivity {
                 //已註冊過->直接到主頁
                 Intent intent = new Intent();
                 intent.setClass(login.this ,MainActivity.class );
+                Bundle bundle = new Bundle();
+                bundle.putString("UserID",userId);
+                bundle.putString("UserName",userName);
+                intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+
                 startActivity(intent);
                /*
                 //Test
