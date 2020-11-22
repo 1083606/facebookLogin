@@ -108,7 +108,6 @@ public class login extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d("response",response.toString());
                         getData(object);
-
                         Toast.makeText(login.this,"登入成功",Toast.LENGTH_LONG).show();
                     }
                 });
