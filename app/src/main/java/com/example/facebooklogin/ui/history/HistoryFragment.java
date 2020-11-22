@@ -40,7 +40,7 @@ import java.util.List;
 
 public class HistoryFragment extends Fragment {
     String userId,userName;
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -229,6 +229,9 @@ public class HistoryFragment extends Fragment {
                     model.setHabbit_status(jsonObject1.getString("habbit_status"));
                     model.setCompletion(jsonObject1.getString("completion"));
                     model.setMax_completion(jsonObject1.getString("max_completion"));
+                    model.setOriginal_intention(jsonObject1.getString("original_intention"));
+                    model.setGoodness(jsonObject1.getString("goodness"));
+                    model.setBadness(jsonObject1.getString("badness"));
                     model.setCreated_at(jsonObject1.getString("created_at"));
                     model.setUpdated_at(jsonObject1.getString("updated_at"));
                     lstHistory.add(model);

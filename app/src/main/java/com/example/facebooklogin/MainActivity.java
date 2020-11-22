@@ -1,5 +1,7 @@
 package com.example.facebooklogin;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
+import com.example.facebooklogin.ui.home.HomeFragment;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,10 +46,24 @@ public class MainActivity extends AppCompatActivity {
     //---------fb logout
     private CallbackManager callbackManager;
 
+    //傳值給HomeFragment
+    private FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //接收從getUserName的bundle
+        Bundle bundle = getIntent().getExtras();
+        UserName = bundle.getString("UserName");
+        UserID = bundle.getString("UserID");
+        //存 userID and userName 至手機本地端
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata" , MODE_PRIVATE);
+        sharedPreferences.edit().putString("UserID", UserID).apply();
+        sharedPreferences.edit().putString("UserName" , UserName).apply();
+        //Toast.makeText(MainActivity.this,UserID+UserName,Toast.LENGTH_SHORT).show();
+        //-------------------------------------------------
 
         //點選fab
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -102,26 +119,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //接收從getUserName的bundle
-        Bundle bundle = getIntent().getExtras();
-        UserName = bundle.getString("UserName");
-        UserID = bundle.getString("UserID");
-        //存 userID and userName 至手機本地端
-        SharedPreferences sharedPreferences = getSharedPreferences("Userdata" , MODE_PRIVATE);
-        sharedPreferences.edit().putString("UserID", UserID).apply();
-        sharedPreferences.edit().putString("UserName" , UserName).apply();
-        Toast.makeText(MainActivity.this,UserID+UserName,Toast.LENGTH_SHORT).show();
-
         //View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
-       // headerView.findViewById(R.id.txtUserName);
+        // headerView.findViewById(R.id.txtUserName);
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nav_userName);
         navUsername.setText(UserName);
         //txtUserName.setText(UserName);
-        //-------------------------------------------------
-
     }
 
     @Override

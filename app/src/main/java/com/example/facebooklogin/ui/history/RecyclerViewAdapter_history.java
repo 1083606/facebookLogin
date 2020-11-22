@@ -39,6 +39,10 @@ public class RecyclerViewAdapter_history extends RecyclerView.Adapter<RecyclerVi
         holder.txt_habitName.setText(mData.get(position).getHabbit_name());
         holder.txt_habbit_status.setText(mData.get(position).getHabbit_status());
         holder.txt_completion.setText(mData.get(position).getCompletion());
+
+        holder.txt_original_intention.setText(mData.get(position).getOriginal_intention());
+        holder.txt_goodness.setText(mData.get(position).getGoodness());
+        holder.txt_badness.setText(mData.get(position).getBadness());
         //holder.txt_post.setText(mData.get(position).getName());
 
     }
@@ -53,12 +57,21 @@ public class RecyclerViewAdapter_history extends RecyclerView.Adapter<RecyclerVi
         private TextView txt_habbit_status;
         private TextView txt_completion;
 
+        private TextView txt_original_intention;
+        private TextView txt_goodness;
+        private TextView txt_badness;
+
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txt_habitName = (TextView) itemView.findViewById(R.id.txt_habitName);
             txt_habbit_status = (TextView) itemView.findViewById(R.id.txt_habbit_status);
             txt_completion = (TextView) itemView.findViewById(R.id.txt_completion);
+            txt_original_intention = (TextView) itemView.findViewById(R.id.txt_original_intention);
+            txt_goodness = (TextView) itemView.findViewById(R.id.txt_goodness);
+            txt_badness = (TextView) itemView.findViewById(R.id.txt_badness);
+
         }
     }
 }

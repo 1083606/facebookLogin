@@ -1,7 +1,6 @@
 package com.example.facebooklogin.ui.post;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,9 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.RequestQueue;
-import com.example.facebooklogin.GetUserData;
 import com.example.facebooklogin.R;
-import com.example.facebooklogin.startdescription;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +42,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
 //import recyclerViewAdapter_post.OnItemClickListener;
 
 public class PostFragment extends Fragment {
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -81,7 +77,7 @@ public class PostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_post,container,false);
-        myrecyclerview = (RecyclerView) v.findViewById(R.id.post_recyclerview);
+        myrecyclerview = (RecyclerView) v.findViewById(R.id.cr_recyclerview);
         RecyclerViewAdapter_post recyclerViewAdapter_post = new RecyclerViewAdapter_post(getContext(),lstPost);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
@@ -133,7 +129,6 @@ public class PostFragment extends Fragment {
             try {
                 URL url;
                 HttpURLConnection urlConnection=null;
-
                 try {
                     url= new URL(Json_URL);
                     urlConnection = (HttpURLConnection)url.openConnection();
@@ -193,7 +188,7 @@ public class PostFragment extends Fragment {
 
     private void PutDataIntoRecyclerView(List<post> postList){
         //v = inflater.inflate(R.layout.fragment_post,container,false);
-        myrecyclerview = (RecyclerView) v.findViewById(R.id.post_recyclerview);
+        myrecyclerview = (RecyclerView) v.findViewById(R.id.cr_recyclerview);
         RecyclerViewAdapter_post recyclerViewAdapter_post = new RecyclerViewAdapter_post(getContext(),lstPost);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_post);
@@ -223,7 +218,7 @@ public class PostFragment extends Fragment {
     }
 
     //-------------------------------------
-    //post 新增讚
+    //cr 新增讚
     //-------------------------------------
     private class AsyncLikePost   extends AsyncTask<String,Void,String>
     {
@@ -313,7 +308,7 @@ public class PostFragment extends Fragment {
                 String result = jsonObject.getString("result");
                 int resultValue=Integer.parseInt(result);
                 if (resultValue==0){
-                    //post 成功，取出 data
+                    //cr 成功，取出 data
                     String data = jsonObject.getString("data");
                     Toast.makeText(getActivity(),result+data,Toast.LENGTH_SHORT).show();
                     lstPost.clear();
@@ -336,7 +331,7 @@ public class PostFragment extends Fragment {
 
 
     //-------------------------------------
-    //post 取消讚
+    //cr 取消讚
     //-------------------------------------
     private class AsyncDislikePost   extends AsyncTask<String,Void,String>
     {

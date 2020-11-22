@@ -45,7 +45,7 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
     Context mContext = this;
     //------------------------------
     String chatroom_id;
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 

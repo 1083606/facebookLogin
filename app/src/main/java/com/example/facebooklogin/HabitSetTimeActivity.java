@@ -55,19 +55,9 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     Spinner spinnerDays;
     Button buttonSubmitList;
 
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
-
-
-    /* 原本設定每日提醒時間
-    //------------------------------
-    LinearLayout layoutList;
-    Button buttonAdd;
-    ArrayList<Remindertime> remindertimesList = new ArrayList<>();
-    //------------------------------
-    原本設定每日提醒時間end */
-    //------------------------------
 
     @Override
     protected void onCreate (Bundle saveInstanceState) {
@@ -88,14 +78,6 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         Calendar calendar = Calendar.getInstance();
         btn_next = findViewById(R.id.btn_next);
         spinnerDays=findViewById(R.id.spinnerDays);
-
-        /* 原本設定每日提醒時間
-        //------------------------------
-        layoutList = findViewById(R.id.layout_list);
-        buttonAdd = findViewById(R.id.button_add);
-        buttonAdd.setOnClickListener(this);
-        //-----------------------
-         */
 
         buttonSubmitList = findViewById(R.id.btn_next);
         buttonSubmitList.setOnClickListener(this);
@@ -143,36 +125,18 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     String habbit_status="0";
                     String signed_time=mPickPunchTime.getText().toString();
                     String days=spinnerDays.getSelectedItem().toString();
-                    //String nick_name="LULU";
-                    //Toast.makeText(HabitSetTimeActivity.this,user_id+habbit_id+habbit_name+habbit_status+signed_time+original_intention+goodness+badness+days , Toast.LENGTH_SHORT).show();
                     new AsyncPostcreateChatRoom().execute(user_id,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days);
 
-                    /*
-                    Intent intent = new Intent();
-                    intent.setClass(HabitSetTimeActivity.this ,HabitSetCharacterActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("habbit_name",habbit_name);
-                    bundle.putString("habbit_id", habbit_id);
-                    bundle.putString("original_intention", original_intention);
-                    bundle.putString("goodness", goodness);
-                    bundle.putString("badness", badness);
-                    bundle.putString("signed_time", mPickPunchTime.getText().toString());
-                    bundle.putString("days", spinnerDays.getSelectedItem().toString());
-                    intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                    startActivity(intent);
-                     */
                 }
                 else {
                     Toast.makeText(HabitSetTimeActivity.this, "請入完整!", Toast.LENGTH_SHORT).show();
                 }
-                //Toast.makeText(HabitSetTimeActivity.this,habbit_name+'和'+habbit_id+'和'+original_intention+mPickPunchTime.getText().toString()+spinnerDays.getSelectedItem().toString() , Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public void onClick(View v) {
-
     }
 
     private String readUserID(){
@@ -296,95 +260,4 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
             }
         }
     }
-
-    //--------------------------------
-    /* 原本設定每日提醒時間
-    //------------------------------
-    public void onClick(View v) {
-
-        switch (v.getId()){
-
-            case R.id.button_add:
-
-                addView();
-
-                break;
-        }
-
-    }
-
-    private boolean checkIfValidAndRead() {
-        remindertimesList.clear();
-        boolean result = true;
-
-        for(int i=0;i<layoutList.getChildCount();i++){
-
-            View remindertimeView = layoutList.getChildAt(i);
-
-            TextView text_remindertime = (TextView)remindertimeView.findViewById(R.id.text_remindertime);
-            //AppCompatSpinner spinnerTeam = (AppCompatSpinner)cricketerView.findViewById(R.id.spinner_team);
-
-            Remindertime remindertime = new Remindertime();
-
-            remindertimesList.add(remindertime);
-
-        }
-
-        if(remindertimesList.size()==0){
-            result = false;
-            Toast.makeText(this, "Add Cricketers First!", Toast.LENGTH_SHORT).show();
-        }else if(!result){
-            Toast.makeText(this, "Enter All Details Correctly!", Toast.LENGTH_SHORT).show();
-        }
-
-
-        return result;
-    }
-
-    private void addView() {
-
-        final View remindertimeView = getLayoutInflater().inflate(R.layout.row_add_remindertime,null,false);
-
-        TextView text_remindertime = (TextView)remindertimeView.findViewById(R.id.text_remindertime);
-        //AppCompatSpinner spinnerTeam = (AppCompatSpinner)remindertimeView.findViewById(R.id.spinner_team);
-        ImageView imageClose = (ImageView)remindertimeView.findViewById(R.id.image_remove);
-
-        //ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,teamList);
-        //spinnerTeam.setAdapter(arrayAdapter);
-
-
-        text_remindertime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int hour = 0;
-                int minute = 0;
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        DecimalFormat decimalFormat = new DecimalFormat("00");
-                        text_remindertime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
-                    }
-                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-                timePickerDialog.show();
-            }
-        });
-
-        imageClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeView(remindertimeView);
-            }
-        });
-
-        layoutList.addView(remindertimeView);
-
-    }
-
-    private void removeView(View view){
-
-        layoutList.removeView(view);
-
-    }
-    //原本設定每日提醒時間 END------
-    //------------------------------
-     */
 }

@@ -76,7 +76,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private Button button_ok;
     private TextView txtuserName;
     private EditText textInputEditText;
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -353,7 +353,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
 
     //-------------------------------------
-    //post
+    //cr
     //-------------------------------------
     private class AsyncPost   extends AsyncTask<String,Void,String>
     {
@@ -449,7 +449,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 String result = jsonObject.getString("result");
                 int resultValue=Integer.parseInt(result);
                 if (resultValue==0){
-                    //post 成功，取出 data
+                    //cr 成功，取出 data
                     String data = jsonObject.getString("data");
                     //傳入成功，跳至"歡迎頁面"
                     Toast.makeText(PostDetailActivity.this, result+data, Toast.LENGTH_SHORT).show();

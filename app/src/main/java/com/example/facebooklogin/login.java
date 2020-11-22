@@ -55,7 +55,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class login extends AppCompatActivity {
 
-    //post
+    //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
@@ -97,12 +97,13 @@ public class login extends AppCompatActivity {
         //----------------------
         callbackManager = CallbackManager.Factory.create();
         loginButton.setPermissions(Arrays.asList("public_profile","email"));
-        //--new----------------------------
+        //--facebook Login----------------------------
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String accessToken = loginResult.getAccessToken().getToken();
-                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d("response",response.toString());
@@ -111,7 +112,6 @@ public class login extends AppCompatActivity {
                         Toast.makeText(login.this,"登入成功",Toast.LENGTH_LONG).show();
                     }
                 });
-
                 //request Graph API
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,email,name");
@@ -124,32 +124,14 @@ public class login extends AppCompatActivity {
             public void onError(FacebookException error) {}
         });
         //---endofNew---------------------------
-
         printKeyHash();
         //---new-----------------------------
-
-
-
         //If 已經登入
         if (AccessToken.getCurrentAccessToken() != null){
             String userId=AccessToken.getCurrentAccessToken().getUserId();
-
             //獲取資料庫 userName
             new AsyncPostGetName().execute(userId);
-            /*
-            //傳入成功，跳至主頁面"
-            Intent intent = new Intent();
-            intent.setClass(login.this,MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("UserID",userId);
-            bundle.putString("UserName",userName);
-            intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-            startActivity(intent);
-             */
-            //txtInfo.setText(AccessToken.getCurrentAccessToken().getUserId());
          }
-        //---newdofnew-----------------------------
-
     }
 
     //--------------------------------------------------------------------------
@@ -234,8 +216,6 @@ public class login extends AppCompatActivity {
                 String user_id = jsonObject.getString("user_id");
                 String user_name = jsonObject.getString("user_name");
                 Toast.makeText(login.this, user_id+user_name, Toast.LENGTH_SHORT).show();
-//                checkResultData(Integer.parseInt(result));
-
                 //傳入成功，跳至主頁面
                 //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
@@ -251,7 +231,6 @@ public class login extends AppCompatActivity {
             }
         }
     }
-
 
     //---------------------------------------------------------------------------
     private void getData(JSONObject object) {
@@ -317,7 +296,7 @@ public class login extends AppCompatActivity {
     }
 
     //-------------------------------------
-    //post register
+    //使用者註冊 register
     //-------------------------------------
     private class AsyncLogin   extends AsyncTask<String,String,String>
     {
@@ -435,12 +414,11 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
 
             }else{
-                //--原本------------------
-                /*
+                //已註冊過->直接到主頁
                 Intent intent = new Intent();
                 intent.setClass(login.this ,MainActivity.class );
                 startActivity(intent);
-                */
+               /*
                 //Test
                 Intent intent = new Intent();
                 intent.setClass(login.this ,GetUserData.class );
@@ -450,6 +428,8 @@ public class login extends AppCompatActivity {
                 //bundle.putString("profile_picture", String.valueOf(profile_picture));
                 intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                 startActivity(intent);
+
+                 */
             }
         }
 

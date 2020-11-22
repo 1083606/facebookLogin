@@ -2,28 +2,137 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:background="@drawable/corners"
-    android:orientation="vertical"
-    android:layout_weight="4">
+    android:layout_weight="4"
+    android:background="@drawable/button_rounde_bg"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txt_habitName"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/corners_small"
+        android:layout_height="50dp"
+        android:background="@drawable/button_rounde_black_bg"
         android:gravity="center|center_horizontal"
         android:padding="12dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#C8F5CF66"
+        android:gravity="center"
+        android:stretchColumns="0,1"
+        android:weightSum="2">
+
+        <TableRow
+            android:layout_height="100dp"
+            android:layout_margin="5sp"
+            android:layout_weight="2"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="初衷 : "
+                android:textColor="#1B1B1B"
+                android:textSize="18sp" />
+
+            <TextView
+
+                android:id="@+id/txt_original_intention"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="5"
+                android:gravity="left|center_vertical"
+                android:text="TextView"
+                android:textSize="15sp" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_height="100dp"
+            android:layout_margin="5sp"
+            android:layout_weight="2"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="好處 : "
+                android:textColor="#1B1B1B"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_goodness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="5"
+                android:gravity="left|center_vertical"
+                android:text="TextView"
+                android:textSize="15sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="100dp"
+            android:layout_margin="5sp"
+            android:layout_weight="2"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="壞處 : "
+                android:textColor="#1B1B1B"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_badness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="5"
+                android:gravity="left|center_vertical"
+                android:text="TextView"
+                android:textSize="15sp" />
+
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
+        android:background="#4D8BAB8D"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -43,9 +152,9 @@
         </LinearLayout>
 
         <View
-            android:layout_width="1px"
+            android:layout_width="1.5px"
             android:layout_height="match_parent"
-            android:background="#BCBCBC"></View>
+            android:background="#FFFFFF"></View>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,11 +184,6 @@
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
-
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="#BCBCBC"></View>
 
         <!--
         <LinearLayout
