@@ -3,24 +3,20 @@ package com.example.facebooklogin;
 import com.example.facebooklogin.ChatRemind;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,15 +32,15 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//import static com.example.facebooklogin.ChatRemind.strToDateLong;
-
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity{
 
     EditText userInput;
     RecyclerView recyclerView;
@@ -81,18 +77,17 @@ public class ChatActivity extends AppCompatActivity {
                     //AnswerPost(userInput.getText().toString());
                     String input = userInput.getText().toString();
                     userInput.setText(null);
-                    new AsyncPostGetAnswer().execute(input);
+                    //new AsyncPostGetAnswer().execute(input);
 
-                    /*
-                    Response responseMessage2 = new Response(returnAnswer,false);
-                    responseMessageList.add(responseMessage2);
-                    messageAdapter.notifyDataSetChanged();
-                    userInput.setText(null);
-                    if (!isLastVisible())
-                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-                        userInput.setText(null);
+                    // 測試用
+//                    Response responseMessage2 = new Response(userInput.getText().toString(),false,false);
+//                    responseMessageList.add(responseMessage2);
+//                    messageAdapter.notifyDataSetChanged();
+//                    userInput.setText(null);
+//                    if (!isLastVisible())
+//                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+//                        userInput.setText(null);
 
-                     */
 //                      AnswerPost(userInput.getText().toString());
                 }
                 return false;
@@ -127,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("https://0b970a9ecdbf.ngrok.io");
+                url = new URL("https://ca577918d1db.ngrok.io");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -210,8 +205,8 @@ public class ChatActivity extends AppCompatActivity {
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
         userInput.setText(null);
     }
+
     public static Context getChatActivityContext(){
         return ChatActivity.context;
     }
-
 }

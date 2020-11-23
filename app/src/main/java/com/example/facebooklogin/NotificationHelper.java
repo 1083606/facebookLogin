@@ -35,7 +35,7 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationCompat.Builder getChannelNotification() {
 
         Intent notifyIntent = new Intent();
-        notifyIntent.setClass(this, MainActivity.class);
+        notifyIntent.setClass(this, ChatActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
