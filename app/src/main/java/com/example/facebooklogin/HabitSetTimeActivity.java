@@ -1,6 +1,8 @@
 package com.example.facebooklogin;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
@@ -44,7 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 //-------------------------------
 
-public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener,TimePickerDialog.OnTimeSetListener  {
     String user_id,habbit_name,habbit_id,original_intention,goodness,badness;
 
     TextView mTimeTextView;
@@ -54,7 +58,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     Button btn_next;
     Spinner spinnerDays;
     Button buttonSubmitList;
-
+    private static Context context;
     //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -91,28 +95,24 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         mPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                   @Override
-                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       mPickPunchTime.setText(hourOfDay+":"+minute);
-                   }
-               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-               timePickerDialog.show();
             }
+//            @Override
+//            public void onClick(View v) {
+//               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+//                   @Override
+//                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                       mPickPunchTime.setText(hourOfDay+":"+minute);
+//                   }
+//               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
+//               timePickerDialog.show();
+//            }
         });
 
         imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hour = 0;
-                int minute = 0;
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        DecimalFormat decimalFormat = new DecimalFormat("00");
-                        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
-                    }
-                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-                timePickerDialog.show();
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
 
@@ -126,7 +126,6 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     String signed_time=mPickPunchTime.getText().toString();
                     String days=spinnerDays.getSelectedItem().toString();
                     new AsyncPostcreateChatRoom().execute(user_id,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days);
-
                 }
                 else {
                     Toast.makeText(HabitSetTimeActivity.this, "請入完整!", Toast.LENGTH_SHORT).show();
@@ -144,6 +143,39 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         return preferences.getString("UserID","未存任何資料");
     }
 
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        }
+    }
+
+    public static Context getSetTimeActivityContext(){
+        return HabitSetTimeActivity.context;
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        String cs = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        mPickPunchTime.setText(hourOfDay+":"+minute);
+
+        startAlarm(c);
+        SharedPreferences record = getSharedPreferences("record", MODE_PRIVATE);
+        record.edit()
+                .putString("簽到時間",cs)
+                .apply();
+    }
 
     //--------------------------------------------------------------------------
     //-------------------------------------

@@ -4,18 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ComponentActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
+import com.example.facebooklogin.HabitSetTimeActivity;
 
 public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        com.example.facebooklogin.NotificationHelper notificationHelper = new com.example.facebooklogin.NotificationHelper(context);
+        NotificationHelper notificationHelper = new NotificationHelper(context);
         NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
         notificationHelper.getManager().notify(1, nb.build());
-        setNormalAlertDialog();
+        //setNormalAlertDialog();
     }
 
     public void setNormalAlertDialog(){

@@ -6,9 +6,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper extends ContextWrapper {
@@ -35,7 +37,7 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationCompat.Builder getChannelNotification() {
 
         Intent notifyIntent = new Intent();
-        notifyIntent.setClass(this, MainActivity.class);
+        notifyIntent.setClass(this, ChatActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
