@@ -1,9 +1,6 @@
 package com.example.facebooklogin;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-public class ChatAdapter extends RecyclerView.Adapter<com.example.facebooklogin.ChatAdapter.CustomViewHolder> {
+import com.example.facebooklogin.Response;
+
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.CustomViewHolder> {
 
     List<Response> responseMessages;
     Context context;
@@ -38,8 +34,6 @@ public class ChatAdapter extends RecyclerView.Adapter<com.example.facebooklogin.
     public int getItemViewType(int position) {
         if(responseMessages.get(position).isMe()){
             return R.layout.me_bubble;
-        }if(responseMessages.get(position).isBot()){
-            return R.layout.botremind;
         }
         return R.layout.bot_bubble;
     }
@@ -56,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<com.example.facebooklogin.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatAdapter.CustomViewHolder holder, int position) {
         holder.textView.setText(responseMessages.get(position).getText());
     }
 }

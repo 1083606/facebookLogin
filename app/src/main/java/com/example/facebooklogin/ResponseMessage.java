@@ -1,11 +1,15 @@
 package com.example.facebooklogin;
 
-public class Response {
+/**
+ * Created by deathcode on 26/01/18.
+ */
+
+public class ResponseMessage {
 
     String text;
     boolean isMe;
 
-    public Response(String text, boolean isMe) {
+    public ResponseMessage(String text, boolean isMe) {
         this.text = text;
         this.isMe = isMe;
     }
@@ -26,4 +30,3 @@ public class Response {
         isMe = me;
     }
 }
-
