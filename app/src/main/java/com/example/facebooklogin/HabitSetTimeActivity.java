@@ -2,6 +2,8 @@ package com.example.facebooklogin;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -19,6 +21,8 @@ import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -57,6 +61,10 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     Spinner spinnerDays;
     Button buttonSubmitList;
 
+
+    private NotificationManagerCompat notificationManager;
+
+
     //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -67,6 +75,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_habit_set_time);
 
         user_id=readUserID();
+        notificationManager = NotificationManagerCompat.from(this);
 
         //接收從HabitMotivationActivity的bundle
         Bundle bundle = getIntent().getExtras();
@@ -89,14 +98,18 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
 
         mPickPunchTime = (TextView) findViewById(R.id.mPickPunchTime);
         imgmPickPunchTime = (ImageView) findViewById(R.id.imgmPickPunchTime);
+        //-------------------------------
+
 
         mPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int hour = 0;
+                int minute = 0;
                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                   @Override
                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       mPickPunchTime.setText(hourOfDay+":"+minute);
+                       DecimalFormat decimalFormat = new DecimalFormat("00");
+                       mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
                    }
                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
                timePickerDialog.show();
@@ -112,12 +125,6 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         DecimalFormat decimalFormat = new DecimalFormat("00");
                         mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
-                        c.set(Calendar.SECOND, 0);
-
-                        startAlarm(c);
                     }
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
                 timePickerDialog.show();
@@ -152,19 +159,6 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         return preferences.getString("UserID","未存任何資料");
     }
 
-    private void startAlarm(Calendar c) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
-    }
 
     //--------------------------------------------------------------------------
     //-------------------------------------
@@ -259,16 +253,34 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     String data = jsonObject.getString("data");
                     String chatroom_id=jsonObject.getString("chatroom_id");
                     Toast.makeText(HabitSetTimeActivity.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
+                    createNotificationChannels(chatroom_id);
+                    //---------------------------------------------
+                    //******設置 AlarmManager**********************
+                    //---------------------------------------------
+                    Intent intent = new Intent(HabitSetTimeActivity.this,NotificationReceiver.class);
+                    intent.putExtra("chatroom_id", chatroom_id);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(HabitSetTimeActivity.this,
+                            Integer.parseInt(chatroom_id), intent, 0);
+                    AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
+
+                    long timeAtButtonClick = System.currentTimeMillis();
+                    //long tenSecondsInMillis = 1000*10;
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick+tenSecondsInMillis,pendingIntent);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,timeAtButtonClick,1000,pendingIntent);
+                    //-------------------------------------------------------
 
 
                     //post成功，跳至HabitSetCharacterActivity
                     //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClass(HabitSetTimeActivity.this,HabitSetCharacterActivity.class);
+                    Intent intent2 = new Intent();
+                    intent2.setClass(HabitSetTimeActivity.this,HabitSetCharacterActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("chatroom_id",chatroom_id);
-                    intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                    startActivity(intent);
+                    intent2.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                    startActivity(intent2);
+
+
 
                 }else {
                     String data = jsonObject.getString("data");
@@ -280,5 +292,24 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         }
+    }
+
+    //----------------------------------------------------------
+    //單獨去設定；比如通知開關、提示音、是否震動或者是重要程度等
+    private void createNotificationChannels(String chatroom_id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID= chatroom_id;
+            String CHANNEL_NAME= "Default Channel";
+            String CHANNEL_DESCRIPTION="this is default channel!";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,importance);
+            channel.setDescription(CHANNEL_DESCRIPTION);
+
+            //初始化 NotificationManager，取得 Notification 服務。
+            NotificationManager notificationManager = (NotificationManager)getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
     }
 }

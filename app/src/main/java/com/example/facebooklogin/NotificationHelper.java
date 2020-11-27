@@ -42,7 +42,7 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle("慣chat始終")
                 .setContentText("習慣Notice!!!")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_chat_black_24dp)
                 .setContentIntent(pendingIntent);
     }
 }

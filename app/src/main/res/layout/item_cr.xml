@@ -11,8 +11,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/role_photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="left|center_vertical"
         android:src="@drawable/com_facebook_profile_picture_blank_square"
         app:civ_border_color="#27535151"

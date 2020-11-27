@@ -25,11 +25,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.facebooklogin.ChatActivity;
 import com.example.facebooklogin.HabitNameActivity;
 import com.example.facebooklogin.MainActivity;
 import com.example.facebooklogin.R;
 import com.example.facebooklogin.login;
 import com.example.facebooklogin.ui.post.PostFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -57,114 +60,72 @@ public class HomeFragment extends Fragment {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-    String user_id="104560211270091";
-    String message,page="yes";
+    String user_id;
+    String message;
+    //String text_homeDispaly;
     String click_crId;
-    //private static String Json_URL = "http://140.131.114.140/chatbot109204/data/countLikes.php";
 
     private RecyclerView myrecyclerview;
     private List<cr> lstCr;
     View v;
 
-
     //下拉更新---------
     private SwipeRefreshLayout mSwipeRefreshLayout;
     //---------------
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        lstCr = new ArrayList<>();
+        user_id=readUserID();
+        new AsyncPostReturnUserChatroomBool().execute(user_id);
+        //Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
+        new AsyncPostselectChatroomID().execute(user_id);
+    }
 
-
-    /*
-    //-------------------------
-    Button b1;
-    //-------------------------
-    */
-    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //user_id=readUserID();
+        user_id=readUserID();
+        new AsyncPostReturnUserChatroomBool().execute(user_id);
+
         //Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
         //new AsyncPostReturnUserChatroomBool().execute(user_id);
 
         //Toast.makeText(getActivity(),page,Toast.LENGTH_SHORT).show();
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
 
+        //------------------------------------
+        v = inflater.inflate(R.layout.fragment_cr, container, false);
+        //Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
 
+        //新增聊天室---------------------
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                startActivity(new Intent(getContext(), HabitNameActivity.class));
+            }
+        });
+        myrecyclerview = (RecyclerView) v.findViewById(R.id.cr_recyclerview);
+        RecyclerViewAdapter_cr recyclerViewAdapter_cr = new RecyclerViewAdapter_cr(getContext(),lstCr);
+        myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myrecyclerview.setAdapter(recyclerViewAdapter_cr);
 
+        //顯示無聊天室---------------------
+        /*
+        final TextView text_home = v.findViewById(R.id.text_home);
+        Toast.makeText(getActivity(),text_homeDispaly,Toast.LENGTH_SHORT).show();
+        text_home.setText(text_homeDispaly);
+         */
         //-------------------------------------
-        //判斷載入哪一個fragment---
         //-------------------------------------
-        if (page=="yes"){
-            //-----------如果此user無chatRoom
-            v = inflater.inflate(R.layout.fragment_home, container, false);
-            //------------------------------
-            Button b1=v.findViewById(R.id.create_room);
-
-            b1.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("ResourceType")
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getContext(), HabitNameActivity.class));
-                }
-            });
-            final TextView textView = v.findViewById(R.id.text_home);
-            homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-                @Override
-                public void onChanged(@Nullable String s) {
-                    textView.setText(s);
-                }
-            });
-        }
-
-        else{
-            /*
-            //------------------------------------
-            ////-----------如果此user有chatRoom----
-            v = inflater.inflate(R.layout.fragment_cr, container, false);
-
-            myrecyclerview = (RecyclerView) v.findViewById(R.id.cr_recyclerview);
-            RecyclerViewAdapter_cr recyclerViewAdapter_cr = new RecyclerViewAdapter_cr(getContext(),lstCr);
-            myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-            myrecyclerview.setAdapter(recyclerViewAdapter_cr);
-
-            //下拉更新--------------
-            mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_layout);
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    recyclerViewAdapter_cr.notifyDataSetChanged();
-                    lstCr.clear();
-                    lstCr = new ArrayList<>();
-                    //new AsyncPostselectChatroomID().execute(user_id);
-                }
-            });
-            //--------------------------------------
-
-             */
-        }
-
-
         return v;
     }
 
-    /*
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        lstCr = new ArrayList<>();
-        new AsyncPostselectChatroomID().execute(user_id);
 
-//        GetData getData = new GetData();
-//        getData.execute(user_id);
-    }
-
-     */
-
-
-    /*
     public class AsyncPostselectChatroomID   extends AsyncTask<String,Void,String>
     {
         HttpURLConnection conn;
@@ -243,9 +204,6 @@ public class HomeFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(strUTF8);
                 //Toast.makeText(getActivity(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-
-
-
                 JSONArray jsonArray = jsonObject.getJSONArray("records");
                 for (int i=0;i<jsonArray.length();i++){
                     //for (int i=jsonArray.length()-1;i>0;i--){
@@ -270,9 +228,6 @@ public class HomeFragment extends Fragment {
                     model.setUpdated_at(jsonObject1.getString("updated_at"));
                     lstCr.add(model);
                 }
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -293,6 +248,8 @@ public class HomeFragment extends Fragment {
             public void onItemClick(int position) {
                 click_crId=lstCr.get(position).getChatroom_id();
                 Toast.makeText(getActivity(),click_crId,Toast.LENGTH_SHORT).show();
+                //--到聊天室
+                startActivity(new Intent(getContext(), ChatActivity.class));
             }
 
             //-------------------
@@ -305,10 +262,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private String readUserID(){
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
-        return preferences.getString("UserID","104560211270091");
-    }
+
 
 
 
@@ -387,7 +341,17 @@ public class HomeFragment extends Fragment {
             try{
                 JSONObject jsonObject = new JSONObject(strUTF8);
                 message = jsonObject.getString("message");
-                Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
+                if (message.equals("Yes")){
+                    //text_homeDispaly="";
+                    //Toast.makeText(getActivity(),"有資料",Toast.LENGTH_SHORT).show();
+                }else if(message.equals("No")){
+                    Toast.makeText(getActivity(),"尚未建立聊天室，快新增一個吧！",Toast.LENGTH_SHORT).show();
+                    //text_homeDispaly="尚未建立聊天室，快新增一個吧！";
+                    //Toast.makeText(getActivity(),"沒資料",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(),"message:"+message,Toast.LENGTH_SHORT).show();
+                }
+                //Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
             }
             catch(JSONException e) {
                 e.printStackTrace();
@@ -396,6 +360,9 @@ public class HomeFragment extends Fragment {
 
     }
 
-     */
+    private String readUserID(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        return preferences.getString("UserID","無");
+    }
 }
 
