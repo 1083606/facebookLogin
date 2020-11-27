@@ -90,6 +90,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     ProgressDialog progressDialog;
     String id;
 
+
     //cr
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -160,7 +161,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
                                     roleCategoryId=String.valueOf(spinnerRole.getSelectedItemPosition());
                                     Toast.makeText(HabitSetCharacterActivity.this,roleCategoryId, Toast.LENGTH_SHORT).show();
                                 }
-                                 */
+                                */
                             }
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
@@ -214,23 +215,21 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
                                 @Override
                                 public void OnClick() {
                                     //點選"確認"
-                                    //post成功，跳至HabitSetCharacterActivity
-                                    //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent();
                                     intent.setClass(HabitSetCharacterActivity.this ,HabitSetRemindTime.class);
                                     Bundle bundle = new Bundle();
+
                                     bundle.putString("chatroom_id",chatroom_id);
                                     intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                                     startActivity(intent);
+
+
                                 }
                             })
                             .OnNegativeClicked(new TTFancyGifDialogListener() {
                                 @Override
                                 public void OnClick() {
-                                    //點選"確認"
-                                    Intent intent = new Intent();
-                                    intent.setClass(HabitSetCharacterActivity.this ,ChatActivity.class);
-                                    startActivity(intent);
+                                    GoMainActivity();
                                 }
                             })
                             .build();
@@ -531,6 +530,33 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     }
     
      */
+
+    //去MainActivity
+    private void GoMainActivity(){
+        Intent intent = new Intent();
+        intent.setClass(HabitSetCharacterActivity.this,MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("UserName",readUserName());
+        bundle.putString("UserID", readUserId());
+        intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(intent);
+    }
+
+    //讀取使用者名字
+    private String readUserName(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserName","未存任何資料");
+    }
+
+    //讀取使用者Id
+    private String readUserId(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料");
+    }
 
 }
 

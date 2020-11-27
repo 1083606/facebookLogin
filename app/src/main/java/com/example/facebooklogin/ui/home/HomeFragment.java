@@ -121,6 +121,7 @@ public class HomeFragment extends Fragment {
         text_home.setText(text_homeDispaly);
          */
         //-------------------------------------
+        //-------------------------------------
         return v;
     }
 

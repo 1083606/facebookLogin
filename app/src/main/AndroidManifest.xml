@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HabitSetRemindTime"></activity>
-        <!-- <activity android:name=".chatroom"></activity> -->
+        <activity
+            android:name=".ReturnrNoticeActivity"
+            android:label="@string/title_activity_ChatroomActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+        <activity android:name=".HabitSetRemindTime" /> <!-- <activity android:name=".chatroom"></activity> -->
         <activity
             android:name=".HabitSetCharacterActivity"
             android:label="@string/title_activity_PostDetailActivity"
@@ -54,7 +60,6 @@
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -81,15 +86,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
-
-        <!-- 當鬧鈴時間到達時要執行的程式 -->
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
+        <!-- 當鬧鈴時間到達時要執行的程式 start-->
         <receiver android:name=".AlarmRemind">
             <intent-filter>
                 <action android:name="activity_app" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".NotificationReceiver" />
+        <!-- 當鬧鈴時間到達時要執行的程式 end-->
     </application>
 
 </manifest>
