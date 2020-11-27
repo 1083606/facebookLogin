@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -64,7 +65,7 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
         btn_next.setOnClickListener(this);
         //-----------------------
 
-        //接收從HabitMotivationActivity的bundle
+        //接收從HabitSetCharacterActivity的bundle
         Bundle bundle = getIntent().getExtras();
         chatroom_id = bundle.getString("chatroom_id");
 
@@ -83,7 +84,7 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
                     for (int i = 0; i< remindertimesList.size(); i++) {
                         new AsyncPostaddRemindTime().execute(chatroom_id,remindertimesList.get(i));
                     }
-                    GoChatRoom();
+                    GoMainActivity();
                     //Toast.makeText(this, remindertimesList.get(1), Toast.LENGTH_SHORT).show();
                 }
         }
@@ -275,14 +276,32 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
         }
     }
 
-    //去chatRoom
-    private void GoChatRoom(){
+    //去MainActivity
+    private void GoMainActivity(){
         Intent intent = new Intent();
-        intent.setClass(HabitSetRemindTime.this,ChatActivity.class);
+        intent.setClass(HabitSetRemindTime.this,MainActivity.class);
+
         Bundle bundle = new Bundle();
-        bundle.putString("chatroom_id",chatroom_id);
+        bundle.putString("UserName",readUserName());
+        bundle.putString("UserID", readUserId());
         intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(intent);
+    }
+
+    //讀取使用者名字
+    private String readUserName(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserName","未存任何資料");
+    }
+
+    //讀取使用者Id
+    private String readUserId(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料");
     }
 
 }
