@@ -134,6 +134,7 @@ public class PostDetailActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequst);
         //spinner設定end--------------------------
         //---------------------------------------
+
         /*
         img=(ImageView)findViewById(R.id.img);
 

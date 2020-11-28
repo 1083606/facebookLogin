@@ -1,8 +1,12 @@
 package com.example.facebooklogin;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,11 +15,13 @@ public class HabitMotivationActivity extends AppCompatActivity {
     private Button btn_next;
     String habbit_name,habbit_id;
     private EditText eTxtOriginal_intention,eTxtGoodness,eTxtBadness;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_motivation);
+
 
         btn_next = findViewById(R.id.btn_next);
         eTxtOriginal_intention=findViewById(R.id.eTxtOriginal_intention);
@@ -26,6 +32,10 @@ public class HabitMotivationActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         habbit_name = bundle.getString("habbit_name");
         habbit_id = bundle.getString("habbit_id");
+
+        //返回按钮的监听
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
 
         // 按下按鈕 觸發事件
@@ -55,6 +65,16 @@ public class HabitMotivationActivity extends AppCompatActivity {
 
 
 
-        //Toast.makeText(HabitMotivationActivity.this,habbit_name+habbit_id , Toast.LENGTH_SHORT).show();
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            //Toast.makeText(HabitNameActivity.this, "返回", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
