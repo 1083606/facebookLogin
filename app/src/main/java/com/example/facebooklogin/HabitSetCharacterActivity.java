@@ -1,10 +1,17 @@
 package com.example.facebooklogin;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -102,6 +111,8 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     RequestQueue requestQueue;
     String roleCategory;
 
+    Toolbar toolbar;
+
     //----------image-------------
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
@@ -110,13 +121,26 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     //Bitmap to get image from gallery
     private Bitmap bitmap;
     //Uri to store the image uri
-    private Uri filePath;
+    private Uri filePath=null;
+
+
+    //----from camera 2
+    private static final int  PERMISSION_CODE=1000;
+    private static final int  IMAGE_CAPTURE_CODE=1001;
+    //----from gallery
+    private static final int  IMAGE_PICK_CODE=1002;
+    //Uri image_uri;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_set_character);
+
+        //返回按钮的监听
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         //接收從HabitMotivationActivity的bundle
         Bundle bundle = getIntent().getExtras();
@@ -199,7 +223,10 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId)&&!("".equals(profile_image)))){
+
+
+
+                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId))){
                     uploadMultipart();
                     //詢問是否要新增remind Data
                     new TTFancyGifDialog.Builder(HabitSetCharacterActivity.this)
@@ -244,15 +271,123 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
 
     }
 
+
+    //添加照片-----------------------------------------------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds options to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    private void pickImage() {
+        final CharSequence[] options = { "拍照", "從相簿選擇","取消" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(HabitSetCharacterActivity.this);
+        builder.setTitle("添加相片");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("拍照"))
+                {
+                    Toast.makeText(HabitSetCharacterActivity.this,"拍照",Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                        if (checkSelfPermission(Manifest.permission.CAMERA)==
+                                PackageManager.PERMISSION_DENIED||
+                                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                                        PackageManager.PERMISSION_DENIED){
+                            String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                            requestPermissions(permission, PERMISSION_CODE);
+                        }
+                        else {
+                            openCamera();
+                        }
+                    }
+                    else {
+                        openCamera();
+                    }
+                }
+                else if (options[item].equals("從相簿選擇"))
+                {
+                    Toast.makeText(HabitSetCharacterActivity.this,"從相簿選擇",Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)==
+                                PackageManager.PERMISSION_DENIED){
+                            String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                            requestPermissions(permission, PERMISSION_CODE);
+                        }
+                        else {
+                            pickImageFromGallery();
+                        }
+                    }
+                    else {
+                        pickImageFromGallery();
+                    }
+                }
+                else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    private void openCamera() {
+        ContentValues values= new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "NEW PICTURE");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "FROM THE CAMERA");
+        filePath=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        //----------
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case PERMISSION_CODE:{
+                if (grantResults.length>0 && grantResults[0]==
+                PackageManager.PERMISSION_GRANTED){
+                    openCamera();
+                    pickImageFromGallery();
+                }
+                else{
+                    Toast.makeText(this,"PERMISSION DENIED...",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK&&requestCode == IMAGE_CAPTURE_CODE) {
+            profile_image.setImageURI(filePath);
+        }else if (resultCode == RESULT_OK&&requestCode == IMAGE_PICK_CODE){
+            filePath = data.getData();
+            profile_image.setImageURI(filePath);
+
+        }
+    }
+
+    ///-------------------------------------
+    //選擇照片--開始
+    ///-------------------------------------
+    private void pickImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, IMAGE_PICK_CODE);
+    }
+    ///-------------------------------------
+    //選擇照片--結束
+    ///-------------------------------------
+
+
+    /*
     //open gallery
     void pickImage()
     {
-        /*
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-
-         */
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -260,7 +395,6 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivityForResult(Intent.createChooser(intent,"select image"),1002);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -275,6 +409,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
             }
         }
     }
+     */
     //method to get the file path from uri
     public String getPath(Uri uri) {
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -332,205 +467,6 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         return preferences.getString("UserID","未存任何資料");
     }
 
-
-
-    /*
-    //cr createChatRoom
-    public void Next()
-    {
-        //---------------------------------------
-        role_name=editRole_name.getText().toString();
-        nick_name=editNick_name.getText().toString();
-        habbit_status="0";
-        role_photo="0";
-        user_id=readUserID();
-        if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId))){
-            //Toast.makeText(HabitSetCharacterActivity.this, user_id+nick_name+roleCategoryId+role_name+habbit_id+habbit_name+habbit_status+signed_time+original_intention+goodness+days, Toast.LENGTH_SHORT).show();
-            new AsyncPostcreateChatRoom().execute(user_id,nick_name,roleCategoryId,role_name,role_photo,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days);
-            //uploadFile(fileName,filePath,user_id,nick_name,roleCategoryId,role_name,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days);
-        }else{
-            Toast.makeText(HabitSetCharacterActivity.this, "請完整內容", Toast.LENGTH_SHORT).show();
-        }
-    }
-    
-     */
-
-
-    /*
-    //-------------------------------------
-    //cr createChatRoom
-    //-------------------------------------
-    private class AsyncPostcreateChatRoom   extends AsyncTask<String,Void,String> {
-
-        /// boundary就是request头和上传文件内容的分隔符(可自定义任意一组字符串)
-        String BOUNDARY = "******";
-        // 用来标识payLoad+文件流的起始位置和终止位置(相当于一个协议,告诉你从哪开始,从哪结束)
-        String  preFix = ("\r\n--" + BOUNDARY + "--\r\n");
-        String MULTIPART_FROM_DATA = "multipart/form-data";
-        String CHARSET = "UTF-8";
-
-        HttpURLConnection conn;
-        URL url = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                // Enter URL address where your php file resides
-                url = new URL("http://140.131.114.140/chatbot109204/data/createChatRoom.php");
-
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                //----------------------------------------
-                //-----------------------------------------
-                // Append parameters to URL
-                //user_id,nick_name,roleCategoryId,role_name,habbit_id,habbit_name,habbit_status,signed_time,original_intention,goodness,badness,days
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("user_id", params[0])
-                        .appendQueryParameter("nick_name", params[1])
-                        .appendQueryParameter("role_id", params[2])
-                        .appendQueryParameter("role_name", params[3])
-                        .appendQueryParameter("role_photo", params[4])
-                        .appendQueryParameter("habbit_id", params[5])
-                        .appendQueryParameter("habbit_name", params[6])
-                        .appendQueryParameter("habbit_status", params[7])
-                        .appendQueryParameter("signed_time", params[8])
-                        .appendQueryParameter("original_intention", params[9])
-                        .appendQueryParameter("goodness", params[10])
-                        .appendQueryParameter("badness", params[11])
-                        .appendQueryParameter("days", params[12]);
-                String query = builder.build().getEncodedQuery();
-
-                //--------------------
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, StandardCharsets.UTF_8));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return "exception";
-            }
-
-            try {
-
-                int response_code = conn.getResponseCode();
-
-                // Check if successful connection made
-                if (response_code == HttpURLConnection.HTTP_OK) {
-
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-                    return (String.valueOf(result));
-                } else {
-
-                    return ("unsuccessful");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String strUTF8) {
-            //mTxtResult.setText(strUTF8);
-            try {
-                //Toast.makeText(HabitSetCharacterActivity.this, strUTF8, Toast.LENGTH_LONG).show();
-
-                JSONObject jsonObject = new JSONObject(strUTF8);
-                String result = jsonObject.getString("result");
-                int resultValue=Integer.parseInt(result);
-                if (resultValue==0){
-                    //cr 成功，取出 data
-                    String data = jsonObject.getString("data");
-                    String chatroom_id = jsonObject.getString("return chatroom_id: ");
-                    Toast.makeText(HabitSetCharacterActivity.this, result+data+chatroom_id, Toast.LENGTH_SHORT).show();
-
-                    //-------------------------------------
-                    //詢問是否要新增remind Data
-
-                    new TTFancyGifDialog.Builder(HabitSetCharacterActivity.this)
-                            .setTitle("成功建立聊天室 ヽ(●´∀`●)ﾉ")
-                            .setMessage("是否要新增提醒時間？")
-                            .setPositiveBtnText("好啊")
-                            .setPositiveBtnBackground("#14b1ab")
-                            .setNegativeBtnText("不用")
-                            .setNegativeBtnBackground("#c1272d")
-                            .setGifResource(R.drawable.chicken_gif)      //pass your gif, png or jpg
-                            .isCancellable(true)
-                            .OnPositiveClicked(new TTFancyGifDialogListener() {
-                                @Override
-                                public void OnClick() {
-                                    //點選"確認"
-                                    Intent intent = new Intent();
-                                    intent.setClass(HabitSetCharacterActivity.this ,HabitSetRemindTime.class);
-                                    startActivity(intent);
-                                }
-                            })
-                            .OnNegativeClicked(new TTFancyGifDialogListener() {
-                                @Override
-                                public void OnClick() {
-                                    //點選"確認"
-                                    Intent intent = new Intent();
-                                    intent.setClass(HabitSetCharacterActivity.this ,ChatroomActivity.class);
-                                    startActivity(intent);
-                                }
-                            })
-                            .build();
-
-                    //-------------------------------------------------
-
-
-                }else{
-                    String data = jsonObject.getString("data");
-                    String error = jsonObject.getString("error");
-                    Toast.makeText(HabitSetCharacterActivity.this, result+data+error, Toast.LENGTH_SHORT).show();
-                }
-            }
-            catch(JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-     */
-
     //去MainActivity
     private void GoMainActivity(){
         Intent intent = new Intent();
@@ -556,6 +492,14 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
         //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
         return sharedPreferences.getString("UserID","未存任何資料");
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

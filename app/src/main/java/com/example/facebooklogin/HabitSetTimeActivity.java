@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,6 +22,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -60,7 +62,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     Button btn_next;
     Spinner spinnerDays;
     Button buttonSubmitList;
-
+    Toolbar toolbar;
 
     private NotificationManagerCompat notificationManager;
 
@@ -73,6 +75,10 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_habit_set_time);
+
+        //返回按钮的监听
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         user_id=readUserID();
         notificationManager = NotificationManagerCompat.from(this);
@@ -310,6 +316,13 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
             notificationManager.createNotificationChannel(channel);
         }
 
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

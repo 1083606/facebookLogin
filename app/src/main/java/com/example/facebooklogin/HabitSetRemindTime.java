@@ -2,6 +2,7 @@ package com.example.facebooklogin;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
