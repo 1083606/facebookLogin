@@ -90,9 +90,6 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
         <!-- 當鬧鈴時間到達時要執行的程式 start-->
-            <intent-filter>
-                <action android:name="activity_app" />
-            </intent-filter>
         <receiver android:name=".NotificationReceiver" />
         <!-- 當鬧鈴時間到達時要執行的程式 end-->
     </application>

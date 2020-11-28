@@ -108,6 +108,7 @@ public class NotificationReceiver extends BroadcastReceiver {
          */
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, chatroom_id)
+                .setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.birdsound))
                 .setSmallIcon(R.drawable.ic_iconsvg_white_01)
                 .setTicker("您有訊息!")
                 .setDefaults(Notification.DEFAULT_ALL)

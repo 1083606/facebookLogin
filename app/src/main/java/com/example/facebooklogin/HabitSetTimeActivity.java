@@ -1,7 +1,6 @@
 package com.example.facebooklogin;
 
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,14 +14,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.DialogFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,22 +39,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
 
 //-------------------------------
-
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 //-------------------------------
 
-public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HabitSetTimeActivity extends AppCompatActivity implements View.OnClickListener,TimePickerDialog.OnTimeSetListener {
     String user_id,habbit_name,habbit_id,original_intention,goodness,badness;
 
     TextView mTimeTextView;
@@ -99,37 +94,53 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         mPickPunchTime = (TextView) findViewById(R.id.mPickPunchTime);
         imgmPickPunchTime = (ImageView) findViewById(R.id.imgmPickPunchTime);
         //-------------------------------
-
+//        mPickPunchTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//            @Override
+//            public void onClick(View v) {
+//               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+//                   @Override
+//                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                       mPickPunchTime.setText(hourOfDay+":"+minute);
+//                   }
+//               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
+//               timePickerDialog.show();
+//            }
+//        });
 
         mPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hour = 0;
-                int minute = 0;
-               TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       DecimalFormat decimalFormat = new DecimalFormat("00");
-                       mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
-                   }
-               },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-               timePickerDialog.show();
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
 
         imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hour = 0;
-                int minute = 0;
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        DecimalFormat decimalFormat = new DecimalFormat("00");
-                        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
-                    }
-                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
-                timePickerDialog.show();
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
+
+//
+//        imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int hour = 0;
+//                int minute = 0;
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                        DecimalFormat decimalFormat = new DecimalFormat("00");
+//                        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
+//                    }
+//                },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
+//                timePickerDialog.show();
+//            }
+//        });
 
         btn_next = findViewById(R.id.btn_next);
         // 按下下一步按鈕 觸發事件
@@ -157,6 +168,21 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     private String readUserID(){
         SharedPreferences preferences = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
         return preferences.getString("UserID","未存任何資料");
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        String cs = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        mPickPunchTime.setText(hourOfDay+":"+minute);
+
+        SharedPreferences record = getSharedPreferences("record", MODE_PRIVATE);
+        record.edit()
+                .putString("簽到時間",cs)
+                .apply();
     }
 
 
