@@ -1,10 +1,5 @@
 package com.example.facebooklogin;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +10,11 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,6 +89,9 @@ public class ReturnrNoticeActivity extends AppCompatActivity {
                     String input = userInput.getText().toString();
                     userInput.setText(null);
                     //returnAnswer("哈哈哈");
+                    if (!isLastVisible())
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        userInput.setText(null);
                     new AsyncPostGetAnswer().execute(input);
                 }
                 return false;
@@ -388,7 +391,7 @@ public class ReturnrNoticeActivity extends AppCompatActivity {
         userInput.setText(null);
         if (!isLastVisible())
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-        userInput.setText(null);
+            userInput.setText(null);
     }
     public static Context getChatActivityContext(){
         return ReturnrNoticeActivity.context;

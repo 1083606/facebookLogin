@@ -1,7 +1,5 @@
 package com.example.facebooklogin;
 
-import com.example.facebooklogin.ChatRemind;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,16 +28,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ChatActivity extends AppCompatActivity{
 
@@ -78,6 +71,9 @@ public class ChatActivity extends AppCompatActivity{
                     String input = userInput.getText().toString();
                     userInput.setText(null);
                     //new AsyncPostGetAnswer().execute(input);
+                    if (!isLastVisible())
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        userInput.setText(null);
 
                     // 測試用
 //                    Response responseMessage2 = new Response(userInput.getText().toString(),false,false);
