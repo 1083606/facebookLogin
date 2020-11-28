@@ -1,18 +1,23 @@
 package com.example.facebooklogin;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,10 +53,17 @@ public class ChatActivity extends AppCompatActivity{
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
 
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //返回按钮的监听
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         setContentView(R.layout.activity_chat);
         userInput = findViewById(R.id.userInput);
         recyclerView = findViewById(R.id.conversation);
@@ -60,6 +72,7 @@ public class ChatActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(messageAdapter);
         ChatActivity.context = ChatActivity.this;
+
 
         userInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -70,21 +83,11 @@ public class ChatActivity extends AppCompatActivity{
                     //AnswerPost(userInput.getText().toString());
                     String input = userInput.getText().toString();
                     userInput.setText(null);
-                    //new AsyncPostGetAnswer().execute(input);
+                    new AsyncPostGetAnswer().execute(input);
                     if (!isLastVisible())
                         recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
                         userInput.setText(null);
 
-                    // 測試用
-//                    Response responseMessage2 = new Response(userInput.getText().toString(),false,false);
-//                    responseMessageList.add(responseMessage2);
-//                    messageAdapter.notifyDataSetChanged();
-//                    userInput.setText(null);
-//                    if (!isLastVisible())
-//                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-//                        userInput.setText(null);
-
-//                      AnswerPost(userInput.getText().toString());
                 }
                 return false;
             }
@@ -205,4 +208,41 @@ public class ChatActivity extends AppCompatActivity{
     public static Context getChatActivityContext(){
         return ChatActivity.context;
     }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            Toast.makeText(ChatActivity.this, "返回", Toast.LENGTH_SHORT).show();
+            //finish();
+            Intent intent = new Intent();
+            intent.setClass(ChatActivity.this,MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("UserName",readUserName());
+            bundle.putString("UserID", readUserId());
+            intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+            startActivity(intent);
+
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    //讀取使用者名字
+    private String readUserName(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserName","未存任何資料");
+    }
+
+    //讀取使用者Id
+    private String readUserId(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料");
+    }
+
 }

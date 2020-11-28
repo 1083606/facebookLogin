@@ -1,12 +1,17 @@
 package com.example.facebooklogin;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,13 +46,27 @@ public class HabitNameActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     String habbit_id="0";
 
+    Toolbar toolbar;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_habit_name);
-
         txtHabbit_name=findViewById(R.id.txtHabbit_name);
+
+//        //toolbar----------------
+//        toolbar=findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        toolbar.setTitle("建立聊天室");
+
+        //返回按钮的监听
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
 
         //spinner設定start--------------------------
         requestQueue= Volley.newRequestQueue(this);
@@ -125,6 +144,8 @@ public class HabitNameActivity extends AppCompatActivity {
          */
     }
 
+
+
     /*
     private String read(){
         //創建SharedPreferences，索引為"Data"
@@ -132,8 +153,44 @@ public class HabitNameActivity extends AppCompatActivity {
         //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
         return sharedPreferences.getString("UserID","未存任何資料")+sharedPreferences.getString("UserName","未存任何資料");
     }
-
      */
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            //Toast.makeText(HabitNameActivity.this, "返回", Toast.LENGTH_SHORT).show();
+            //finish();
+            Intent intent = new Intent();
+            intent.setClass(HabitNameActivity.this,MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("UserName",readUserName());
+            bundle.putString("UserID", readUserId());
+            intent.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+            startActivity(intent);
+
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    //讀取使用者名字
+    private String readUserName(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserName","未存任何資料");
+    }
+
+    //讀取使用者Id
+    private String readUserId(){
+        //創建SharedPreferences，索引為"Data"
+        SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
+        return sharedPreferences.getString("UserID","未存任何資料");
+    }
+
 
 
 }
