@@ -93,7 +93,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         Intent accomplishIntent = new Intent(context, ReturnrNoticeActivity.class);
         accomplishIntent.putExtra("return_chitchatAnswer", answer);
         accomplishIntent.putExtra("chatroom_id", chatroom_id);
-        PendingIntent accomplishPendingIntent = PendingIntent.getActivity(context, m, accomplishIntent, 0);
+        PendingIntent accomplishPendingIntent = PendingIntent.getActivity(context, m, accomplishIntent, PendingIntent.FLAG_ONE_SHOT);
         
 
 
@@ -123,10 +123,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         //.setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(m, builder.build());
-
-
-
-
     }
 
     //--------------------------------------------------------------------------
@@ -315,10 +311,4 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
 
     }
-
-
-
-
-
-
 }
