@@ -223,10 +223,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId))){
+                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId)&&!((filePath)==null))){
                     uploadMultipart();
                     //詢問是否要新增remind Data
                     new TTFancyGifDialog.Builder(HabitSetCharacterActivity.this)

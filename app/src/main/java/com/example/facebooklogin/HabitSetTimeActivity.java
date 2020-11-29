@@ -43,7 +43,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 //-------------------------------
 //-------------------------------
@@ -59,6 +61,9 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
     Spinner spinnerDays;
     Button buttonSubmitList;
     Toolbar toolbar;
+    Long timeAtButtonClick;
+
+    Calendar c;
 
     private NotificationManagerCompat notificationManager;
 
@@ -88,15 +93,15 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
         badness=bundle.getString("badness");
 
         mTimeTextView = (TextView) findViewById(R.id.time_text_view);
-        Calendar calendar = Calendar.getInstance();
+        //Calendar calendar = Calendar.getInstance();
         btn_next = findViewById(R.id.btn_next);
         spinnerDays=findViewById(R.id.spinnerDays);
 
         buttonSubmitList = findViewById(R.id.btn_next);
         buttonSubmitList.setOnClickListener(this);
 
-        final  int hour = calendar.get(calendar.HOUR_OF_DAY);
-        final  int minute = calendar.get(calendar.MINUTE);
+        //final  int hour = calendar.get(calendar.HOUR_OF_DAY);
+        //final  int minute = calendar.get(calendar.MINUTE);
 
         mPickPunchTime = (TextView) findViewById(R.id.mPickPunchTime);
         imgmPickPunchTime = (ImageView) findViewById(R.id.imgmPickPunchTime);
@@ -132,6 +137,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
+
 
 //
 //        imgmPickPunchTime.setOnClickListener(new View.OnClickListener() {
@@ -179,18 +185,18 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar c = Calendar.getInstance();
+        DecimalFormat decimalFormat = new DecimalFormat("00");
+        mPickPunchTime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
+        c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
-        String cs = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-        mPickPunchTime.setText(hourOfDay+":"+minute);
+        //String cs = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        //mPickPunchTime.setText(hourOfDay+":"+minute);
+        timeAtButtonClick = c.getTimeInMillis();
 
-        SharedPreferences record = getSharedPreferences("record", MODE_PRIVATE);
-        record.edit()
-                .putString("簽到時間",cs)
-                .apply();
     }
+
 
 
     //--------------------------------------------------------------------------
@@ -276,6 +282,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 conn.disconnect();
             }
         }
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(String strUTF8) {
             //mTxtResult.setText(strUTF8);
@@ -286,7 +293,12 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     String data = jsonObject.getString("data");
                     String chatroom_id=jsonObject.getString("chatroom_id");
                     Toast.makeText(HabitSetTimeActivity.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
-                    createNotificationChannels(chatroom_id);
+
+                    Long alarmTime=timeAtButtonClick;
+
+                    int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+                    String mSt= String.valueOf(m);;
+                    createNotificationChannels(mSt);
                     //---------------------------------------------
                     //******設置 AlarmManager**********************
                     //---------------------------------------------
@@ -294,13 +306,9 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     intent.putExtra("chatroom_id", chatroom_id);
 
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(HabitSetTimeActivity.this,
-                            Integer.parseInt(chatroom_id), intent, 0);
+                            m, intent, 0);
                     AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
-
-                    long timeAtButtonClick = System.currentTimeMillis();
-                    //long tenSecondsInMillis = 1000*10;
-                    //alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick+tenSecondsInMillis,pendingIntent);
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,timeAtButtonClick,1000,pendingIntent);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,timeAtButtonClick,AlarmManager.INTERVAL_DAY,pendingIntent);
                     //-------------------------------------------------------
 
 
@@ -312,9 +320,6 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                     bundle.putString("chatroom_id",chatroom_id);
                     intent2.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                     startActivity(intent2);
-
-
-
                 }else {
                     String data = jsonObject.getString("data");
                     String error = jsonObject.getString("error");
@@ -329,9 +334,9 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
 
     //----------------------------------------------------------
     //單獨去設定；比如通知開關、提示音、是否震動或者是重要程度等
-    private void createNotificationChannels(String chatroom_id) {
+    private void createNotificationChannels(String mSt) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID= chatroom_id;
+            String CHANNEL_ID= mSt;
             String CHANNEL_NAME= "Default Channel";
             String CHANNEL_DESCRIPTION="this is default channel!";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
