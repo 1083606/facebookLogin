@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.facebooklogin.ChatActivity;
 import com.example.facebooklogin.HabitNameActivity;
 import com.example.facebooklogin.MainActivity;
+import com.example.facebooklogin.NotificationReceiver;
 import com.example.facebooklogin.R;
 import com.example.facebooklogin.login;
 import com.example.facebooklogin.ui.post.PostFragment;
@@ -54,6 +56,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
     //cr
@@ -62,7 +65,7 @@ public class HomeFragment extends Fragment {
 
     String user_id;
     String message;
-    //String text_homeDispaly;
+    String text_homeDispaly;
     String click_crId;
 
     private RecyclerView myrecyclerview;
@@ -78,9 +81,10 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         lstCr = new ArrayList<>();
         user_id=readUserID();
-        new AsyncPostReturnUserChatroomBool().execute(user_id);
+        //new AsyncPostReturnUserChatroomBool().execute(user_id);
         //Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
         new AsyncPostselectChatroomID().execute(user_id);
+
     }
 
 
@@ -114,12 +118,46 @@ public class HomeFragment extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerViewAdapter_cr);
 
+
+
         //顯示無聊天室---------------------
-        /*
         final TextView text_home = v.findViewById(R.id.text_home);
-        Toast.makeText(getActivity(),text_homeDispaly,Toast.LENGTH_SHORT).show();
-        text_home.setText(text_homeDispaly);
-         */
+        final ImageView imageViewEmptybox=v.findViewById(R.id.imageViewEmptybox);
+        //Toast.makeText(getActivity(),text_homeDispaly,Toast.LENGTH_SHORT).show();
+        //---------------------------------------------------------
+        //把回應寫入text_homeDispaly
+        try {
+            String response=new HomeFragment.AsyncPostReturnUserChatroomBool().execute(user_id).get();
+            //mTxtResult.setText(strUTF8);
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                message = jsonObject.getString("message");
+                if (message.equals("Yes")){
+                    //text_homeDispaly="";
+                    text_home.setText("");
+                    imageViewEmptybox.setImageResource(android.R.color.transparent);
+                    //Toast.makeText(getActivity(),"有資料",Toast.LENGTH_SHORT).show();
+                }else if(message.equals("No")){
+                    //Toast.makeText(getActivity(),"尚未建立聊天室，快新增一個吧！",Toast.LENGTH_SHORT).show();
+                    //text_homeDispaly="尚未建立聊天室，快新增一個吧！";
+                    text_home.setText("尚未建立聊天室，快新增一個吧！");
+                    imageViewEmptybox.setImageResource(R.drawable.emptybox);
+                    //Toast.makeText(getActivity(),"沒資料",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(),"message:"+message,Toast.LENGTH_SHORT).show();
+                }
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
         //-------------------------------------
         //-------------------------------------
         return v;
@@ -340,9 +378,10 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(String strUTF8) {
             try{
                 JSONObject jsonObject = new JSONObject(strUTF8);
+                /*
                 message = jsonObject.getString("message");
                 if (message.equals("Yes")){
-                    //text_homeDispaly="";
+                    text_homeDispaly="";
                     //Toast.makeText(getActivity(),"有資料",Toast.LENGTH_SHORT).show();
                 }else if(message.equals("No")){
                     Toast.makeText(getActivity(),"尚未建立聊天室，快新增一個吧！",Toast.LENGTH_SHORT).show();
@@ -352,6 +391,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(),"message:"+message,Toast.LENGTH_SHORT).show();
                 }
                 //Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
+                 */
             }
             catch(JSONException e) {
                 e.printStackTrace();

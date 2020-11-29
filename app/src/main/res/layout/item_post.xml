@@ -81,12 +81,13 @@
             android:id="@+id/txtContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="11"
+            android:layout_weight="13"
             android:gravity="left|center_vertical"
             android:padding="10dp"
             android:text="TextView"
             android:textSize="18sp" />
 
+        <!--
         <TextView
             android:id="@+id/txtLikesNum"
             android:layout_width="0dp"
@@ -94,26 +95,38 @@
             android:layout_weight="2"
             android:gravity="right|center_vertical"
             android:text="TextView" />
+           -->
 
-
-        <ImageView
-            android:id="@+id/likeButton"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_gravity="right|center_vertical"
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:padding="10dp" />
+            android:gravity="right">
 
-        <!--
-        <com.like.LikeButton
-            android:id="@+id/likeButton"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_weight="2"
-            app:icon_size="20dp"
-            app:icon_type="thumb" />
-            -->
+            <com.like.LikeButton
+                android:id="@+id/thumb_on"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="right|center_vertical"
+                app:circle_end_color="@android:color/holo_blue_dark"
+                app:circle_start_color="@android:color/holo_blue_bright"
+                app:dots_primary_color="@android:color/holo_blue_light"
+                app:dots_secondary_color="@android:color/holo_blue_dark"
+                app:icon_size="20dp"
+                app:like_drawable="@drawable/thumb_on"
+                app:unlike_drawable="@drawable/thumb_off" />
+
+            <ImageView
+                android:id="@+id/likeButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="right|center_vertical"
+                android:padding="10dp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 

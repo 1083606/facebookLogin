@@ -2,15 +2,21 @@ package com.example.facebooklogin.ui.post;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebooklogin.R;
+import com.like.LikeButton;
+import com.like.OnAnimationEndListener;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -29,6 +35,8 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
     public interface OnItemClickListener{
         void onItemClick(int position);
         void onLikeClick(int position);
+        void onThumb_onClick(int position);
+        //void onViewClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -58,7 +66,8 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         //holder.title.setText(mData.get(position).getTitle());
         holder.content.setText(mData.get(position).getContent());
         holder.updated_at.setText(mData.get(position).getUpdated_at());
-        holder.likesNum.setText(mData.get(position).getLikesNum());
+        //holder.likeButton.setImageResource(false);
+        //holder.likesNum.setText(mData.get(position).getLikesNum());
     }
 
     @Override
@@ -72,8 +81,10 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         //TextView title;
         TextView content;
         TextView updated_at;
-        TextView likesNum;
+        //TextView likesNum;
         ImageView likeButton;
+        RelativeLayout rl;
+        LikeButton thumb_on;
 
         public MyViewHolder(@NonNull View itemView , OnItemClickListener listener) {
             super(itemView);
@@ -83,11 +94,14 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
             //title=itemView.findViewById(R.id.txtTitle);
             content=itemView.findViewById(R.id.txtContent);
             updated_at=itemView.findViewById(R.id.txtUpdated_at);
-            likesNum=itemView.findViewById(R.id.txtLikesNum);
+            //likesNum=itemView.findViewById(R.id.txtLikesNum);
 
             likeButton=itemView.findViewById(R.id.likeButton);
+            //likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            thumb_on=itemView.findViewById(R.id.thumb_on);
+            //rl=itemView.findViewById(R.id.rl);
 
-            likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,13 +121,48 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
                             listener.onLikeClick(position);
+                            //likeButton.setAnimationScaleFactor(2);
                             likeButton.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
                         }
                     }
                 }
             });
+            /*
+            rl.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if (listener !=null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onViewClick(position);
+                            //likeButton.setAnimationScaleFactor(2);
+                        }
+                    }
+                }
+            });
+
+             */
+            thumb_on.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onThumb_onClick(position);
+                            //likeButton.setAnimationScaleFactor(2);
+                            thumb_on.setLiked(true);
+                        }
+                    }
+                }
+            });
+
+
 
         }
 
     }
+
+
+
 }

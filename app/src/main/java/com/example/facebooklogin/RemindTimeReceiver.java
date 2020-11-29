@@ -32,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class RemindTimeReceiver extends BroadcastReceiver {
 
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
@@ -52,7 +52,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         //---------------------------------------------------------
         //把提醒回應寫入setContentText
         try {
-            String response=new AsyncPostReturn_notice().execute(chatroom_id).get();
+            String response=new NotificationReceiver.AsyncPostReturn_notice().execute(chatroom_id).get();
             //mTxtResult.setText(strUTF8);
             try{
                 JSONObject jsonObject = new JSONObject(response);
@@ -69,7 +69,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         //把habbit_name寫入setContentTitle
         try {
-            String response=new AsyncPostGetHabbitName().execute(chatroom_id).get();
+            String response=new NotificationReceiver.AsyncPostGetHabbitName().execute(chatroom_id).get();
             //mTxtResult.setText(strUTF8);
             try{
                 JSONObject jsonObject = new JSONObject(response);
@@ -90,11 +90,12 @@ public class NotificationReceiver extends BroadcastReceiver {
         PendingIntent myPendingIntent = PendingIntent.getActivity(context, m, myIntent, 0);
 
 
+        /*
         Intent accomplishIntent = new Intent(context, ReturnrNoticeActivity.class);
         accomplishIntent.putExtra("return_chitchatAnswer", answer);
         accomplishIntent.putExtra("chatroom_id", chatroom_id);
         PendingIntent accomplishPendingIntent = PendingIntent.getActivity(context, m, accomplishIntent, 0);
-        
+        */
 
 
         /*
@@ -111,9 +112,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_iconsvg_white_01)
                 .setTicker("您有訊息!")
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setContentTitle(habbit_name+" 打卡通知")
+                .setContentTitle(habbit_name+" 提醒通知")
                 .setContentText(answer)
-                .addAction(R.drawable.ic_baseline_emoji_emotions_24, "完成", accomplishPendingIntent)
+                //.addAction(R.drawable.ic_baseline_emoji_emotions_24, "完成", accomplishPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 //.setStyle(style)
@@ -315,10 +316,4 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
 
     }
-
-
-
-
-
-
 }

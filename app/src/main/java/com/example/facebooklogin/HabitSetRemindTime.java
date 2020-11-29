@@ -4,6 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +41,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class HabitSetRemindTime extends AppCompatActivity implements View.OnClickListener{
     //------------------------------
@@ -52,6 +58,9 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
     public static final int READ_TIMEOUT=15000;
 
     Toolbar toolbar;
+    Calendar c;
+    ArrayList<Long> calenderTimeAtButtonClick = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +93,16 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
                 if (checkIfValidAndRead()){
                     for (int i = 0; i< remindertimesList.size(); i++) {
                         new AsyncPostaddRemindTime().execute(chatroom_id,remindertimesList.get(i));
+                        createNotificationChannels(chatroom_id);
+                        //---------------------------------------------
+                        //******設置 AlarmManager**********************
+                        //---------------------------------------------
+                        Intent intent = new Intent(HabitSetRemindTime.this,RemindTimeReceiver.class);
+                        intent.putExtra("chatroom_id", chatroom_id);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(HabitSetRemindTime.this,
+                                Integer.parseInt(chatroom_id), intent, 0);
+                        AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calenderTimeAtButtonClick.get(i),AlarmManager.INTERVAL_DAY,pendingIntent);
                     }
                     GoMainActivity();
                     //Toast.makeText(this, remindertimesList.get(1), Toast.LENGTH_SHORT).show();
@@ -93,10 +112,12 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
 
     private boolean checkIfValidAndRead() {
         remindertimesList.clear();
+        remindertimesList.clear();
         boolean result = true;
 
         for(int i=0;i<layoutList.getChildCount();i++){
             String time="0";
+            Long timeAtButtonClick;
 
             View remindertimeView = layoutList.getChildAt(i);
 
@@ -107,12 +128,15 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
 
             if(!text_remindertime.getText().toString().equals("")){
                 time=text_remindertime.getText().toString();
-                //remindertime.setReminderTime(text_remindertime.getText().toString());
+                timeAtButtonClick=c.getTimeInMillis();
+            //remindertime.setReminderTime(text_remindertime.getText().toString());
             }else {
                 result = false;
                 break;
             }
             remindertimesList.add(time);
+            calenderTimeAtButtonClick.add(timeAtButtonClick);
+
         }
 
         if(remindertimesList.size()==0){
@@ -144,6 +168,10 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
                 TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         DecimalFormat decimalFormat = new DecimalFormat("00");
+                        c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                        c.set(Calendar.SECOND, 0);
                         text_remindertime.setText(decimalFormat.format(hourOfDay) + ":" + decimalFormat.format(minute));
                     }
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(mContext));
@@ -303,6 +331,32 @@ public class HabitSetRemindTime extends AppCompatActivity implements View.OnClic
         SharedPreferences sharedPreferences = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
         //回傳在"Userdata"索引之下的資料；若無儲存則回傳"未存任何資料"
         return sharedPreferences.getString("UserID","未存任何資料");
+    }
+
+    //----------------------------------------------------------
+    //單獨去設定；比如通知開關、提示音、是否震動或者是重要程度等
+    private void createNotificationChannels(String chatroom_id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID= chatroom_id;
+            String CHANNEL_NAME= "Default Channel";
+            String CHANNEL_DESCRIPTION="this is default channel!";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,importance);
+            channel.setDescription(CHANNEL_DESCRIPTION);
+
+            //初始化 NotificationManager，取得 Notification 服務。
+            NotificationManager notificationManager = (NotificationManager)getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
