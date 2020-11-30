@@ -89,8 +89,8 @@ public class login extends AppCompatActivity {
         chicken.setAnimation(frombottom);
         loginButton.setAnimation(frombottom);
         //----------------------
-        txtresult = findViewById(R.id.txtresult);
-        txtdata = findViewById(R.id.txtdata);
+        //txtresult = findViewById(R.id.txtresult);
+        //txtdata = findViewById(R.id.txtdata);
         //txtInfo = findViewById(R.id.profile_info);
 
         //circleImageView = findViewById(R.id.profile_pic);
@@ -391,8 +391,8 @@ public class login extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(strUTF8);
                 String result = jsonObject.getString("result");
                 String data = jsonObject.getString("data");
-                txtresult.setText(result);
-                txtdata.setText(data);
+                //txtresult.setText(result);
+                //txtdata.setText(data);
                 checkResultData(Integer.parseInt(result));
             }
             catch(JSONException e) {

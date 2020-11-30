@@ -290,7 +290,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("拍照"))
                 {
-                    Toast.makeText(HabitSetCharacterActivity.this,"拍照",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HabitSetCharacterActivity.this,"拍照",Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                         if (checkSelfPermission(Manifest.permission.CAMERA)==
                                 PackageManager.PERMISSION_DENIED||
@@ -309,7 +309,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
                 }
                 else if (options[item].equals("從相簿選擇"))
                 {
-                    Toast.makeText(HabitSetCharacterActivity.this,"從相簿選擇",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HabitSetCharacterActivity.this,"從相簿選擇",Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)==
                                 PackageManager.PERMISSION_DENIED){
@@ -386,32 +386,6 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     ///-------------------------------------
 
 
-    /*
-    //open gallery
-    void pickImage()
-    {
-
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(Intent.createChooser(intent,"select image"),1002);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1002) {
-            filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                profile_image.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-     */
     //method to get the file path from uri
     public String getPath(Uri uri) {
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -472,6 +446,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
             nick_name=editNick_name.getText().toString();
 
 
+
             //Creating a multi part request
             new MultipartUploadRequest (this, uploadId, "http://140.131.114.140/chatbot109204/data/updateRolePhoto.php")
                     .addFileToUpload(path, "role_photo") //Adding file
@@ -479,7 +454,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
                     .addParameter("role_id",roleCategoryId )
                     .addParameter("role_name",role_name )
                     .addParameter("nick_name", nick_name)
-                    .setNotificationConfig(new UploadNotificationConfig())
+                    //.setNotificationConfig(new UploadNotificationConfig())
                     .setMethod("POST")
                     .setUtf8Charset()
                     .setMaxRetries(2)
@@ -524,7 +499,6 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(item.getItemId()==android.R.id.home){
             finish();
         }
