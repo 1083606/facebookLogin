@@ -453,7 +453,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     //cr 成功，取出 data
                     String data = jsonObject.getString("data");
                     //傳入成功，跳至"歡迎頁面"
-                    Toast.makeText(PostDetailActivity.this, result+data, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(PostDetailActivity.this, result+data, Toast.LENGTH_SHORT).show();
 
                     // 設定從這個活動跳至 PageB 的活動
                     Intent intent = new Intent(PostDetailActivity.this, PostFragment.class);
