@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:background="@drawable/button_rounde_blue"
+    android:background="@drawable/bg_round_button"
     android:orientation="vertical"
     android:showDividers="middle">
 
@@ -66,9 +66,9 @@
         android:textColor="#A09E9E" />
 
     <LinearLayout
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:background = "@drawable/shape_line" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
 
         <TextView
             android:id="@+id/txtContent"
-            android:layout_width="0dp"
+            android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:layout_weight="13"
             android:gravity="left|center_vertical"
@@ -97,35 +97,20 @@
             android:text="TextView" />
            -->
 
-        <RelativeLayout
-            android:id="@+id/rl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <com.like.LikeButton
+            android:id="@+id/thumb_on"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
             android:layout_weight="2"
-            android:gravity="right">
-
-            <com.like.LikeButton
-                android:id="@+id/thumb_on"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="right|center_vertical"
-                app:circle_end_color="@android:color/holo_blue_dark"
-                app:circle_start_color="@android:color/holo_blue_bright"
-                app:dots_primary_color="@android:color/holo_blue_light"
-                app:dots_secondary_color="@android:color/holo_blue_dark"
-                app:icon_size="20dp"
-                app:like_drawable="@drawable/thumb_on"
-                app:unlike_drawable="@drawable/thumb_off" />
-
-            <ImageView
-                android:id="@+id/likeButton"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="right|center_vertical"
-                android:padding="10dp"
-                android:visibility="invisible" />
-
-        </RelativeLayout>
+            app:circle_end_color="@android:color/holo_blue_dark"
+            app:circle_start_color="@android:color/holo_blue_bright"
+            app:dots_primary_color="@android:color/holo_blue_light"
+            app:dots_secondary_color="@android:color/holo_blue_dark"
+            app:icon_size="20dp"
+            app:like_drawable="@drawable/thumb_on"
+            app:unlike_drawable="@drawable/thumb_off" />
 
 
     </LinearLayout>

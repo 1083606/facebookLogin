@@ -98,8 +98,7 @@ public class PostFragment extends Fragment {
                 mSwipeRefreshLayout.setRefreshing(false);
                 recyclerViewAdapter_post.notifyDataSetChanged();
                 lstPost.clear();
-                GetData getData = new GetData();
-                getData.execute();
+                setupList();
             }
         });
 
@@ -131,6 +130,7 @@ public class PostFragment extends Fragment {
     }
 
     private void setupList() {
+        habbitCatList.clear();
         String url="http://140.131.114.140/chatbot109204/data/readHabbitCat.php";
         JsonObjectRequest jsonObjectRequst= new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -425,21 +425,6 @@ public class PostFragment extends Fragment {
 
             @Override
             public void onItemClick(int position) {
-            }
-
-            //-------------------
-            //like觸發-----------
-            //-------------------
-            @Override
-            public void onLikeClick(int position) {
-                click_postId=lstPost.get(position).getPost_id();
-
-                //Toast.makeText(getActivity(),readUserID()+"like!"+click_postId,Toast.LENGTH_SHORT).show();
-                user_id=readUserID();
-                //Toast.makeText(getActivity(),SteingOf(postlike_result,Toast.LENGTH_SHORT).show();
-                new AsyncLikePost().execute(user_id,click_postId);
-
-
             }
 
             @Override

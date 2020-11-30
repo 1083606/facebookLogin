@@ -34,7 +34,6 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
     private  OnItemClickListener mListener;
     public interface OnItemClickListener{
         void onItemClick(int position);
-        void onLikeClick(int position);
         void onThumb_onClick(int position);
         //void onViewClick(int position);
     }
@@ -96,7 +95,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
             updated_at=itemView.findViewById(R.id.txtUpdated_at);
             //likesNum=itemView.findViewById(R.id.txtLikesNum);
 
-            likeButton=itemView.findViewById(R.id.likeButton);
+            //likeButton=itemView.findViewById(R.id.likeButton);
             //likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
             thumb_on=itemView.findViewById(R.id.thumb_on);
             //rl=itemView.findViewById(R.id.rl);
@@ -113,7 +112,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
                     }
                 }
             });
-
+            /*
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,6 +126,8 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
                     }
                 }
             });
+
+             */
             /*
             rl.setOnClickListener(new View.OnClickListener(){
                 @Override
