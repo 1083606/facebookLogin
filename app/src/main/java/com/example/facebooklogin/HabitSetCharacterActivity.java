@@ -81,6 +81,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -223,7 +225,10 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId)&&!((filePath)==null))){
+
+
+
+                if ( !("".equals(role_name))&& !("".equals(nick_name)) &&!("0".equals(roleCategoryId))){
                     uploadMultipart();
                     //詢問是否要新增remind Data
                     new TTFancyGifDialog.Builder(HabitSetCharacterActivity.this)
@@ -344,7 +349,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
         switch (requestCode){
             case PERMISSION_CODE:{
                 if (grantResults.length>0 && grantResults[0]==
-                PackageManager.PERMISSION_GRANTED){
+                        PackageManager.PERMISSION_GRANTED){
                     openCamera();
                     pickImageFromGallery();
                 }
@@ -424,6 +429,32 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
 
         return path;
     }
+
+    public static String getRealPathFromDocumentUri(Context context, Uri uri){
+        String filePath = "";
+
+        Pattern p = Pattern.compile("(\\d+)$");
+        Matcher m = p.matcher(uri.toString());
+        if (!m.find()) {
+            return filePath;
+        }
+        String imgId = m.group();
+
+        String[] column = { MediaStore.Images.Media.DATA };
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{ imgId }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+
+        return filePath;
+    }
     //cr start---------------------------------------------------------------------------
     /*
      * This is the method responsible for image upload
@@ -432,6 +463,7 @@ public class HabitSetCharacterActivity extends AppCompatActivity{
     public void uploadMultipart() {
         //getting the actual path of the image
         String path = getPath(filePath);
+
         //Uploading code
         try {
             String uploadId = UUID.randomUUID().toString();

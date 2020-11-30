@@ -218,7 +218,7 @@ public class PostFragment extends Fragment {
             public void onThumb_onClick(int position) {
                 click_postId=lstPost.get(position).getPost_id();
 
-                Toast.makeText(getActivity(),readUserID()+"like!"+click_postId,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),readUserID()+"like!"+click_postId,Toast.LENGTH_SHORT).show();
                 user_id=readUserID();
                 //Toast.makeText(getActivity(),SteingOf(postlike_result,Toast.LENGTH_SHORT).show();
                 new AsyncLikePost().execute(user_id,click_postId);
@@ -320,7 +320,7 @@ public class PostFragment extends Fragment {
                 if (resultValue==0){
                     //cr 成功，取出 data
                     String data = jsonObject.getString("data");
-                    Toast.makeText(getActivity(),result+data,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(),result+data,Toast.LENGTH_SHORT).show();
 //                    lstPost.clear();
 //                    GetData getData = new GetData();
 //                    getData.execute();
@@ -329,7 +329,7 @@ public class PostFragment extends Fragment {
                     //代表user要收回讚--dislikePost
                     String data = jsonObject.getString("data");
                     String error = jsonObject.getString("error");
-                    Toast.makeText(getActivity(), result+data+error, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), result+data+error, Toast.LENGTH_SHORT).show();
                     new AsyncDislikePost().execute(user_id,click_postId);
                 }
             }
@@ -433,7 +433,7 @@ public class PostFragment extends Fragment {
                 if (resultValue==0){
                     //取消讚成功，取出 data
                     String data = jsonObject.getString("data");
-                    Toast.makeText(getActivity(),result+data,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(),result+data,Toast.LENGTH_SHORT).show();
                     //重新載data----------------------
 //                    lstPost.clear();
 //                    GetData getData = new GetData();
@@ -441,7 +441,7 @@ public class PostFragment extends Fragment {
                 }else{
                     String data = jsonObject.getString("data");
                     String error = jsonObject.getString("error");
-                    Toast.makeText(getActivity(), result+data+error, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), result+data+error, Toast.LENGTH_SHORT).show();
                 }
             }
             catch(JSONException e) {

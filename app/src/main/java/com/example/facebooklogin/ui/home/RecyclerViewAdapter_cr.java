@@ -18,6 +18,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 
 public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAdapter_cr.MyViewHolder> {
 
@@ -64,7 +66,14 @@ public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAda
         //image----------------
 
         String uri = mData.get(position).getRole_photo();
-        Glide.with(holder.itemView.getContext()).load(uri).into(holder.circleImageView);
+        //holder.updated_at.setText(mData.get(position).getRole_photo());
+        //Glide.with(holder.itemView.getContext()).load(uri).into(holder.circleImageView);
+
+        String url = mData.get(position).getRole_photo();
+        Glide.with(mContext).load(uri).placeholder(android.R.drawable.progress_indeterminate_horizontal).error(android.R.drawable.stat_notify_error).into(holder.circleImageView);
+        //Glide.with(mContext).load(url).into(holder.circleImageView);
+
+
 
         //holder.title.setText(mData.get(position).getTitle());
     }

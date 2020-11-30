@@ -108,7 +108,7 @@ public class login extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d("response",response.toString());
                         getData(object);
-                        Toast.makeText(login.this,"登入成功",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(login.this,"登入成功",Toast.LENGTH_LONG).show();
                     }
                 });
                 //request Graph API
@@ -214,7 +214,7 @@ public class login extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(strUTF8);
                 String user_id = jsonObject.getString("user_id");
                 String user_name = jsonObject.getString("user_name");
-                Toast.makeText(login.this, user_id+user_name, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(login.this, user_id+user_name, Toast.LENGTH_SHORT).show();
                 //傳入成功，跳至主頁面
                 //Toast.makeText(login.this,user_id+"登入成功",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();

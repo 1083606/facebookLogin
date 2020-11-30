@@ -122,7 +122,7 @@ public class ChatActivity extends AppCompatActivity{
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("https://ca577918d1db.ngrok.io");
+                url = new URL("https://349ba3d84ca5.ngrok.io");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -214,7 +214,7 @@ public class ChatActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId()==android.R.id.home){
-            Toast.makeText(ChatActivity.this, "返回", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ChatActivity.this, "返回", Toast.LENGTH_SHORT).show();
             //finish();
             Intent intent = new Intent();
             intent.setClass(ChatActivity.this,MainActivity.class);

@@ -292,7 +292,7 @@ public class HabitSetTimeActivity extends AppCompatActivity implements View.OnCl
                 if (result==0){
                     String data = jsonObject.getString("data");
                     String chatroom_id=jsonObject.getString("chatroom_id");
-                    Toast.makeText(HabitSetTimeActivity.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HabitSetTimeActivity.this, data+chatroom_id, Toast.LENGTH_SHORT).show();
 
                     Long alarmTime=timeAtButtonClick;
 
