@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -452,13 +453,13 @@ public class PostDetailActivity extends AppCompatActivity {
                 if (resultValue==0){
                     //cr 成功，取出 data
                     String data = jsonObject.getString("data");
-                    //傳入成功，跳至"歡迎頁面"
-                    Toast.makeText(PostDetailActivity.this, result+data, Toast.LENGTH_SHORT).show();
-
                     // 設定從這個活動跳至 PageB 的活動
-                    Intent intent = new Intent(PostDetailActivity.this, PostFragment.class);
+                    //Intent intent = new Intent(PostDetailActivity.this, PostFragment.class);
                     // 開始跳頁
-                    startActivity(intent);
+                    //startActivity(intent);
+
+                    PostDetailActivity.this.finish();
+
                 }else{
                     String data = jsonObject.getString("data");
                     String error = jsonObject.getString("error");

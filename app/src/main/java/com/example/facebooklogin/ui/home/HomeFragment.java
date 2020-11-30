@@ -93,13 +93,6 @@ public class HomeFragment extends Fragment {
         user_id=readUserID();
         new AsyncPostReturnUserChatroomBool().execute(user_id);
 
-        //Toast.makeText(getActivity(),user_id,Toast.LENGTH_SHORT).show();
-        //new AsyncPostReturnUserChatroomBool().execute(user_id);
-
-        //Toast.makeText(getActivity(),page,Toast.LENGTH_SHORT).show();
-
-        //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
-
         //------------------------------------
         v = inflater.inflate(R.layout.fragment_cr, container, false);
         //Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
@@ -155,8 +148,6 @@ public class HomeFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
 
         //-------------------------------------
         //-------------------------------------
@@ -285,7 +276,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 click_crId=lstCr.get(position).getChatroom_id();
-                Toast.makeText(getActivity(),click_crId,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),click_crId,Toast.LENGTH_SHORT).show();
                 //--到聊天室
                 startActivity(new Intent(getContext(), ChatActivity.class));
             }

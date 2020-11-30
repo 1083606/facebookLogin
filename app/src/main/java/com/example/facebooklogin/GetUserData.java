@@ -217,7 +217,7 @@ public class GetUserData extends AppCompatActivity {
                     //cr 成功，取出 data
                     String data = jsonObject.getString("data");
                     //傳入成功，跳至"歡迎頁面"
-                    Toast.makeText(GetUserData.this, result+data, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(GetUserData.this, result+data, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(GetUserData.this,startdescription.class);
                     Bundle bundle = new Bundle();
@@ -229,7 +229,7 @@ public class GetUserData extends AppCompatActivity {
                     String data = jsonObject.getString("data");
                     String message1 = jsonObject.getString("message 1");
                     String message2 = jsonObject.getString("message 2");
-                    Toast.makeText(GetUserData.this, result+data+message1+message2, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(GetUserData.this, result+data+message1+message2, Toast.LENGTH_SHORT).show();
                 }
             }
             catch(JSONException e) {
