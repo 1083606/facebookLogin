@@ -250,6 +250,7 @@ public class PostFragment extends Fragment {
                     model.setHabbit_cat_name(jsonObject1.getString("habbit_cat_name"));
                     model.setUser_id(jsonObject1.getString("user_id"));
                     model.setUser_name(jsonObject1.getString("user_name"));
+                    model.setPost_photo(jsonObject1.getString("post_photo"));
                     model.setContent(jsonObject1.getString("content"));
                     model.setCreated_at(jsonObject1.getString("created_at"));
                     model.setUpdated_at(jsonObject1.getString("updated_at"));
@@ -401,6 +402,7 @@ public class PostFragment extends Fragment {
                     model.setHabbit_cat_name(jsonObject1.getString("habbit_cat_name"));
                     model.setUser_id(jsonObject1.getString("user_id"));
                     model.setUser_name(jsonObject1.getString("user_name"));
+                    model.setPost_photo(jsonObject1.getString("post_photo"));
                     model.setContent(jsonObject1.getString("content"));
                     model.setCreated_at(jsonObject1.getString("created_at"));
                     model.setUpdated_at(jsonObject1.getString("updated_at"));

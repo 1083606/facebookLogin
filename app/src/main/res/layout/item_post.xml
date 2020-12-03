@@ -48,14 +48,15 @@
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>
-    <!--
+
     <ImageView
         android:id="@+id/img_post"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_margin="10dp"
         android:scaleType="centerCrop"
         app:srcCompat="@color/com_facebook_likeboxcountview_text_color" />
-    -->
+
     <TextView
         android:id="@+id/txtUpdated_at"
         android:layout_width="match_parent"

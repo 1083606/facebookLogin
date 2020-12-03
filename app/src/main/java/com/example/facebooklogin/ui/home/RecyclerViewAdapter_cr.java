@@ -69,7 +69,7 @@ public class RecyclerViewAdapter_cr extends RecyclerView.Adapter<RecyclerViewAda
         //holder.updated_at.setText(mData.get(position).getRole_photo());
         //Glide.with(holder.itemView.getContext()).load(uri).into(holder.circleImageView);
 
-        String url = mData.get(position).getRole_photo();
+        //String url = mData.get(position).getRole_photo();
         Glide.with(mContext).load(uri).placeholder(android.R.drawable.progress_indeterminate_horizontal).error(android.R.drawable.stat_notify_error).into(holder.circleImageView);
         //Glide.with(mContext).load(url).into(holder.circleImageView);
 

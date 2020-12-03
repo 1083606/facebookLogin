@@ -69,7 +69,7 @@ public class RemindTimeReceiver extends BroadcastReceiver {
 
         //把habbit_name寫入setContentTitle
         try {
-            String response=new NotificationReceiver.AsyncPostGetHabbitName().execute(chatroom_id).get();
+            String response=new AsyncPostGetHabbitName().execute(chatroom_id).get();
             //mTxtResult.setText(strUTF8);
             try{
                 JSONObject jsonObject = new JSONObject(response);

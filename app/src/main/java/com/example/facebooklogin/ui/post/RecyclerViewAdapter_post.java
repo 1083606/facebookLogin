@@ -13,10 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.facebooklogin.R;
 import com.like.LikeButton;
 import com.like.OnAnimationEndListener;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -63,6 +65,13 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         holder.habbit_cat_name.setText(mData.get(position).getHabbit_cat_name());
         holder.user_name.setText(mData.get(position).getUser_name());
         //holder.title.setText(mData.get(position).getTitle());
+
+        //image----------------
+        String uri = mData.get(position).getPost_photo();
+        // 讀取圖片
+        Glide.with(mContext).load(uri).placeholder(android.R.drawable.progress_indeterminate_horizontal).error(android.R.drawable.stat_notify_error).into(holder.img_post);
+
+
         holder.content.setText(mData.get(position).getContent());
         holder.updated_at.setText(mData.get(position).getUpdated_at());
         //holder.likeButton.setImageResource(false);
@@ -84,6 +93,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
         ImageView likeButton;
         RelativeLayout rl;
         LikeButton thumb_on;
+        ImageView img_post;
 
         public MyViewHolder(@NonNull View itemView , OnItemClickListener listener) {
             super(itemView);
@@ -99,6 +109,7 @@ public class RecyclerViewAdapter_post extends RecyclerView.Adapter<RecyclerViewA
             //likeButton.setImageResource(R.drawable.ic_thumb_up_black_24dp);
             thumb_on=itemView.findViewById(R.id.thumb_on);
             //rl=itemView.findViewById(R.id.rl);
+            img_post=itemView.findViewById(R.id.img_post);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

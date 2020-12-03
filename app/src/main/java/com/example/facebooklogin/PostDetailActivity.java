@@ -49,6 +49,8 @@ import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
 import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
 import com.example.facebooklogin.ui.post.PostFragment;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +70,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PostDetailActivity extends AppCompatActivity {
     String userId,userName;
@@ -136,8 +139,6 @@ public class PostDetailActivity extends AppCompatActivity {
         //spinner設定end--------------------------
         //---------------------------------------
 
-        /*
-        img=(ImageView)findViewById(R.id.img);
 
         //點選添加照片start--------------------------------------------------
         btn_addImage = (Button) findViewById(R.id.btn_addImage);
@@ -148,7 +149,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
         //點選添加照片end-----------------------------------------------------
-        */
+
 
         //點選貼文start--------------------------------------------------
         button_ok = (Button) findViewById(R.id.button_ok);
@@ -158,11 +159,11 @@ public class PostDetailActivity extends AppCompatActivity {
 
                 if ( !("".equals(textInputEditText.getText().toString())))
                 {
-                    String habbit_id=String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1);
-                    String content=textInputEditText.getText().toString();
-                    userId=readUserId();
+                    uploadMultipart();
+                    PostDetailActivity.this.finish();
+
                     //Toast.makeText(PostDetailActivity.this,userId+habbit_id+content, Toast.LENGTH_SHORT).show();
-                    new AsyncPost().execute(userId,habbit_id,content);
+                    //new AsyncPost().execute(userId,habbit_id,content);
                 }
                 else {
                     Toast.makeText(PostDetailActivity.this, "請輸入貼文內容", Toast.LENGTH_SHORT).show();
@@ -170,6 +171,14 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
         //點選貼文end-----------------------------------------------------
+        img=(ImageView)findViewById(R.id.img);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
 
     }
 
@@ -189,7 +198,7 @@ public class PostDetailActivity extends AppCompatActivity {
         return sharedPreferences.getString("UserID","未存任何資料");
     }
 
-    /*
+
     //添加照片-----------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -283,6 +292,7 @@ public class PostDetailActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK&&requestCode == IMAGE_CAPTURE_CODE) {
             img.setImageURI(image_uri);
         }else if (resultCode == RESULT_OK&&requestCode == IMAGE_PICK_CODE){
+            image_uri = data.getData();
             img.setImageURI(data.getData());
         }
     }
@@ -298,8 +308,25 @@ public class PostDetailActivity extends AppCompatActivity {
     ///-------------------------------------
     //選擇照片--結束
     ///-------------------------------------
-     */
 
+    //method to get the file path from uri
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+    /*
     ///-------------------------------------
     //按空白處，鍵盤就自動收回--開始
     ///-------------------------------------
@@ -313,10 +340,12 @@ public class PostDetailActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(me);
     }
+
+     */
     /**
      * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
      */
-
+    /*
     private boolean isShouldHideKeyboard(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {  //判断得到的焦点控件是否包含EditText
             int[] l = {0, 0};
@@ -341,21 +370,54 @@ public class PostDetailActivity extends AppCompatActivity {
      * 获取InputMethodManager，隐藏软键盘
      * @param token
      */
-
+    /*
     private void hideKeyboard(IBinder token) {
         if (token != null) {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+    */
 
     ///-------------------------------------
     //按空白處，鍵盤就自動收回--結束
     ///-------------------------------------
 
+    public void uploadMultipart() {
+        //getting the actual path of the image
+        String path = getPath(image_uri);
 
+        //Uploading code
+        try {
+
+            String habbit_id=String.valueOf(spinnerHabbitCat.getSelectedItemPosition()+1);
+            String content=textInputEditText.getText().toString();
+            userId=readUserId();
+
+            String uploadId = UUID.randomUUID().toString();
+
+
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, "http://140.131.114.140/chatbot109204/data/createPost.php")
+                    .addFileToUpload(path, "post_photo") //Adding file
+                    .addParameter("user_id", userId) //Adding text parameter to the request
+                    .addParameter("habbit_id",habbit_id )
+                    .addParameter("content",content )
+                    //.setNotificationConfig(new UploadNotificationConfig())
+                    .setMethod("POST")
+                    .setUtf8Charset()
+                    .setMaxRetries(2)
+                    .startUpload();//Starting the upload
+
+        } catch (Exception exc) {
+            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /*
     //-------------------------------------
-    //cr
+    //新增貼文
     //-------------------------------------
     private class AsyncPost   extends AsyncTask<String,Void,String>
     {
@@ -471,5 +533,6 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         }
     }
+     */
 
 }

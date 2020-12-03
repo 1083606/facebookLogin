@@ -122,7 +122,7 @@ public class ChatActivity extends AppCompatActivity{
         protected String doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL("https://349ba3d84ca5.ngrok.io");
+                url = new URL("https://64e26373ba3a.ngrok.io");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
